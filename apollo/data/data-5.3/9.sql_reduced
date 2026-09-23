@@ -1,0 +1,65 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  subq_2.c2 as c0, 
+  case when EXISTS (
+      select  
+          1
+        from 
+          test_bd.eids as ref_4
+            inner join test_bd.locations as ref_5
+            on (EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.user_profiles as ref_6
+                  where (EXISTS (
+                      select  
+                          1
+                        from 
+                          test_bd.locations as ref_7
+                        )) 
+                    and ((true) 
+                      or ((ref_6.profile_picture is NULL) 
+                        and (true)))
+                  ))
+        ) then subq_2.c1 else subq_2.c1 end as c1
+from 
+  (select  
+          subq_1.c0 as c0, 
+          subq_1.c0 as c1, 
+          subq_1.c0 as c2
+        from 
+          test_bd.eids as ref_0,
+          lateral (select  
+                ref_0.eid as c2, 
+                1
+              from 
+                test_bd.eids as ref_1
+              ) as subq_0,
+          lateral (select  
+                ref_2.username as c0
+              from 
+                test_bd.user_post_comments as ref_2
+              where (ref_0.id is NULL) 
+                or (true)
+              ) as subq_1
+        where subq_0.c2 is not NULL
+        ) as subq_2
+    inner join (select  
+          ref_3.name as c0, 
+          ref_3.user_id as c1, 
+          ref_3.name as c2
+        from 
+          test_bd.locations as ref_3
+        where (false) 
+          or (true)
+        ) as subq_3
+    on (subq_3.c1 is NULL)
+where subq_3.c2 is NULL
+;
+SHOW profiles;
+/* Elapsed old:0.010125 new:0.011930 ratio:1.178247 */
+
+
+--reduced actual_latest = 0.005133

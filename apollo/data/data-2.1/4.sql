@@ -1,0 +1,81 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+
+select  
+  (select user_id from test_bd.comments limit 1 offset 2)
+     as c0, 
+  (select birthdate from test_bd.user_profiles limit 1 offset 1)
+     as c1, 
+  ref_0.years as c2, 
+  ref_0.years as c3, 
+  ref_0.years as c4, 
+  ref_0.email as c5
+from 
+  test_bd.employee as ref_0
+where (EXISTS (
+    select  
+        ref_0.eid as c0
+      from 
+        test_bd.employee as ref_1
+      where case when ref_1.department_id is NULL then ref_1.id else ref_1.id end
+           is not NULL)) 
+  and (((((false) 
+          or (ref_0.email is NULL)) 
+        and ((EXISTS (
+            select  
+                10 as c0, 
+                ref_0.eid as c1, 
+                ref_2.eid as c2, 
+                ref_2.id as c3, 
+                (select bio from test_bd.user_profiles limit 1 offset 4)
+                   as c4, 
+                ref_0.age as c5, 
+                ref_2.eid as c6, 
+                ref_2.virtual_col as c7, 
+                (select email from test_bd.users limit 1 offset 6)
+                   as c8, 
+                ref_2.eid as c9, 
+                ref_0.email as c10, 
+                ref_2.id as c11, 
+                ref_2.id as c12, 
+                99 as c13, 
+                ref_2.id as c14, 
+                ref_2.virtual_col as c15
+              from 
+                test_bd.eids as ref_2
+              where (((((false) 
+                        or (true)) 
+                      or (((true) 
+                          or (false)) 
+                        and (ref_0.id is NULL))) 
+                    or ((false) 
+                      and (EXISTS (
+                        select  
+                            ref_2.eid as c0, 
+                            ref_2.eid as c1, 
+                            ref_0.age as c2, 
+                            ref_2.eid as c3, 
+                            (select eid from test_bd.eids limit 1 offset 4)
+                               as c4, 
+                            ref_0.eid as c5, 
+                            ref_0.age as c6, 
+                            ref_2.eid as c7
+                          from 
+                            test_bd.comments as ref_3
+                          where true
+                          limit 120)))) 
+                  and (true)) 
+                or (ref_0.years is not NULL))) 
+          and (EXISTS (
+            select  
+                (select created_at from test_bd.posts limit 1 offset 46)
+                   as c0
+              from 
+                test_bd.users as ref_4
+              where ref_0.email is NULL)))) 
+      and ((false) 
+        or (false))) 
+    or (((true) 
+        or (ref_0.age is not NULL)) 
+      and (ref_0.hire_date is not NULL)));
+SHOW profiles;

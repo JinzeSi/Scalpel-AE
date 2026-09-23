@@ -1,0 +1,90 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  subq_3.c0 as c0
+from 
+  (select  
+        57 as c0
+      from 
+        test_bd.comments as ref_0,
+        lateral (select  
+              ref_1.id as c0, 
+              ref_1.eid as c1, 
+              ref_0.post_id as c2, 
+              subq_0.c3 as c3, 
+              ref_0.user_id as c4, 
+              (select virtual_col from test_bd.eids limit 1 offset 1)
+                 as c5, 
+              ref_1.eid as c6
+            from 
+              test_bd.eids as ref_1,
+              lateral (select  
+                    ref_1.id as c0, 
+                    ref_0.comment as c1, 
+                    (select username from test_bd.user_post_comments limit 1 offset 25)
+                       as c2, 
+                    ref_0.id as c3, 
+                    ref_2.profile_picture as c4, 
+                    ref_2.user_id as c5, 
+                    ref_0.created_at as c6
+                  from 
+                    test_bd.user_profiles as ref_2
+                  where (true) 
+                    and (false)
+                  limit 152) as subq_0
+            where (4 is not NULL) 
+              or (((ref_1.virtual_col is NULL) 
+                  and (EXISTS (
+                    select  
+                        ref_0.created_at as c0, 
+                        subq_0.c4 as c1, 
+                        ref_1.eid as c2, 
+                        ref_1.virtual_col as c3, 
+                        ref_1.id as c4, 
+                        subq_0.c6 as c5
+                      from 
+                        test_bd.user_profiles as ref_3
+                      where (false) 
+                        and ((((EXISTS (
+                                select  
+                                    ref_3.birthdate as c0, 
+                                    ref_1.eid as c1, 
+                                    subq_1.c3 as c2
+                                  from 
+                                    test_bd.products as ref_4,
+                                    lateral (select  
+                                          ref_0.comment as c0, 
+                                          subq_0.c4 as c1, 
+                                          ref_4.price as c2, 
+                                          ref_1.id as c3, 
+                                          subq_0.c4 as c4, 
+                                          ref_5.department_id as c5, 
+                                          ref_4.tags as c6, 
+                                          subq_0.c2 as c7, 
+                                          subq_0.c5 as c8, 
+                                          ref_3.user_id as c9, 
+                                          (select id from test_bd.products limit 1 offset 3)
+                                             as c10
+                                        from 
+                                          test_bd.employee as ref_5
+                                        where ref_0.user_id is NULL) as subq_1
+                                  where (false) 
+                                    or (subq_1.c1 is not NULL))) 
+                              or ((select hire_date from test_bd.employee limit 1 offset 3)
+                                   is not NULL)) 
+                            or (ref_0.comment is not NULL)) 
+                          or ((true) 
+                            or ((((false) 
+                                  and (subq_0.c3 is NULL)) 
+                                and (true)) 
+                              or (false))))
+                      limit 127))) 
+                and (true))
+            limit 75) as subq_2
+      where true
+      limit 132) as subq_3
+where (((true) 
+      or (subq_3.c0 is NULL)) 
+    and (subq_3.c0 is NULL)) 
+  or (subq_3.c0 is not NULL);
+SHOW profiles;

@@ -1,0 +1,122 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+        (select content from test_bd.posts limit 1 offset 15) as c0,
+        ref_0.user_id as c1, 
+        subq_0.c1 as c2
+      from 
+        test_bd.user_profiles as ref_0
+          right join (select distinct 
+                (select comment from test_bd.user_post_comments limit 1 offset 2) as c0,
+                ref_1.username as c1
+              from 
+                test_bd.users as ref_1
+              where (((67 is NULL) 
+                    or (((true) 
+                        and ((false) 
+                          or (false))) 
+                      and (false))) 
+                  or ((true) 
+                    or ((true) 
+                      or (true)))) 
+                and ((((ref_1.email is not NULL) 
+                      or ((true) 
+                        and (ref_1.id is not NULL))) 
+                    and (true)) 
+                  or (ref_1.email is not NULL))) as subq_0
+          on (ref_0.bio = subq_0.c0 )
+      where subq_0.c0 is not NULL
+      ) as subq_1
+where ((false) 
+    or (false)) 
+  or (((((false) 
+          and (((EXISTS (
+                select  
+                    1, 
+                    1
+                  from 
+                    test_bd.products as ref_2
+                  where false
+                  )) 
+              or (false)) 
+            or (false))) 
+        or ((EXISTS (
+            select  
+                1, 
+                1
+              from 
+                test_bd.user_post_comments as ref_3
+              where EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.user_profiles as ref_4
+                  where ref_3.username is NULL)
+              )) 
+          and (((((EXISTS (
+                    select  
+                        1, 
+                        1
+                      from 
+                        test_bd.posts as ref_5
+                      where false
+                      )) 
+                  or ((EXISTS (
+                      select  
+                          1, 
+                          1
+                        from 
+                          test_bd.locations as ref_6
+                        where false)) 
+                    or ((select id from test_bd.users limit 1 offset 1)
+                         is NULL))) 
+                and (subq_1.c2 is NULL)) 
+              or ((true) 
+                or (false))) 
+            or (subq_1.c1 is NULL)))) 
+      and (EXISTS (
+        select  
+            1
+          from 
+            test_bd.comments as ref_7
+          where (((true) 
+                and (false)) 
+              and ((((true) 
+                    or (ref_7.user_id is not NULL)) 
+                  and (((true) 
+                      or (ref_7.user_id is NULL)) 
+                    and (ref_7.created_at is NULL))) 
+                and (EXISTS (
+                  select  
+                      1
+                    from 
+                      test_bd.employee as ref_8
+                    where (false) 
+                      and (false)
+                    )))) 
+            and (EXISTS (
+              select  
+                  1
+                from 
+                  test_bd.comments as ref_9
+                where true
+                ))))) 
+    or ((((subq_1.c2 is not NULL) 
+          or (subq_1.c1 is NULL)) 
+        or ((((false) 
+              or (subq_1.c1 is not NULL)) 
+            and (subq_1.c2 is not NULL)) 
+          and (subq_1.c1 is NULL))) 
+      and ((subq_1.c2 is not NULL) 
+        and ((false) 
+          or ((select birthdate from test_bd.user_profiles limit 1 offset 6)
+               is NULL)))))
+;
+SHOW profiles;
+/* Elapsed old:0.021450 new:0.022217 ratio:1.035746 */
+
+
+--reduced actual_latest = 0.001661

@@ -1,0 +1,91 @@
+(1.023454, 0.348061, 0.356225, 1.024849, 0.348529, 0.357189)
+[!] Found interesting case in mysql
+QUERY
+====START====
+SET profiling=1;
+EXPLAIN ANALYZE
+
+select  
+  ref_4.bio as c0, 
+  case when false then 6 else 6 end
+     as c1, 
+  subq_0.c10 as c2, 
+  subq_1.c3 as c3
+from 
+  test_bd.products as ref_0
+          inner join (select  
+                ref_1.created_at as c0, 
+                ref_1.id as c1, 
+                ref_1.post_id as c2, 
+                ref_1.comment as c3, 
+                ref_1.user_id as c4, 
+                ref_1.post_id as c5, 
+                (select id from test_bd.users limit 1 offset 1)
+                   as c6, 
+                ref_1.user_id as c7, 
+                ref_1.comment as c8, 
+                ref_1.created_at as c9, 
+                ref_1.created_at as c10, 
+                (select profile_picture from test_bd.user_profiles limit 1 offset 25)
+                   as c11, 
+                ref_1.post_id as c12
+              from 
+                test_bd.comments as ref_1
+              where (ref_1.comment is NULL) 
+                or (EXISTS (
+                  select  
+                      ref_1.post_id as c0, 
+                      ref_2.title as c1, 
+                      ref_1.comment as c2, 
+                      ref_1.post_id as c3, 
+                      ref_1.id as c4
+                    from 
+                      test_bd.user_post_comments as ref_2
+                    where (ref_1.id is not NULL) 
+                      or ((ref_2.username is not NULL) 
+                        and ((false) 
+                          or (EXISTS (
+                            select  
+                                ref_3.created_at as c0
+                              from 
+                                test_bd.products as ref_3
+                              where (true) 
+                                or (ref_3.category is not NULL)
+                              limit 30))))
+                    limit 34))
+              limit 119) as subq_0
+          on (ref_0.created_at = subq_0.c0 )
+        inner join test_bd.user_profiles as ref_4
+        on ((false) 
+            or (subq_0.c1 is NULL))
+      right join test_bd.employee as ref_5
+      on (ref_0.price = ref_5.salary )
+    left join (select  
+          ref_6.hire_date as c0, 
+          ref_6.email as c1, 
+          ref_6.salary as c2, 
+          16 as c3
+        from 
+          test_bd.employee as ref_6
+        where (ref_6.email is NULL) 
+          and ((true) 
+            and (EXISTS (
+              select  
+                  (select name from test_bd.locations limit 1 offset 4)
+                     as c0
+                from 
+                  test_bd.users as ref_7
+                where (((ref_7.created_at is not NULL) 
+                      or (false)) 
+                    or (ref_7.id is not NULL)) 
+                  or ((true) 
+                    and (ref_7.created_at is not NULL))
+                limit 183)))
+        limit 120) as subq_1
+    on (ref_0.discount is NULL)
+where true
+limit 102;
+SHOW profiles;
+====END====
+0.34806125 0.35622475
+[!] 1.023454 times longer execution time

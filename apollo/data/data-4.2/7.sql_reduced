@@ -1,0 +1,113 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+        ((null)) as c1,
+        ref_0.virtual_col as c2, 
+        ref_0.virtual_col as c3, 
+        ref_0.eid as c5, 
+        ref_0.id as c6, 
+        11 as c8, 
+        ref_0.id as c10, 
+        1
+      from 
+        test_bd.eids as ref_0
+      where EXISTS (
+        select  
+            1
+          from 
+            test_bd.eids as ref_1,
+            lateral (select  
+                  82 as c0, 
+                  ref_2.name as c1
+                from 
+                  test_bd.locations as ref_2
+                where EXISTS (
+                  select  
+                      1, 
+                      ref_0.virtual_col as c3
+                    from 
+                      test_bd.products as ref_3
+                    where ((null)) 
+                      or ((((null)) 
+                          and (((null)) 
+                            or ((null)))) 
+                        and ((null)))
+                    )
+                ) as subq_0
+          where (((null)) 
+              or ((((null)) 
+                  and (((((((null)) 
+                            or ((null))) 
+                          and (((null)) 
+                            and ((((null)) 
+                                or (((null)) 
+                                  and (((null)) 
+                                    and (((null)) 
+                                      and (EXISTS (
+                                        select  
+                                            1
+                                          from 
+                                            test_bd.locations as ref_4
+                                          where ((null))
+                                               is not NULL)))))) 
+                              and (((null)) 
+                                or (((null)) 
+                                  and ((null))))))) 
+                        or (((null)) 
+                          or ((((null)) 
+                              or ((null))) 
+                            or ((null))))) 
+                      and (EXISTS (
+                        select  
+                            ref_0.id as c10, 
+                            1
+                          from 
+                            test_bd.posts as ref_5
+                          where ((null)) 
+                            or (((null)) 
+                              or (((EXISTS (
+                                    select  
+                                        1
+                                      from 
+                                        test_bd.user_profiles as ref_6,
+                                        lateral (select  
+                                              ref_1.eid as c8, 
+                                              1
+                                            from 
+                                              test_bd.employee as ref_7
+                                            where ((null)) 
+                                              or ((null))
+                                            ) as subq_1
+                                      where ((null)) 
+                                        or ((null))
+                                      )) 
+                                  and ((null))) 
+                                or ((null))))))) 
+                    or ((null)))) 
+                and ((null)))) 
+            or (((null)) 
+              or (EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.comments as ref_8
+                  where ((((null)) 
+                        or ((null))) 
+                      and (((null)) 
+                        or (((null)) 
+                          or ((null))))) 
+                    and ((((null)) 
+                        and ((null))) 
+                      and ((null)))
+                  )))
+          )
+      ) as subq_2
+where subq_2.c3 is not NULL;
+SHOW profiles;
+/* Elapsed old:1.000438 new:1.322326 ratio:1.321747 */
+
+
+--reduced actual_latest = 0.000729

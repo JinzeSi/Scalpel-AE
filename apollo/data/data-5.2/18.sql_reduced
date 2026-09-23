@@ -1,0 +1,125 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  subq_2.c14 as c0, 
+  subq_2.c9 as c1, 
+  subq_3.c3 as c2, 
+  case when (subq_2.c13 is NULL) 
+      or ((EXISTS (
+          select  
+              1
+            from 
+              test_bd.comments as ref_6
+                left join test_bd.user_post_comments as ref_7
+                  inner join test_bd.comments as ref_8
+                  on (false)
+                on ((EXISTS (
+                      select  
+                          1
+                        from 
+                          test_bd.users as ref_9,
+                          lateral (select  
+                                1
+                              from 
+                                test_bd.employee as ref_10
+                              where EXISTS (
+                                select  
+                                    1
+                                  from 
+                                    test_bd.users as ref_11
+                                  )) as subq_4
+                        )) 
+                    and ((EXISTS (
+                        select  
+                            1
+                          from 
+                            test_bd.products as ref_12
+                          where (false) 
+                            and (subq_3.c13 is not NULL)
+                          )) 
+                      or (true)))
+            where EXISTS (
+              select  
+                  1
+                from 
+                  test_bd.employee as ref_13
+                where EXISTS (
+                  select  
+                      1
+                    from 
+                      test_bd.eids as ref_14
+                    where (EXISTS (
+                        select  
+                            1
+                          from 
+                            test_bd.comments as ref_15,
+                            lateral (select  
+                                  1
+                                from 
+                                  test_bd.products as ref_16
+                                ) as subq_5
+                          )) 
+                      and (ref_14.virtual_col is not NULL))))) 
+        or (subq_2.c10 is not NULL)) then subq_3.c13 else subq_3.c13 end as c3
+from 
+  (select  
+        subq_1.c0 as c0, 
+        ref_0.coordinates as c1, 
+        subq_1.c0 as c2, 
+        ref_0.user_id as c4, 
+        ref_0.coordinates as c5, 
+        subq_1.c0 as c6, 
+        subq_1.c0 as c8, 
+        subq_1.c0 as c9, 
+        ref_0.name as c10, 
+        ref_0.user_id as c11, 
+        subq_1.c0 as c13, 
+        subq_1.c0 as c14, 
+        1
+      from 
+        test_bd.locations as ref_0,
+        lateral (select  
+              (select comment from test_bd.user_post_comments limit 1 offset 2) as c0
+            from 
+              test_bd.eids as ref_1
+                inner join test_bd.users as ref_2
+                on ((true) 
+                    and (true))
+            where (ref_2.created_at is not NULL) 
+              or (EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.user_profiles as ref_3,
+                    lateral (select  
+                          ref_0.coordinates as c5
+                        from 
+                          test_bd.locations as ref_4
+                        ) as subq_0
+                  where (ref_2.email is NULL) 
+                    or (false)
+                  ))) as subq_1
+      where true
+      ) as subq_2,
+  lateral (select  
+        ref_5.created_at as c1, 
+        ref_5.content as c3, 
+        subq_2.c5 as c5, 
+        ref_5.id as c9, 
+        ref_5.title as c10, 
+        subq_2.c8 as c12, 
+        ref_5.user_id as c13, 
+        ref_5.user_id as c14, 
+        1
+      from 
+        test_bd.posts as ref_5
+      where subq_2.c6 is NULL
+      ) as subq_3
+where (subq_2.c11 is NULL) 
+  and (subq_3.c13 is NULL)
+;
+SHOW profiles;
+/* Elapsed old:0.024414 new:0.034468 ratio:1.411852 */
+
+
+--reduced actual_latest = 0.004309

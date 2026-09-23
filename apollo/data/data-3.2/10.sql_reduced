@@ -1,0 +1,50 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  case when (ref_0.age is not NULL) 
+      and ((false) 
+        and (true)) then ref_0.salary else ref_0.salary end as c5,
+  coalesce((select name from test_bd.products limit 1 offset 3)
+      ,
+    ref_0.email) as c7, 
+  1
+from 
+  test_bd.employee as ref_0
+where (((((EXISTS (
+            select  
+                1
+              from 
+                test_bd.eids as ref_1
+              where true)) 
+          and (EXISTS (
+            select  
+                1
+              from 
+                test_bd.products as ref_2
+              where ((true) 
+                  or (((false) 
+                      and (EXISTS (
+                        select  
+                            1
+                          from 
+                            test_bd.user_profiles as ref_3
+                          where EXISTS (
+                            select  
+                                1
+                              from 
+                                test_bd.locations as ref_4
+                              where true
+                              )))) 
+                    or (true))) 
+                and (ref_0.email is not NULL)))) 
+        or ((false) 
+          and (false))) 
+      or (false)) 
+    and (ref_0.age is NULL)) 
+  or ((true) 
+    and (ref_0.salary is not NULL));
+SHOW profiles;
+/* Elapsed old:0.014993 new:0.015709 ratio:1.047739 */
+
+
+--reduced actual_latest = 0.006452

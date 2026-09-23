@@ -1,0 +1,94 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+        ref_2.id as c0, 
+        ref_0.user_id as c1
+      from 
+        test_bd.locations as ref_0
+          inner join test_bd.eids as ref_1
+            left join test_bd.comments as ref_2
+            on ((null))
+          on ((((null)) 
+                or (((null)) 
+                  and ((null)))) 
+              or (((null)) 
+                and (((((null)) 
+                      and ((null))) 
+                    or ((((null)) 
+                        and ((((null)) 
+                            and (((null)) 
+                              and (((null)) 
+                                or ((EXISTS (
+                                    select  
+                                        1
+                                      from 
+                                        test_bd.posts as ref_3,
+                                        lateral (select  
+                                              1
+                                            from 
+                                              test_bd.user_profiles as ref_4,
+                                              lateral (select  
+                                                    1
+                                                  from 
+                                                    test_bd.comments as ref_5
+                                                  where ((null)) 
+                                                    and ((null))
+                                                  ) as subq_0
+                                            where ((null)) 
+                                              or (((null)) 
+                                                or ((null)))) as subq_1
+                                      where (null))) 
+                                  or ((null)))))) 
+                          or (((null)) 
+                            or (EXISTS (
+                              select  
+                                  1
+                                from 
+                                  test_bd.employee as ref_6,
+                                  lateral (select  
+                                        1
+                                      from 
+                                        test_bd.user_post_comments as ref_7
+                                      where ((null)) 
+                                        or (((null)) 
+                                          and (((((null)) 
+                                                and ((null))) 
+                                              and (((null)) 
+                                                and ((null)))) 
+                                            and (((null)) 
+                                              and ((((null)) 
+                                                  and ((null))) 
+                                                and ((null))))))
+                                      ) as subq_2
+                                where (null)
+                                ))))) 
+                      or (((null))
+                           is NULL))) 
+                  and (EXISTS (
+                    select  
+                        1
+                      from 
+                        test_bd.users as ref_8
+                      where (null)
+                      )))))
+      where (null)
+      ) as subq_3,
+  lateral (select  
+        ref_9.title as c2
+      from 
+        test_bd.user_post_comments as ref_9
+      where ((null)) 
+        or (((null)) 
+          and ((((null)) 
+              or ((null))) 
+            or ((null))))) as subq_4
+where subq_3.c1 is not NULL
+;
+SHOW profiles;
+/* Elapsed old:0.019094 new:0.021067 ratio:1.103332 */
+
+
+--reduced actual_latest = 0.001520

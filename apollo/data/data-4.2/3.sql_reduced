@@ -1,0 +1,36 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+WITH 
+jennifer_0 AS (select  
+    1
+  from 
+    (select  
+            1
+          from 
+            test_bd.users as ref_0
+              inner join test_bd.users as ref_1
+              on ((null))
+          where (null)
+          ) as subq_0
+      left join (select  
+            1
+          from 
+            test_bd.comments as ref_2
+          where false) as subq_1
+      on ((null))
+  where ((null)) 
+    or (case when ((null)) 
+          and ((null)) then subq_0.c1 else subq_0.c1 end
+         is NULL)
+  )
+select  
+    1
+  from 
+    test_bd.posts as ref_3
+  where ref_3.user_id is not NULL
+;
+SHOW profiles;
+/* Elapsed old:0.017386 new:0.019332 ratio:1.111942 */
+
+
+--reduced actual_latest = 0.004923

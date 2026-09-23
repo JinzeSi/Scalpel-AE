@@ -1,0 +1,138 @@
+(1.088728, 0.106601, 0.116059, 1.106023, 0.106815, 0.118139)
+[!] Found interesting case in mysql
+QUERY
+====START====
+SET profiling=1;
+EXPLAIN ANALYZE
+
+select  
+  subq_0.c19 as c0, 
+  subq_0.c11 as c1, 
+  subq_0.c14 as c2, 
+  subq_0.c3 as c3, 
+  subq_0.c15 as c4
+from 
+  (select  
+        ref_0.created_at as c0, 
+        ref_0.username as c1, 
+        ref_0.email as c2, 
+        ref_0.created_at as c3, 
+        ref_0.email as c4, 
+        ref_0.email as c5, 
+        ref_0.created_at as c6, 
+        ref_0.username as c7, 
+        ref_0.created_at as c8, 
+        ref_0.created_at as c9, 
+        case when ref_0.id is NULL then ref_0.id else ref_0.id end
+           as c10, 
+        90 as c11, 
+        ref_0.created_at as c12, 
+        ref_0.id as c13, 
+        (select comment from test_bd.user_post_comments limit 1 offset 4)
+           as c14, 
+        ref_0.created_at as c15, 
+        ref_0.email as c16, 
+        ref_0.created_at as c17, 
+        ref_0.id as c18, 
+        ref_0.created_at as c19, 
+        ref_0.username as c20
+      from 
+        test_bd.users as ref_0
+      where EXISTS (
+        select  
+            ref_0.email as c0, 
+            ref_0.id as c1, 
+            ref_0.email as c2, 
+            ref_1.birthdate as c3, 
+            ref_1.bio as c4, 
+            ref_0.created_at as c5, 
+            ref_1.user_id as c6, 
+            ref_0.username as c7
+          from 
+            test_bd.user_profiles as ref_1
+          where ref_0.created_at is not NULL)
+      limit 124) as subq_0
+where (EXISTS (
+    select  
+        subq_0.c15 as c0
+      from 
+        (select  
+              ref_2.user_id as c0, 
+              ref_2.name as c1, 
+              (select id from test_bd.eids limit 1 offset 3)
+                 as c2, 
+              subq_1.c0 as c3, 
+              subq_0.c20 as c4, 
+              (select id from test_bd.locations limit 1 offset 1)
+                 as c5, 
+              (select comment from test_bd.user_post_comments limit 1 offset 3)
+                 as c6, 
+              subq_1.c0 as c7, 
+              subq_1.c0 as c8, 
+              subq_1.c0 as c9, 
+              subq_1.c0 as c10, 
+              subq_1.c0 as c11, 
+              subq_1.c0 as c12
+            from 
+              test_bd.locations as ref_2,
+              lateral (select  
+                    ref_3.bio as c0
+                  from 
+                    test_bd.user_profiles as ref_3
+                  where ((true) 
+                      and (true)) 
+                    and (false)
+                  limit 133) as subq_1
+            where EXISTS (
+              select  
+                  subq_1.c0 as c0, 
+                  ref_2.coordinates as c1, 
+                  84 as c2, 
+                  subq_0.c15 as c3, 
+                  ref_2.user_id as c4, 
+                  subq_1.c0 as c5, 
+                  ref_4.department_id as c6, 
+                  ref_2.name as c7, 
+                  ref_2.name as c8, 
+                  ref_4.age as c9, 
+                  subq_0.c8 as c10
+                from 
+                  test_bd.employee as ref_4
+                where ref_4.age is not NULL
+                limit 68)
+            limit 106) as subq_2
+      where subq_2.c9 is not NULL)) 
+  or (EXISTS (
+    select  
+        ref_5.username as c0, 
+        subq_0.c0 as c1, 
+        subq_0.c11 as c2, 
+        ref_5.title as c3, 
+        ref_5.comment as c4, 
+        ref_5.username as c5, 
+        (select username from test_bd.user_post_comments limit 1 offset 5)
+           as c6, 
+        ref_5.title as c7, 
+        ref_5.username as c8, 
+        (select created_at from test_bd.posts limit 1 offset 6)
+           as c9, 
+        ref_5.comment as c10, 
+        subq_0.c14 as c11
+      from 
+        test_bd.user_post_comments as ref_5
+      where (((true) 
+            or ((((false) 
+                  and (true)) 
+                and (true)) 
+              or (ref_5.comment is not NULL))) 
+          and ((true) 
+            and ((((subq_0.c19 is not NULL) 
+                  or (ref_5.comment is not NULL)) 
+                or (false)) 
+              or (ref_5.username is NULL)))) 
+        or (false)))
+limit 81;
+SHOW profiles;
+====END====
+0.106601 0.1160595
+[!] 1.088728 times longer execution time

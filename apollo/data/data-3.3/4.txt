@@ -1,0 +1,203 @@
+(1.340166, 2.186107, 2.929746, 1.129692, 2.744860, 3.100846)
+[!] Found interesting case in mysql
+QUERY
+====START====
+SET profiling=1;
+EXPLAIN ANALYZE
+
+select  
+  subq_3.c2 as c0, 
+  case when subq_6.c1 is NULL then coalesce(subq_3.c2,
+      subq_3.c10) else coalesce(subq_3.c2,
+      subq_3.c10) end
+     as c1, 
+  subq_3.c3 as c2
+from 
+  (select  
+          subq_1.c0 as c0, 
+          subq_1.c3 as c1, 
+          subq_1.c2 as c2, 
+          subq_1.c0 as c3, 
+          subq_2.c0 as c4, 
+          subq_2.c0 as c5, 
+          42 as c6, 
+          subq_2.c0 as c7, 
+          subq_1.c1 as c8, 
+          subq_1.c3 as c9, 
+          subq_1.c2 as c10
+        from 
+          (select  
+                ref_0.name as c0, 
+                ref_0.id as c1, 
+                subq_0.c7 as c2, 
+                subq_0.c4 as c3
+              from 
+                test_bd.locations as ref_0,
+                lateral (select  
+                      ref_1.user_id as c0, 
+                      ref_1.bio as c1, 
+                      ref_0.coordinates as c2, 
+                      ref_0.name as c3, 
+                      ref_1.birthdate as c4, 
+                      17 as c5, 
+                      ref_1.profile_picture as c6, 
+                      ref_0.coordinates as c7
+                    from 
+                      test_bd.user_profiles as ref_1
+                    where true) as subq_0
+              where ref_0.coordinates is not NULL) as subq_1,
+          lateral (select  
+                subq_1.c1 as c0
+              from 
+                test_bd.locations as ref_2
+              where false
+              limit 76) as subq_2
+        where true
+        limit 69) as subq_3
+    inner join (select  
+          ref_3.eid as c0, 
+          ref_3.id as c1
+        from 
+          test_bd.employee as ref_3
+                inner join test_bd.eids as ref_4
+                on ((((false) 
+                        and (true)) 
+                      and (((ref_4.eid is NULL) 
+                          and (ref_4.virtual_col is not NULL)) 
+                        and (EXISTS (
+                          select  
+                              52 as c0, 
+                              ref_3.id as c1, 
+                              97 as c2
+                            from 
+                              test_bd.user_profiles as ref_5
+                            where (false) 
+                              or (((ref_4.eid is not NULL) 
+                                  or (ref_5.birthdate is not NULL)) 
+                                or ((ref_5.bio is not NULL) 
+                                  and (false)))
+                            limit 158)))) 
+                    or (EXISTS (
+                      select  
+                          ref_3.hire_date as c0, 
+                          ref_4.eid as c1, 
+                          ref_4.id as c2, 
+                          ref_3.salary as c3, 
+                          ref_6.coordinates as c4, 
+                          ref_4.eid as c5
+                        from 
+                          test_bd.locations as ref_6
+                        where true
+                        limit 75)))
+              right join test_bd.eids as ref_7
+              on ((false) 
+                  or ((true) 
+                    or (EXISTS (
+                      select  
+                          ref_8.email as c0, 
+                          ref_4.virtual_col as c1, 
+                          ref_4.virtual_col as c2, 
+                          ref_7.id as c3, 
+                          (select created_at from test_bd.users limit 1 offset 4)
+                             as c4, 
+                          ref_4.id as c5, 
+                          ref_3.salary as c6, 
+                          ref_8.username as c7, 
+                          subq_4.c7 as c8, 
+                          ref_4.eid as c9, 
+                          ref_4.eid as c10, 
+                          ref_3.years as c11, 
+                          ref_7.id as c12
+                        from 
+                          test_bd.users as ref_8,
+                          lateral (select  
+                                ref_8.username as c0, 
+                                ref_8.username as c1, 
+                                ref_3.years as c2, 
+                                (select id from test_bd.users limit 1 offset 6)
+                                   as c3, 
+                                ref_3.eid as c4, 
+                                ref_8.email as c5, 
+                                ref_9.created_at as c6, 
+                                ref_7.id as c7, 
+                                ref_8.created_at as c8
+                              from 
+                                test_bd.users as ref_9
+                              where ref_4.virtual_col is not NULL) as subq_4
+                        where EXISTS (
+                          select  
+                              (select title from test_bd.posts limit 1 offset 3)
+                                 as c0, 
+                              ref_10.id as c1, 
+                              ref_8.email as c2, 
+                              ref_3.age as c3, 
+                              ref_4.eid as c4, 
+                              ref_8.id as c5, 
+                              ref_7.virtual_col as c6, 
+                              subq_4.c0 as c7, 
+                              subq_4.c3 as c8, 
+                              subq_4.c7 as c9, 
+                              53 as c10, 
+                              ref_7.virtual_col as c11, 
+                              40 as c12, 
+                              ref_4.virtual_col as c13, 
+                              ref_8.username as c14, 
+                              ref_4.eid as c15, 
+                              subq_4.c3 as c16, 
+                              subq_4.c2 as c17, 
+                              42 as c18, 
+                              ref_8.id as c19
+                            from 
+                              test_bd.users as ref_10
+                            where true)
+                        limit 81))))
+            inner join test_bd.locations as ref_11
+            on ((true) 
+                and (true))
+        where (true) 
+          and (((true) 
+              and (ref_11.coordinates is not NULL)) 
+            or (EXISTS (
+              select  
+                  ref_4.eid as c0, 
+                  ref_7.eid as c1, 
+                  ref_12.birthdate as c2, 
+                  99 as c3, 
+                  ref_11.name as c4, 
+                  ref_12.profile_picture as c5, 
+                  ref_11.coordinates as c6, 
+                  ref_4.virtual_col as c7
+                from 
+                  test_bd.user_profiles as ref_12,
+                  lateral (select  
+                        ref_12.bio as c0, 
+                        ref_12.user_id as c1, 
+                        ref_4.virtual_col as c2, 
+                        39 as c3, 
+                        ref_13.coordinates as c4
+                      from 
+                        test_bd.locations as ref_13
+                      where ref_7.virtual_col is not NULL) as subq_5
+                where subq_5.c4 is NULL)))
+        limit 95) as subq_6
+    on ((EXISTS (
+          select  
+              subq_3.c5 as c0
+            from 
+              test_bd.user_profiles as ref_14
+            where EXISTS (
+              select  
+                  ref_14.bio as c0, 
+                  subq_3.c3 as c1
+                from 
+                  test_bd.locations as ref_15
+                where true
+                limit 36))) 
+        or ((false) 
+          or (subq_6.c1 is not NULL)))
+where true
+limit 101;
+SHOW profiles;
+====END====
+2.18610675 2.929746
+[!] 1.340166 times longer execution time

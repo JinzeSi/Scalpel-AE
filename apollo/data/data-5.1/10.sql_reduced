@@ -1,0 +1,64 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+        ref_1.profile_picture as c0, 
+        case when (((ref_2.title is NULL) 
+                and (((EXISTS (
+                      select  
+                          1
+                        from 
+                          test_bd.users as ref_5
+                        where ref_0.eid is NULL)) 
+                    or (ref_2.content is not NULL)) 
+                  or (((true) 
+                      and (EXISTS (
+                        select  
+                            1
+                          from 
+                            test_bd.user_profiles as ref_6
+                          ))) 
+                    or (false)))) 
+              and (false)) 
+            and (true) then ref_0.virtual_col else ref_0.virtual_col end as c1
+      from 
+        test_bd.eids as ref_0
+            right join test_bd.user_profiles as ref_1
+            on (ref_0.virtual_col is not NULL)
+          inner join test_bd.posts as ref_2
+          on (((false) 
+                and (false)) 
+              or (EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.users as ref_3
+                  where EXISTS (
+                    select  
+                        1
+                      from 
+                        test_bd.comments as ref_4
+                      where true
+                      )
+                  )))
+      where ((28 is NULL) 
+          or (ref_2.updated_at is NULL)) 
+        and ((ref_0.virtual_col is NULL) 
+          or (ref_1.user_id is NULL))
+      ) as subq_0
+where ((subq_0.c0 is not NULL) 
+    and (((false) 
+        or (true)) 
+      and ((subq_0.c1 is not NULL) 
+        and (((subq_0.c0 is NULL) 
+            or (false)) 
+          or ((subq_0.c1 is not NULL) 
+            or (subq_0.c1 is not NULL)))))) 
+  and (subq_0.c0 is NULL);
+SHOW profiles;
+/* Elapsed old:0.417183 new:0.433452 ratio:1.038996 */
+
+
+--reduced actual_latest = 0.005670

@@ -1,0 +1,92 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+
+select  
+  subq_0.c2 as c0, 
+  subq_0.c2 as c1, 
+  subq_0.c2 as c2, 
+  subq_0.c0 as c3, 
+  subq_0.c2 as c4
+from 
+  (select  
+        ref_0.id as c0, 
+        ref_0.post_id as c1, 
+        ref_0.post_id as c2
+      from 
+        test_bd.comments as ref_0
+      where true
+      limit 90) as subq_0
+where EXISTS (
+  select  
+      subq_0.c1 as c0, 
+      subq_0.c0 as c1, 
+      subq_2.c9 as c2, 
+      subq_0.c2 as c3
+    from 
+      (select  
+            subq_0.c1 as c0, 
+            36 as c1, 
+            subq_0.c2 as c2, 
+            subq_0.c0 as c3, 
+            subq_1.c1 as c4, 
+            subq_0.c2 as c5, 
+            subq_0.c2 as c6, 
+            subq_1.c2 as c7, 
+            ref_1.user_id as c8, 
+            subq_0.c1 as c9
+          from 
+            test_bd.comments as ref_1,
+            lateral (select  
+                  subq_0.c1 as c0, 
+                  ref_1.comment as c1, 
+                  ref_2.years as c2
+                from 
+                  test_bd.employee as ref_2
+                where EXISTS (
+                  select  
+                      ref_2.years as c0, 
+                      93 as c1
+                    from 
+                      test_bd.eids as ref_3
+                    where ((false) 
+                        or (false)) 
+                      or (((true) 
+                          and (false)) 
+                        or (true))
+                    limit 135)
+                limit 152) as subq_1
+          where subq_1.c1 is not NULL
+          limit 35) as subq_2,
+      lateral (select  
+            subq_0.c2 as c0, 
+            ref_4.username as c1, 
+            subq_0.c0 as c2, 
+            subq_0.c1 as c3, 
+            9 as c4, 
+            subq_2.c9 as c5, 
+            ref_4.username as c6, 
+            subq_2.c7 as c7, 
+            (select email from test_bd.employee limit 1 offset 2)
+               as c8, 
+            subq_3.c3 as c9, 
+            subq_0.c0 as c10, 
+            subq_2.c0 as c11
+          from 
+            test_bd.user_post_comments as ref_4,
+            lateral (select  
+                  ref_4.comment as c0, 
+                  subq_0.c2 as c1, 
+                  58 as c2, 
+                  ref_5.title as c3
+                from 
+                  test_bd.user_post_comments as ref_5
+                where false) as subq_3
+          where (subq_3.c0 is not NULL) 
+            and ((ref_4.username is not NULL) 
+              and ((false) 
+                and (false)))
+          limit 134) as subq_4
+    where subq_2.c0 is not NULL
+    limit 81)
+limit 93;
+SHOW profiles;

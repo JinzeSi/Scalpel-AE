@@ -1,0 +1,58 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  test_bd.comments as ref_0
+    left join test_bd.employee as ref_1
+    on ((((ref_0.created_at is not NULL) 
+            or ((((((ref_1.email is NULL) 
+                      or (((true) 
+                          or (ref_1.eid is NULL)) 
+                        or (EXISTS (
+                          select  
+                              1
+                            from 
+                              test_bd.comments as ref_2
+                            where (ref_1.hire_date is not NULL) 
+                              and (false)
+                            )))) 
+                    or ((ref_1.department_id is not NULL) 
+                      or ((((true) 
+                            and ((true) 
+                              and (ref_0.post_id is not NULL))) 
+                          and ((ref_0.post_id is NULL) 
+                            and (false))) 
+                        or (false)))) 
+                  and (false)) 
+                or ((ref_0.post_id is NULL) 
+                  and (EXISTS (
+                    select  
+                        1
+                      from 
+                        test_bd.posts as ref_3
+                      where ref_0.created_at is not NULL
+                      )))) 
+              or ((EXISTS (
+                  select  
+                      1
+                    from 
+                      test_bd.products as ref_4,
+                      lateral (select  
+                            ref_0.post_id as c0, 
+                            1
+                          from 
+                            test_bd.posts as ref_5
+                          where false) as subq_0
+                    where subq_0.c0 is not NULL
+                    )) 
+                and (false)))) 
+          and ((select user_id from test_bd.locations limit 1 offset 41)
+               is not NULL)) 
+        and (ref_1.salary is not NULL))
+where ref_0.created_at is NULL;
+SHOW profiles;
+/* Elapsed old:0.023865 new:0.075862 ratio:3.178775 */
+
+
+--reduced actual_latest = 0.013930

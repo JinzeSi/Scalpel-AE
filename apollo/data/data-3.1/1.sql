@@ -1,0 +1,103 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+
+select  
+  subq_0.c3 as c0, 
+  subq_0.c6 as c1, 
+  subq_0.c3 as c2, 
+  (select birthdate from test_bd.user_profiles limit 1 offset 4)
+     as c3, 
+  (select birthdate from test_bd.user_profiles limit 1 offset 5)
+     as c4, 
+  subq_0.c5 as c5, 
+  subq_0.c6 as c6, 
+  59 as c7
+from 
+  (select  
+        ref_1.username as c0, 
+        ref_1.username as c1, 
+        ref_1.comment as c2, 
+        ref_1.username as c3, 
+        ref_0.email as c4, 
+        ref_0.eid as c5, 
+        ref_1.username as c6, 
+        ref_1.comment as c7, 
+        ref_0.department_id as c8
+      from 
+        test_bd.employee as ref_0
+          right join test_bd.user_post_comments as ref_1
+          on (ref_1.comment is not NULL)
+      where true
+      limit 74) as subq_0
+where ((subq_0.c7 is not NULL) 
+    or (((select username from test_bd.user_post_comments limit 1 offset 2)
+           is not NULL) 
+      or (((((((false) 
+                  or (EXISTS (
+                    select  
+                        subq_1.c1 as c0, 
+                        subq_1.c1 as c1
+                      from 
+                        test_bd.posts as ref_2,
+                        lateral (select  
+                              ref_3.post_id as c0, 
+                              ref_2.user_id as c1
+                            from 
+                              test_bd.comments as ref_3
+                            where ref_3.created_at is NULL
+                            limit 125) as subq_1,
+                        lateral (select  
+                              ref_2.title as c0
+                            from 
+                              test_bd.locations as ref_4
+                            where ((subq_0.c8 is not NULL) 
+                                and (subq_0.c1 is NULL)) 
+                              or ((ref_4.name is not NULL) 
+                                and ((ref_2.content is not NULL) 
+                                  or (true)))
+                            limit 112) as subq_2
+                      where false
+                      limit 75))) 
+                or ((((true) 
+                      or (subq_0.c4 is NULL)) 
+                    and (((subq_0.c3 is not NULL) 
+                        and (subq_0.c5 is NULL)) 
+                      or (subq_0.c7 is not NULL))) 
+                  or (subq_0.c5 is not NULL))) 
+              or (subq_0.c8 is NULL)) 
+            or (subq_0.c2 is not NULL)) 
+          or (false)) 
+        or ((true) 
+          and (EXISTS (
+            select  
+                ref_5.created_at as c0
+              from 
+                test_bd.products as ref_5
+              where (EXISTS (
+                  select  
+                      ref_5.tags as c0, 
+                      subq_0.c7 as c1
+                    from 
+                      test_bd.posts as ref_6
+                    where EXISTS (
+                      select  
+                          ref_5.id as c0, 
+                          subq_0.c6 as c1, 
+                          ref_7.email as c2, 
+                          ref_7.id as c3, 
+                          17 as c4, 
+                          subq_0.c2 as c5
+                        from 
+                          test_bd.users as ref_7
+                        where (subq_0.c1 is not NULL) 
+                          or ((((false) 
+                                or (((true) 
+                                    or (subq_0.c3 is not NULL)) 
+                                  or (ref_5.price is not NULL))) 
+                              or (true)) 
+                            or (subq_0.c7 is not NULL)))
+                    limit 63)) 
+                and (ref_5.discount is NULL))))))) 
+  or (subq_0.c5 is not NULL)
+limit 59;
+SHOW profiles;

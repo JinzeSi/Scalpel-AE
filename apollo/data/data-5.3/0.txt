@@ -1,0 +1,105 @@
+(1.119467, 0.037414, 0.041884, 1.049996, 0.040588, 0.042617)
+[!] Found interesting case in mysql
+QUERY
+====START====
+SET profiling=1;
+EXPLAIN ANALYZE
+
+select  
+  subq_0.c5 as c0, 
+  subq_0.c1 as c1, 
+  subq_0.c4 as c2
+from 
+  (select  
+        ref_0.username as c0, 
+        ref_0.title as c1, 
+        case when ref_0.comment is NULL then ref_0.title else ref_0.title end
+           as c2, 
+        ref_0.title as c3, 
+        ref_0.username as c4, 
+        ref_0.title as c5
+      from 
+        test_bd.user_post_comments as ref_0
+      where (EXISTS (
+          select  
+              ref_1.id as c0
+            from 
+              test_bd.posts as ref_1
+                inner join test_bd.comments as ref_2
+                on ((((EXISTS (
+                          select  
+                              87 as c0, 
+                              ref_3.user_id as c1
+                            from 
+                              test_bd.comments as ref_3
+                            where (true) 
+                              and (true)
+                            limit 115)) 
+                        or (EXISTS (
+                          select  
+                              ref_4.id as c0, 
+                              ref_0.title as c1, 
+                              ref_4.comment as c2, 
+                              ref_4.post_id as c3, 
+                              ref_0.comment as c4, 
+                              ref_2.user_id as c5, 
+                              ref_1.id as c6, 
+                              ref_2.post_id as c7
+                            from 
+                              test_bd.comments as ref_4
+                            where true
+                            limit 168))) 
+                      or (false)) 
+                    or (ref_1.created_at is not NULL))
+            where ((((ref_0.comment is not NULL) 
+                    and (ref_1.content is not NULL)) 
+                  and (ref_2.created_at is not NULL)) 
+                or (ref_1.id is NULL)) 
+              and ((ref_2.user_id is not NULL) 
+                or ((ref_2.created_at is not NULL) 
+                  or (false)))
+            limit 75)) 
+        and ((false) 
+          or (EXISTS (
+            select  
+                ref_5.title as c0
+              from 
+                test_bd.user_post_comments as ref_5
+              where true
+              limit 99)))
+      limit 88) as subq_0
+where EXISTS (
+  select  
+      subq_0.c1 as c0, 
+      ref_7.tags as c1, 
+      ref_8.id as c2, 
+      ref_7.discount as c3, 
+      ref_7.id as c4, 
+      ref_6.id as c5, 
+      (select title from test_bd.user_post_comments limit 1 offset 1)
+         as c6, 
+      ref_7.tags as c7
+    from 
+      test_bd.comments as ref_6
+        right join test_bd.products as ref_7
+          right join test_bd.eids as ref_8
+          on (ref_7.id = ref_8.eid )
+        on (EXISTS (
+            select  
+                ref_7.id as c0, 
+                ref_7.created_at as c1
+              from 
+                test_bd.comments as ref_9
+              where subq_0.c3 is not NULL))
+    where (true) 
+      or ((((true) 
+            or (ref_8.id is not NULL)) 
+          or ((true) 
+            or (ref_6.created_at is not NULL))) 
+        and (false))
+    limit 167)
+limit 47;
+SHOW profiles;
+====END====
+0.03741425 0.041884
+[!] 1.119467 times longer execution time

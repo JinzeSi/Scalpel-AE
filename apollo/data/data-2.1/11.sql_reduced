@@ -1,0 +1,66 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  test_bd.user_post_comments as ref_0,
+  lateral (select  
+        49 as c3, 
+        ref_1.discount as c4, 
+        ((null)) as c5,
+        ref_1.price as c7, 
+        ref_1.discount as c10, 
+        ref_1.tags as c11, 
+        1
+      from 
+        test_bd.products as ref_1
+      where (EXISTS (
+          select  
+              1
+            from 
+              test_bd.users as ref_2
+                inner join test_bd.user_post_comments as ref_3
+                on ((null))
+            where ((null)) 
+              and (((null)) 
+                or (EXISTS (
+                  select  
+                      1
+                    from 
+                      test_bd.locations as ref_4
+                    where ((null)) 
+                      or ((((null)) 
+                          and ((EXISTS (
+                              select  
+                                  1
+                                from 
+                                  test_bd.employee as ref_5
+                                where ((null)) 
+                                  or ((null))
+                                )) 
+                            and ((null)))) 
+                        or ((null)))
+                    ))))) 
+        or (EXISTS (
+          select  
+              1
+            from 
+              test_bd.eids as ref_7
+            where (EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.comments as ref_8
+                  where ((null)) 
+                    or ((null))
+                  )) 
+              or ((null))
+            ))
+      ) as subq_0
+where subq_0.c4 is not NULL
+;
+SHOW profiles;
+/* Elapsed old:0.612290 new:0.645956 ratio:1.054983 */
+
+
+--reduced actual_latest = 0.000566

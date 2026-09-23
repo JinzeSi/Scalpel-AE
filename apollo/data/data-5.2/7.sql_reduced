@@ -1,0 +1,49 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  ref_1.user_id as c1, 
+  ref_1.coordinates as c2, 
+  ref_0.email as c3, 
+  ref_1.name as c4, 
+  ref_0.id as c5, 
+  ref_1.id as c6, 
+  ref_0.created_at as c7, 
+  ref_0.username as c8, 
+  ref_1.name as c9, 
+  ref_0.email as c10, 
+  case when ((ref_1.name is NULL) 
+        and (true)) 
+      or (((EXISTS (
+            select  
+                1
+              from 
+                test_bd.products as ref_2
+              where true)) 
+          and (ref_0.created_at is not NULL)) 
+        or (EXISTS (
+          select  
+              1
+            from 
+              test_bd.locations as ref_3,
+              lateral (select  
+                    ref_3.name as c1
+                  from 
+                    test_bd.user_profiles as ref_4
+                  where (true) 
+                    or (((false) 
+                        or (true)) 
+                      or (true))) as subq_0
+            where true))) then ref_1.id else ref_1.id end as c11,
+  1
+from 
+  test_bd.users as ref_0
+    right join test_bd.locations as ref_1
+    on (ref_0.created_at is not NULL)
+where (false) 
+  or (ref_0.email is not NULL)
+;
+SHOW profiles;
+/* Elapsed old:0.015213 new:0.020247 ratio:1.330918 */
+
+
+--reduced actual_latest = 1.990075

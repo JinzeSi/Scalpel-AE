@@ -1,0 +1,30 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+        ref_1.price as c0, 
+        ref_1.category as c2, 
+        subq_0.c0 as c3
+      from 
+        (select  
+                ref_0.profile_picture as c0, 
+                ref_0.profile_picture as c1, 
+                17 as c2, 
+                1
+              from 
+                test_bd.user_profiles as ref_0
+              where ref_0.bio is not NULL) as subq_0
+          right join test_bd.products as ref_1
+          on (subq_0.c2 = ref_1.id )
+      where subq_0.c2 is NULL
+      ) as subq_1
+where (subq_1.c2 is not NULL) 
+  or (subq_1.c0 is not NULL)
+;
+SHOW profiles;
+/* Elapsed old:2.994922 new:3.871298 ratio:1.292621 */
+
+
+--reduced actual_latest = 1.990523

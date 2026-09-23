@@ -1,0 +1,73 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+
+select  
+  subq_0.c0 as c0, 
+  subq_0.c0 as c1
+from 
+  (select  
+        ref_7.id as c0
+      from 
+        test_bd.users as ref_0
+          inner join test_bd.user_post_comments as ref_1
+                left join test_bd.user_profiles as ref_2
+                on ((false) 
+                    or (EXISTS (
+                      select  
+                          ref_1.username as c0, 
+                          ref_3.bio as c1, 
+                          ref_3.bio as c2, 
+                          (select user_id from test_bd.posts limit 1 offset 4)
+                             as c3
+                        from 
+                          test_bd.user_profiles as ref_3
+                        where (false) 
+                          and ((true) 
+                            and ((EXISTS (
+                                select  
+                                    ref_4.id as c0, 
+                                    ref_1.title as c1
+                                  from 
+                                    test_bd.posts as ref_4
+                                  where true
+                                  limit 115)) 
+                              or (EXISTS (
+                                select  
+                                    ref_5.comment as c0, 
+                                    ref_2.bio as c1, 
+                                    ref_5.comment as c2, 
+                                    ref_3.bio as c3, 
+                                    ref_5.id as c4
+                                  from 
+                                    test_bd.comments as ref_5
+                                  where ((ref_1.comment is not NULL) 
+                                      and ((true) 
+                                        or ((true) 
+                                          and (false)))) 
+                                    and (false)
+                                  limit 40)))))))
+              right join test_bd.employee as ref_6
+              on (ref_2.birthdate = ref_6.hire_date )
+            left join test_bd.users as ref_7
+            on (ref_6.department_id = ref_7.id )
+          on ((false) 
+              or (true))
+      where ref_1.username is not NULL
+      limit 31) as subq_0
+where (subq_0.c0 is not NULL) 
+  or ((false) 
+    and ((subq_0.c0 is not NULL) 
+      or (((subq_0.c0 is not NULL) 
+          and (((false) 
+              or (subq_0.c0 is not NULL)) 
+            or (true))) 
+        and ((EXISTS (
+            select  
+                subq_0.c0 as c0
+              from 
+                test_bd.eids as ref_8
+              where true
+              limit 110)) 
+          and ((subq_0.c0 is NULL) 
+            and (subq_0.c0 is not NULL))))));
+SHOW profiles;

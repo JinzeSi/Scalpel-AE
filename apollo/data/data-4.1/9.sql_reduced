@@ -1,0 +1,41 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select distinct 
+  1
+from 
+  (select  
+        subq_0.c2 as c0, 
+        1
+      from 
+        (select  
+              ref_2.coordinates as c0, 
+              ref_0.title as c2, 
+              ref_0.comment as c5
+            from 
+              test_bd.user_post_comments as ref_0
+                inner join test_bd.eids as ref_1
+                  left join test_bd.locations as ref_2
+                  on (((null)) 
+                      and ((null)))
+                on ((null))
+            where ((null)) 
+              or (((null)) 
+                and (((null)) 
+                  and (EXISTS (
+                    select  
+                        ref_2.coordinates as c0, 
+                        1
+                      from 
+                        test_bd.users as ref_3
+                      where ((null)) 
+                        and (((null)) 
+                          and ((null)))
+                      ))))) as subq_0
+      where subq_0.c0 is not NULL) as subq_1
+where subq_1.c0 is not NULL
+;
+SHOW profiles;
+/* Elapsed old:2.670165 new:2.844269 ratio:1.065203 */
+
+
+--reduced actual_latest = 0.000521

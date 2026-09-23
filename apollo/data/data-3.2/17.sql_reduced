@@ -1,0 +1,51 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  coalesce((null)) as c6, 
+  1
+from 
+  (select  
+        ref_0.id as c0, 
+        ref_0.created_at as c1, 
+        ref_0.id as c2, 
+        ref_0.id as c3, 
+        ref_0.username as c4
+      from 
+        test_bd.users as ref_0
+      where (((((null)) 
+              and (((null)) 
+                and ((((null)) 
+                    and (((null)) 
+                      and (((null)) 
+                        and (((null)) 
+                          or ((null)))))) 
+                  and ((null))))) 
+            and ((null))) 
+          or ((((null)) 
+              or ((null))) 
+            and ((null)))) 
+        or (EXISTS (
+          select  
+              ref_0.username as c0, 
+              1
+            from 
+              test_bd.products as ref_4,
+              lateral (select  
+                    ref_0.username as c0, 
+                    ref_4.id as c2, 
+                    ref_4.discount as c3, 
+                    1
+                  from 
+                    test_bd.user_post_comments as ref_5
+                  where ((null))
+                       is NULL) as subq_1
+            where ref_4.id is NULL
+            ))
+      ) as subq_2
+where subq_2.c4 is not NULL
+;
+SHOW profiles;
+/* Elapsed old:0.010329 new:0.014847 ratio:1.437444 */
+
+
+--reduced actual_latest = 0.012696

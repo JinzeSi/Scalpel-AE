@@ -1,0 +1,23 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  test_bd.user_profiles as ref_0
+    left join (select  
+          ref_2.price as c0, 
+          ref_1.coordinates as c1
+        from 
+          test_bd.locations as ref_1
+            left join test_bd.products as ref_2
+            on (false)
+        where ((ref_2.price is NULL) 
+            or (false)) 
+          or (ref_1.user_id is NULL)) as subq_0
+    on (true)
+where true;
+SHOW profiles;
+/* Elapsed old:2.463536 new:3.009422 ratio:1.221586 */
+
+
+--reduced actual_latest = 1.151126

@@ -1,0 +1,43 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1, 
+  subq_1.c0 as c1, 
+  case when ((null)) 
+      or ((null)) then subq_1.c0 else subq_1.c0 end as c2,
+  case when false then coalesce((null)) end as c5,
+  case when ((((null)) 
+          or (((null)) 
+            or ((null)))) 
+        or (((null))
+             is not NULL)) 
+      or ((null)) then ((null))
+       end as c8,
+  1
+from 
+  (select  
+        ref_2.comment as c0
+      from 
+        test_bd.comments as ref_0
+          inner join test_bd.employee as ref_1
+            right join test_bd.comments as ref_2
+            on (EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.comments as ref_3,
+                    lateral (select  
+                          ((null)) as c2
+                        from 
+                          test_bd.user_profiles as ref_4
+                        ) as subq_0
+                  ))
+          on ((null))
+      where ref_0.user_id is not NULL
+      ) as subq_1
+;
+SHOW profiles;
+/* Elapsed old:4.861687 new:5.438565 ratio:1.118658 */
+
+
+--reduced actual_latest = 0.000382

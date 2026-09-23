@@ -1,0 +1,71 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+        ref_0.created_at as c0, 
+        ref_0.created_at as c3, 
+        ref_0.created_at as c8, 
+        90 as c11, 
+        (select comment from test_bd.user_post_comments limit 1 offset 4) as c14,
+        ref_0.created_at as c15, 
+        ref_0.created_at as c19, 
+        ref_0.username as c20
+      from 
+        test_bd.users as ref_0
+      where EXISTS (
+        select  
+            1
+          from 
+            test_bd.user_profiles as ref_1
+          where ref_0.created_at is not NULL)
+      ) as subq_0
+where (EXISTS (
+    select  
+        1
+      from 
+        (select  
+              subq_1.c0 as c9, 
+              1
+            from 
+              test_bd.locations as ref_2,
+              lateral (select  
+                    ref_3.bio as c0
+                  from 
+                    test_bd.user_profiles as ref_3
+                  where ((true) 
+                      and (true)) 
+                    and (false)
+                  ) as subq_1
+            where EXISTS (
+              select  
+                  1
+                from 
+                  test_bd.employee as ref_4
+                where ref_4.age is not NULL
+                )
+            ) as subq_2
+      where subq_2.c9 is not NULL)) 
+  or (EXISTS (
+    select  
+        1
+      from 
+        test_bd.user_post_comments as ref_5
+      where (((true) 
+            or ((((false) 
+                  and (true)) 
+                and (true)) 
+              or (ref_5.comment is not NULL))) 
+          and ((true) 
+            and ((((subq_0.c19 is not NULL) 
+                  or (ref_5.comment is not NULL)) 
+                or (false)) 
+              or (ref_5.username is NULL)))) 
+        or (false)))
+;
+SHOW profiles;
+/* Elapsed old:0.106601 new:0.116059 ratio:1.088728 */
+
+
+--reduced actual_latest = 1.990598

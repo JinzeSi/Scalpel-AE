@@ -1,0 +1,13 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  test_bd.products as ref_0
+where (select comment from test_bd.user_post_comments limit 1 offset 6)
+     is not NULL;
+SHOW profiles;
+/* Elapsed old:0.016072 new:0.016915 ratio:1.052468 */
+
+
+--reduced actual_latest = 0.003187

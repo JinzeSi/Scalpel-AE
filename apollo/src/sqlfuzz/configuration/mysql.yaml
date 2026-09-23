@@ -1,0 +1,27 @@
+DB: test_bd
+DBMS: mysql
+DB_VER:
+  - 8041
+  - 8042
+DSN: '"dbi:mysql:host=127.0.0.1;port={PORT} ;user=root;password=;database=test_bd"'
+FILEDB: null
+INIT: false
+MINIMIZER_DIR: /tmp/sqlmin
+MINIMUM_QUERY_TIME: 1.0e-05
+MIN_THRESHOLD: 0.02
+NEW_VER_PORT: 3308
+OLD_VER_PORT: 3307
+OUTDIR: /tmp/out
+PASSWD: ''
+PREFIX: EXPLAIN ANALYZE
+PROBRESET: 120
+RUN_NEW: 'mysql -S /tmp/mysql{PORT}.sock -P {PORT} -u root -D test_bd -e '
+RUN_OLD: 'mysql -S /tmp/mysql{PORT}.sock -P {PORT} -u root -D test_bd -e '
+SQLSMITH_PORT: null
+SQLSMITH_TIMEOUT: 600
+THRESHOLD: 1.02
+TIMEOUT: 300
+USERNAME: root
+USE_MINIMIZER: true
+USE_PROB: false
+USE_TPCC: false

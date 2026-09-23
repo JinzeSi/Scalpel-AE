@@ -1,0 +1,28 @@
+sqlite
+
+# Local Git metadata, editor settings and Python caches
+.git
+.vscode/
+.idea/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+*.swp
+*.swo
+
+# Prepared MySQL installations, database state and generated experiment results
+/opt/
+/.ae-data/
+/reproduced/
+
+# Build directories within the MySQL source checkouts
+/mysql-server/build*/
+/mysql-server-brk/build*/
+
+# Local run logs; keep benchmark SQL, databases and test fixtures as inputs.
+/*.log
+/src/**/fuzz_log_*
+
+# The existing lib/ and src/ .gitignore files cover their generated outputs.
+# Keep ae/, data/, init.sql, insert.sql and src/sqlfuzz/benchmark/.

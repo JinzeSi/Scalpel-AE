@@ -1,0 +1,29 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  coalesce((null)) as c1, 
+  1
+from 
+  (select  
+        ref_1.price as c0, 
+        ref_3.user_id as c2, 
+        ref_3.profile_picture as c3
+      from 
+        test_bd.employee as ref_0
+            inner join test_bd.products as ref_1
+            on ((null))
+          left join test_bd.user_profiles as ref_2
+            left join test_bd.user_profiles as ref_3
+            on ((null))
+          on ((null))
+      where (((null)) 
+          or ((null))) 
+        and ((null))
+      ) as subq_0
+where subq_0.c2 is not NULL
+;
+SHOW profiles;
+/* Elapsed old:0.017917 new:0.018485 ratio:1.031688 */
+
+
+--reduced actual_latest = 0.000307

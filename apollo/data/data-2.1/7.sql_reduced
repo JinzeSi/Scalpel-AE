@@ -1,0 +1,119 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  test_bd.user_profiles as ref_0
+where (EXISTS (
+    select  
+        1
+      from 
+        test_bd.employee as ref_1
+            inner join test_bd.comments as ref_2
+            on (((false) 
+                  and (ref_0.user_id is not NULL)) 
+                or (22 is not NULL))
+          right join (select  
+                ref_3.user_id as c1, 
+                1
+              from 
+                test_bd.user_profiles as ref_3
+              where false
+              ) as subq_0
+          on (false)
+      where (true) 
+        and ((false) 
+          and (false))
+      )) 
+  or (((ref_0.user_id is not NULL) 
+      or (EXISTS (
+        select  
+            ref_4.comment as c2, 
+            1
+          from 
+            test_bd.comments as ref_4
+          where (ref_4.post_id is NULL) 
+            and ((ref_0.birthdate is NULL) 
+              or ((((((true) 
+                        and ((false) 
+                          and (((false) 
+                              and (ref_0.bio is not NULL)) 
+                            or (EXISTS (
+                              select  
+                                  1
+                                from 
+                                  test_bd.locations as ref_5
+                                where (true) 
+                                  or ((EXISTS (
+                                      select  
+                                          ref_4.comment as c2, 
+                                          1
+                                        from 
+                                          test_bd.locations as ref_6,
+                                          lateral (select  
+                                                ref_6.user_id as c0, 
+                                                1
+                                              from 
+                                                test_bd.locations as ref_7
+                                              where (true) 
+                                                and (EXISTS (
+                                                  select  
+                                                      1
+                                                    from 
+                                                      test_bd.posts as ref_8
+                                                    where true
+                                                    ))
+                                              ) as subq_1,
+                                          lateral (select  
+                                                ref_4.comment as c2, 
+                                                1
+                                              from 
+                                                test_bd.user_profiles as ref_9
+                                              where false) as subq_2
+                                        where (false) 
+                                          and (false)
+                                        )) 
+                                    or (ref_4.created_at is not NULL))
+                                ))))) 
+                      and (EXISTS (
+                        select  
+                            1
+                          from 
+                            test_bd.users as ref_10
+                          where true))) 
+                    or (EXISTS (
+                      select  
+                          1, 
+                          1
+                        from 
+                          test_bd.user_post_comments as ref_11
+                        where ref_0.profile_picture is not NULL
+                        ))) 
+                  or (((ref_4.comment is not NULL) 
+                      or (false)) 
+                    and ((select updated_at from test_bd.posts limit 1 offset 60)
+                         is not NULL))) 
+                and (((true) 
+                    or ((true) 
+                      or (true))) 
+                  and (true))))))) 
+    and ((ref_0.profile_picture is NULL) 
+      or ((true) 
+        and ((true) 
+          and (EXISTS (
+            select  
+                1
+              from 
+                test_bd.eids as ref_12,
+                lateral (select  
+                      ref_0.profile_picture as c6
+                    from 
+                      test_bd.eids as ref_13
+                    where true) as subq_3
+              where ref_0.bio is NULL))))))
+;
+SHOW profiles;
+/* Elapsed old:1.174157 new:1.259139 ratio:1.072377 */
+
+
+--reduced actual_latest = 1.178199

@@ -1,0 +1,159 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+
+select  
+  subq_2.c1 as c0, 
+  subq_2.c2 as c1, 
+  subq_2.c5 as c2, 
+  subq_2.c3 as c3, 
+  (select birthdate from test_bd.user_profiles limit 1 offset 98)
+     as c4, 
+  subq_2.c8 as c5, 
+  subq_2.c10 as c6, 
+  subq_2.c6 as c7
+from 
+  (select  
+        ref_0.eid as c0, 
+        (select id from test_bd.users limit 1 offset 6)
+           as c1, 
+        ref_0.virtual_col as c2, 
+        ref_0.virtual_col as c3, 
+        ref_0.eid as c4, 
+        ref_0.eid as c5, 
+        ref_0.id as c6, 
+        (select id from test_bd.users limit 1 offset 3)
+           as c7, 
+        11 as c8, 
+        (select created_at from test_bd.posts limit 1 offset 3)
+           as c9, 
+        ref_0.id as c10, 
+        case when false then ref_0.eid else ref_0.eid end
+           as c11, 
+        ref_0.eid as c12, 
+        ref_0.virtual_col as c13
+      from 
+        test_bd.eids as ref_0
+      where EXISTS (
+        select  
+            15 as c0, 
+            ref_0.eid as c1, 
+            ref_1.id as c2
+          from 
+            test_bd.eids as ref_1,
+            lateral (select  
+                  82 as c0, 
+                  ref_2.name as c1
+                from 
+                  test_bd.locations as ref_2
+                where EXISTS (
+                  select  
+                      ref_1.eid as c0, 
+                      ref_2.name as c1, 
+                      ref_1.id as c2, 
+                      ref_0.virtual_col as c3
+                    from 
+                      test_bd.products as ref_3
+                    where (false) 
+                      or (((false) 
+                          and ((false) 
+                            or (ref_1.eid is not NULL))) 
+                        and (ref_3.id is not NULL))
+                    limit 117)
+                limit 105) as subq_0
+          where ((ref_0.id is NULL) 
+              or (((72 is not NULL) 
+                  and ((((((false) 
+                            or (true)) 
+                          and ((true) 
+                            and (((false) 
+                                or ((true) 
+                                  and ((ref_1.virtual_col is NULL) 
+                                    and ((false) 
+                                      and (EXISTS (
+                                        select  
+                                            subq_0.c1 as c0, 
+                                            ref_4.id as c1
+                                          from 
+                                            test_bd.locations as ref_4
+                                          where (select title from test_bd.user_post_comments limit 1 offset 6)
+                                               is not NULL)))))) 
+                              and ((true) 
+                                or ((false) 
+                                  and (true)))))) 
+                        or ((true) 
+                          or (((ref_1.id is NULL) 
+                              or (subq_0.c1 is NULL)) 
+                            or (false)))) 
+                      and (EXISTS (
+                        select  
+                            ref_1.eid as c0, 
+                            ref_1.eid as c1, 
+                            ref_5.title as c2, 
+                            ref_0.eid as c3, 
+                            ref_0.id as c4, 
+                            ref_5.user_id as c5, 
+                            ref_0.virtual_col as c6, 
+                            ref_0.eid as c7, 
+                            (select content from test_bd.posts limit 1 offset 5)
+                               as c8, 
+                            ref_1.id as c9, 
+                            ref_0.id as c10, 
+                            ref_1.virtual_col as c11, 
+                            ref_0.eid as c12
+                          from 
+                            test_bd.posts as ref_5
+                          where (ref_1.id is not NULL) 
+                            or ((ref_0.virtual_col is NULL) 
+                              or (((EXISTS (
+                                    select  
+                                        ref_0.virtual_col as c0, 
+                                        subq_1.c8 as c1, 
+                                        (select eid from test_bd.eids limit 1 offset 79)
+                                           as c2, 
+                                        ref_0.id as c3, 
+                                        ref_0.virtual_col as c4
+                                      from 
+                                        test_bd.user_profiles as ref_6,
+                                        lateral (select  
+                                              ref_0.eid as c0, 
+                                              25 as c1, 
+                                              ref_0.eid as c2, 
+                                              ref_0.id as c3, 
+                                              ref_7.eid as c4, 
+                                              ref_6.birthdate as c5, 
+                                              ref_0.virtual_col as c6, 
+                                              24 as c7, 
+                                              ref_1.eid as c8, 
+                                              ref_6.birthdate as c9
+                                            from 
+                                              test_bd.employee as ref_7
+                                            where (ref_1.virtual_col is NULL) 
+                                              or (true)
+                                            limit 46) as subq_1
+                                      where (false) 
+                                        or (true)
+                                      limit 40)) 
+                                  and (false)) 
+                                or (true)))))) 
+                    or (subq_0.c0 is not NULL))) 
+                and (subq_0.c1 is not NULL))) 
+            or ((ref_0.virtual_col is not NULL) 
+              or (EXISTS (
+                select  
+                    ref_8.id as c0, 
+                    76 as c1
+                  from 
+                    test_bd.comments as ref_8
+                  where (((true) 
+                        or (subq_0.c0 is not NULL)) 
+                      and ((ref_1.id is not NULL) 
+                        or ((false) 
+                          or (true)))) 
+                    and (((true) 
+                        and (true)) 
+                      and (ref_0.eid is not NULL))
+                  limit 175)))
+          limit 127)
+      limit 138) as subq_2
+where subq_2.c3 is not NULL;
+SHOW profiles;

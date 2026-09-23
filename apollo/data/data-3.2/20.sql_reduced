@@ -1,0 +1,23 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  test_bd.user_profiles as ref_0
+where EXISTS (
+  select  
+      1
+    from 
+      test_bd.user_post_comments as ref_1
+    where EXISTS (
+      select  
+          1
+        from 
+          test_bd.comments as ref_2
+        where ref_2.id is not NULL)
+    );
+SHOW profiles;
+/* Elapsed old:10.922535 new:11.418721 ratio:1.045428 */
+
+
+--reduced actual_latest = 1.990205

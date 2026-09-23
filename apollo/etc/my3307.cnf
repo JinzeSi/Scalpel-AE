@@ -1,0 +1,9 @@
+[mysqld]
+user=sjz
+port=3307
+basedir=/home/sjz/apollo/opt/old
+datadir=/home/sjz/apollo/opt/old/data/mysql3307
+socket=/tmp/mysql3307.sock
+log_error=/tmp/mysql3307.log
+mysqlx_port=33007
+mysqlx_socket=/tmp/mysqlx3307.sock

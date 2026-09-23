@@ -1,0 +1,70 @@
+(1.161498, 0.082938, 0.096332, 1.299555, 0.074266, 0.096513)
+[!] Found interesting case in mysql
+QUERY
+====START====
+SET profiling=1;
+EXPLAIN ANALYZE
+
+select  
+  coalesce(ref_0.name,
+    ref_0.name) as c0, 
+  ref_0.id as c1, 
+  coalesce(coalesce(ref_0.user_id,
+      ref_0.id),
+    ref_0.id) as c2, 
+  89 as c3
+from 
+  test_bd.locations as ref_0
+where (((EXISTS (
+        select  
+            ref_0.user_id as c0, 
+            ref_0.coordinates as c1, 
+            ref_2.birthdate as c2, 
+            ref_1.title as c3, 
+            ref_2.profile_picture as c4, 
+            ref_0.name as c5, 
+            ref_1.content as c6, 
+            ref_1.id as c7, 
+            91 as c8, 
+            ref_1.id as c9, 
+            3 as c10
+          from 
+            test_bd.posts as ref_1
+              right join test_bd.user_profiles as ref_2
+              on (true)
+          where false)) 
+      or (ref_0.coordinates is not NULL)) 
+    and (EXISTS (
+      select  
+          ref_0.id as c0, 
+          ref_0.name as c1, 
+          ref_3.created_at as c2, 
+          ref_0.name as c3
+        from 
+          test_bd.posts as ref_3
+        where ((ref_0.coordinates is not NULL) 
+            and (ref_3.id is not NULL)) 
+          or (((EXISTS (
+                select  
+                    ref_4.user_id as c0, 
+                    ref_4.coordinates as c1, 
+                    ref_4.user_id as c2, 
+                    ref_3.created_at as c3, 
+                    ref_3.created_at as c4, 
+                    ref_0.user_id as c5, 
+                    ref_4.name as c6, 
+                    (select created_at from test_bd.products limit 1 offset 6)
+                       as c7, 
+                    ref_4.name as c8
+                  from 
+                    test_bd.locations as ref_4
+                  where ref_3.content is NULL)) 
+              and (ref_0.user_id is not NULL)) 
+            and (true))
+        limit 103))) 
+  and (ref_0.coordinates is not NULL)
+limit 83;
+SHOW profiles;
+====END====
+0.08293775 0.096332
+[!] 1.161498 times longer execution time

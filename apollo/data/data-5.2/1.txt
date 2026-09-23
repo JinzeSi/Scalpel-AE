@@ -1,0 +1,89 @@
+(1.261510, 0.024364, 0.030736, 1.685135, 0.017868, 0.030110)
+[!] Found interesting case in mysql
+QUERY
+====START====
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  subq_1.c8 as c0, 
+  (select comment from test_bd.user_post_comments limit 1 offset 4)
+     as c1, 
+  subq_0.c0 as c2, 
+  subq_0.c0 as c3, 
+  ref_7.email as c4, 
+  ref_8.comment as c5, 
+  ref_7.id as c6, 
+  subq_0.c0 as c7, 
+  subq_1.c12 as c8
+from 
+  (select  
+          29 as c0, 
+          ref_1.username as c1
+        from 
+          test_bd.user_profiles as ref_0
+            right join test_bd.users as ref_1
+              inner join test_bd.user_post_comments as ref_2
+                right join test_bd.user_post_comments as ref_3
+                on (true)
+              on (5 is not NULL)
+            on ((select id from test_bd.eids limit 1 offset 6)
+                   is NULL)
+        where (true) 
+          or (EXISTS (
+            select distinct 
+                ref_3.comment as c0, 
+                ref_2.title as c1, 
+                ref_2.comment as c2, 
+                ref_1.username as c3, 
+                ref_2.comment as c4, 
+                ref_0.birthdate as c5, 
+                ref_2.title as c6, 
+                41 as c7, 
+                ref_0.user_id as c8, 
+                ref_0.birthdate as c9
+              from 
+                test_bd.products as ref_4
+              where EXISTS (
+                select  
+                    ref_0.bio as c0, 
+                    ref_1.created_at as c1, 
+                    ref_1.username as c2, 
+                    ref_3.title as c3, 
+                    ref_2.comment as c4
+                  from 
+                    test_bd.employee as ref_5
+                  where false
+                  limit 178)))) as subq_0
+    left join (select  
+              ref_6.coordinates as c0, 
+              ref_6.user_id as c1, 
+              ref_6.coordinates as c2, 
+              ref_6.id as c3, 
+              ref_6.coordinates as c4, 
+              ref_6.id as c5, 
+              ref_6.user_id as c6, 
+              ref_6.coordinates as c7, 
+              ref_6.coordinates as c8, 
+              ref_6.coordinates as c9, 
+              ref_6.name as c10, 
+              ref_6.name as c11, 
+              ref_6.name as c12, 
+              ref_6.id as c13
+            from 
+              test_bd.locations as ref_6
+            where ref_6.id is not NULL) as subq_1
+        right join test_bd.users as ref_7
+        on ((true) 
+            and ((ref_7.email is NULL) 
+              or (false)))
+      left join test_bd.user_post_comments as ref_8
+      on (ref_8.title is not NULL)
+    on (subq_0.c0 = ref_7.id )
+where (subq_1.c1 is NULL) 
+  or ((ref_7.created_at is NULL) 
+    or (ref_8.comment is NULL))
+limit 83;
+SHOW profiles;
+====END====
+0.02436425 0.03073575
+[!] 1.261510 times longer execution time

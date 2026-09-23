@@ -1,0 +1,66 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+        ref_7.id as c0
+      from 
+        test_bd.users as ref_0
+          inner join test_bd.user_post_comments as ref_1
+                left join test_bd.user_profiles as ref_2
+                on ((false) 
+                    or (EXISTS (
+                      select  
+                          1
+                        from 
+                          test_bd.user_profiles as ref_3
+                        where (false) 
+                          and ((true) 
+                            and ((EXISTS (
+                                select  
+                                    1
+                                  from 
+                                    test_bd.posts as ref_4
+                                  where true
+                                  )) 
+                              or (EXISTS (
+                                select  
+                                    1
+                                  from 
+                                    test_bd.comments as ref_5
+                                  where ((ref_1.comment is not NULL) 
+                                      and ((true) 
+                                        or ((true) 
+                                          and (false)))) 
+                                    and (false)
+                                  )))))))
+              right join test_bd.employee as ref_6
+              on (ref_2.birthdate = ref_6.hire_date )
+            left join test_bd.users as ref_7
+            on (ref_6.department_id = ref_7.id )
+          on ((false) 
+              or (true))
+      where ref_1.username is not NULL
+      ) as subq_0
+where (subq_0.c0 is not NULL) 
+  or ((false) 
+    and ((subq_0.c0 is not NULL) 
+      or (((subq_0.c0 is not NULL) 
+          and (((false) 
+              or (subq_0.c0 is not NULL)) 
+            or (true))) 
+        and ((EXISTS (
+            select  
+                1
+              from 
+                test_bd.eids as ref_8
+              where true
+              )) 
+          and ((subq_0.c0 is NULL) 
+            and (subq_0.c0 is not NULL))))));
+SHOW profiles;
+/* Elapsed old:0.011521 new:0.023023 ratio:1.998394 */
+
+
+--reduced actual_latest = 0.000518

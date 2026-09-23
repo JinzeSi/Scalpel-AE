@@ -1,0 +1,30 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  test_bd.products as ref_0
+where EXISTS (
+  select  
+      1
+    from 
+      (select  
+            ref_1.id as c0, 
+            ref_1.email as c1, 
+            ref_0.created_at as c7, 
+            ref_1.id as c11, 
+            ref_1.id as c12, 
+            ref_0.tags as c13
+          from 
+            test_bd.users as ref_1
+          where ref_1.id is not NULL
+          ) as subq_0
+    where ((null)) 
+      and ((null))
+    )
+;
+SHOW profiles;
+/* Elapsed old:0.059977 new:0.062788 ratio:1.046868 */
+
+
+--reduced actual_latest = 0.000435

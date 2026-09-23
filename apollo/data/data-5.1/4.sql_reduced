@@ -1,0 +1,508 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  subq_0.c0 as c4, 
+  subq_0.c0 as c5, 
+  1
+from 
+  test_bd.posts as ref_0,
+  lateral (select  
+        ref_2.years as c0
+      from 
+        test_bd.user_profiles as ref_1
+          inner join test_bd.employee as ref_2
+          on (((null)) 
+              or (((null)) 
+                or (((null)) 
+                  and ((null)))))
+      where (((null)) 
+          and (EXISTS (
+            select  
+                1
+              from 
+                test_bd.products as ref_4
+              where EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.products as ref_5
+                  where (null))
+              ))) 
+        and ((null))
+      ) as subq_0
+where EXISTS (
+  select  
+      subq_13.c0 as c0
+    from 
+      test_bd.employee as ref_6
+          left join test_bd.user_post_comments as ref_7
+              right join test_bd.user_post_comments as ref_8
+              on (((null)) 
+                  and ((null)))
+            right join test_bd.posts as ref_9
+            on ((null))
+          on ((((EXISTS (
+                    select  
+                        subq_0.c0 as c0, 
+                        1
+                      from 
+                        test_bd.eids as ref_10
+                      where ((((null)) 
+                            or (((null)) 
+                              and (EXISTS (
+                                select  
+                                    1
+                                  from 
+                                    test_bd.eids as ref_11
+                                  where (null))))) 
+                          and ((null))) 
+                        and (((null)) 
+                          or ((null))))) 
+                  or (EXISTS (
+                    select  
+                        1
+                      from 
+                        test_bd.locations as ref_12
+                      where (null)))) 
+                and ((null))) 
+              and (EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.user_profiles as ref_13
+                  where (EXISTS (
+                      select  
+                          subq_0.c0 as c5, 
+                          1
+                        from 
+                          test_bd.user_profiles as ref_14
+                        where ((EXISTS (
+                              select  
+                                  1
+                                from 
+                                  test_bd.products as ref_15
+                                where (null))) 
+                            or ((null))) 
+                          or (((null)) 
+                            or ((null)))
+                        )) 
+                    or (((((null)) 
+                          and (EXISTS (
+                            select  
+                                1
+                              from 
+                                test_bd.products as ref_16
+                              where (((null)) 
+                                  and ((null))) 
+                                and (((null)) 
+                                  and ((EXISTS (
+                                      select  
+                                          1
+                                        from 
+                                          test_bd.user_profiles as ref_17
+                                        where ((null)) 
+                                          and ((null))
+                                        )) 
+                                    and (((null)) 
+                                      and ((null)))))
+                              ))) 
+                        and ((null))) 
+                      or (((null)) 
+                        and (EXISTS (
+                          select  
+                              1
+                            from 
+                              test_bd.user_post_comments as ref_18
+                            where (EXISTS (
+                                select  
+                                    ref_8.title as c1, 
+                                    1
+                                  from 
+                                    test_bd.user_post_comments as ref_19
+                                  where EXISTS (
+                                    select  
+                                        1
+                                      from 
+                                        test_bd.products as ref_20
+                                      where (null)
+                                      )
+                                  )) 
+                              or ((null))
+                            )))))))
+        left join (select  
+              ref_0.title as c0, 
+              subq_0.c0 as c1
+            from 
+              test_bd.users as ref_21,
+              lateral (select  
+                    subq_0.c0 as c3
+                  from 
+                    test_bd.comments as ref_22
+                  where ((((((EXISTS (
+                                select  
+                                    1
+                                  from 
+                                    test_bd.employee as ref_23,
+                                    lateral (select  
+                                          ref_22.created_at as c1, 
+                                          ref_0.created_at as c2
+                                        from 
+                                          test_bd.posts as ref_24,
+                                          lateral (select  
+                                                ref_25.username as c0
+                                              from 
+                                                test_bd.users as ref_25
+                                              where (null)
+                                              ) as subq_1,
+                                          lateral (select  
+                                                subq_0.c0 as c0, 
+                                                ref_24.updated_at as c1, 
+                                                ref_24.updated_at as c2, 
+                                                1
+                                              from 
+                                                test_bd.user_profiles as ref_26
+                                              where (null)) as subq_2
+                                        where (((null)) 
+                                            and (EXISTS (
+                                              select  
+                                                  1
+                                                from 
+                                                  test_bd.employee as ref_27
+                                                where ((null)) 
+                                                  or ((null))))) 
+                                          or (((EXISTS (
+                                                select  
+                                                    subq_0.c0 as c3, 
+                                                    1
+                                                  from 
+                                                    test_bd.comments as ref_28
+                                                  where ((null)) 
+                                                    and (EXISTS (
+                                                      select  
+                                                          subq_0.c0 as c4
+                                                        from 
+                                                          test_bd.user_post_comments as ref_29,
+                                                          lateral (select  
+                                                                ref_29.title as c0
+                                                              from 
+                                                                test_bd.employee as ref_30
+                                                              where ((null)) 
+                                                                or ((null))
+                                                              ) as subq_3,
+                                                          lateral (select  
+                                                                subq_3.c0 as c1
+                                                              from 
+                                                                test_bd.eids as ref_31
+                                                              where (null)) as subq_4
+                                                        where ((null)) 
+                                                          and (EXISTS (
+                                                            select  
+                                                                subq_0.c0 as c3
+                                                              from 
+                                                                test_bd.eids as ref_32
+                                                              where (null)
+                                                              )))))) 
+                                              or ((EXISTS (
+                                                  select  
+                                                      1
+                                                    from 
+                                                      test_bd.user_post_comments as ref_33,
+                                                      lateral (select  
+                                                            subq_0.c0 as c3, 
+                                                            ref_0.created_at as c7, 
+                                                            subq_1.c0 as c8
+                                                          from 
+                                                            test_bd.users as ref_34
+                                                          where (null)
+                                                          ) as subq_5
+                                                    where (null))) 
+                                                and (EXISTS (
+                                                  select  
+                                                      1
+                                                    from 
+                                                      test_bd.comments as ref_35,
+                                                      lateral (select  
+                                                            subq_0.c0 as c3, 
+                                                            subq_2.c1 as c6, 
+                                                            1
+                                                          from 
+                                                            test_bd.user_profiles as ref_36
+                                                          where (null)) as subq_6
+                                                    where (((null)) 
+                                                        or ((null))) 
+                                                      or ((null)))))) 
+                                            and ((null)))
+                                        ) as subq_7,
+                                    lateral (select  
+                                          ref_0.title as c1, 
+                                          subq_0.c0 as c4, 
+                                          ref_21.id as c8
+                                        from 
+                                          test_bd.eids as ref_37,
+                                          lateral (select  
+                                                ref_22.post_id as c2, 
+                                                subq_0.c0 as c3, 
+                                                54 as c5
+                                              from 
+                                                test_bd.user_profiles as ref_38,
+                                                lateral (select  
+                                                      ref_21.created_at as c0, 
+                                                      1
+                                                    from 
+                                                      test_bd.locations as ref_39
+                                                    where ((null)) 
+                                                      and ((null))
+                                                    ) as subq_8
+                                              where subq_8.c0 is not NULL) as subq_9
+                                        where (null)
+                                        ) as subq_10,
+                                    lateral (select  
+                                          1
+                                        from 
+                                          test_bd.locations as ref_40
+                                        where (null)) as subq_11
+                                  where (null)
+                                  )) 
+                              or ((null))) 
+                            and ((null))) 
+                          or ((null))) 
+                        or ((null))) 
+                      or ((null))) 
+                    or ((null))
+                  ) as subq_12
+            where (null)) as subq_13
+        on ((null)),
+      lateral (select  
+            ((null)) as c0,
+            ref_8.title as c1, 
+            ref_41.comment as c2, 
+            ref_8.title as c3, 
+            subq_0.c0 as c5, 
+            ref_9.created_at as c6, 
+            1
+          from 
+            test_bd.user_post_comments as ref_41,
+            lateral (select  
+                  subq_13.c0 as c0, 
+                  subq_13.c1 as c1, 
+                  1
+                from 
+                  test_bd.users as ref_42,
+                  lateral (select  
+                        subq_13.c0 as c0, 
+                        subq_0.c0 as c4, 
+                        ref_8.comment as c8, 
+                        ref_43.user_id as c10, 
+                        1
+                      from 
+                        test_bd.user_profiles as ref_43
+                      where (null)) as subq_14
+                where (EXISTS (
+                    select  
+                        ref_7.username as c1, 
+                        1
+                      from 
+                        test_bd.user_profiles as ref_44,
+                        lateral (select  
+                              ref_0.updated_at as c0, 
+                              ref_7.username as c1, 
+                              ref_44.user_id as c2
+                            from 
+                              test_bd.comments as ref_45
+                            where ((EXISTS (
+                                  select  
+                                      1
+                                    from 
+                                      test_bd.user_post_comments as ref_46,
+                                      lateral (select  
+                                            ref_7.username as c1, 
+                                            1
+                                          from 
+                                            test_bd.comments as ref_47
+                                          where (null)
+                                          ) as subq_15
+                                    where EXISTS (
+                                      select  
+                                          1
+                                        from 
+                                          test_bd.user_profiles as ref_48
+                                        where ((((null)) 
+                                              and ((null))) 
+                                            or ((null))) 
+                                          and ((null))
+                                        ))) 
+                                or ((null))) 
+                              or ((null))
+                            ) as subq_16,
+                        lateral (select  
+                              subq_13.c1 as c1, 
+                              ref_6.years as c2
+                            from 
+                              test_bd.employee as ref_49
+                            where EXISTS (
+                              select  
+                                  1
+                                from 
+                                  test_bd.user_profiles as ref_50
+                                where (EXISTS (
+                                    select  
+                                        1
+                                      from 
+                                        test_bd.products as ref_51
+                                      where ((null)) 
+                                        and ((null))
+                                      )) 
+                                  or (((null)) 
+                                    and (((EXISTS (
+                                          select  
+                                              subq_0.c0 as c4, 
+                                              1
+                                            from 
+                                              test_bd.user_post_comments as ref_52,
+                                              lateral (select  
+                                                    ref_49.years as c2, 
+                                                    1
+                                                  from 
+                                                    test_bd.eids as ref_53,
+                                                    lateral (select  
+                                                          1
+                                                        from 
+                                                          test_bd.user_post_comments as ref_54
+                                                        where (EXISTS (
+                                                            select  
+                                                                1
+                                                              from 
+                                                                test_bd.comments as ref_55
+                                                              where (null)
+                                                              )) 
+                                                          and ((null))) as subq_17
+                                                  where (null)
+                                                  ) as subq_18
+                                            where ((null))
+                                                 is NULL)) 
+                                        and (((null)) 
+                                          and (((null)) 
+                                            or (((null)) 
+                                              or (((null)) 
+                                                or (((null)) 
+                                                  or ((null)))))))) 
+                                      or (((((null)) 
+                                            and ((EXISTS (
+                                                select  
+                                                    subq_0.c0 as c0
+                                                  from 
+                                                    test_bd.comments as ref_56
+                                                  where (null)
+                                                  )) 
+                                              and ((null)))) 
+                                          and ((null))) 
+                                        or ((null)))))
+                                )
+                            ) as subq_19
+                      where (null)
+                      )) 
+                  and ((((null)) 
+                      and ((null))) 
+                    or ((null)))
+                ) as subq_20
+          where ((((null))
+                   is NULL) 
+              and ((((null)) 
+                  or ((null))) 
+                or ((((null)) 
+                    and ((null))) 
+                  or ((((null)) 
+                      or (EXISTS (
+                        select  
+                            ref_0.title as c1, 
+                            1
+                          from 
+                            test_bd.posts as ref_59
+                          where ((null)) 
+                            or ((null))
+                          ))) 
+                    or ((null)))))) 
+            and (((null)) 
+              or ((null)))
+          ) as subq_21
+    where (((null)) 
+        or (((((((null)) 
+                  and ((null))) 
+                or (EXISTS (
+                  select  
+                      1
+                    from 
+                      test_bd.locations as ref_60
+                    where (null)))) 
+              and ((null))) 
+            or (EXISTS (
+              select  
+                  1
+                from 
+                  test_bd.user_profiles as ref_61
+                where (((((null)) 
+                        and (((null)) 
+                          or ((null)))) 
+                      and (((((null)) 
+                            and ((null))) 
+                          or ((null))) 
+                        or ((null)))) 
+                    or ((null))) 
+                  or ((((null)) 
+                      and (EXISTS (
+                        select  
+                            1
+                          from 
+                            test_bd.comments as ref_62,
+                            lateral (select  
+                                  1
+                                from 
+                                  test_bd.users as ref_63
+                                where (null)
+                                ) as subq_22
+                          where (EXISTS (
+                              select  
+                                  1
+                                from 
+                                  test_bd.user_post_comments as ref_64
+                                where ((null)) 
+                                  and ((null)))) 
+                            or ((null))
+                          ))) 
+                    or ((null)))
+                ))) 
+          and ((((((null)) 
+                  and ((null))) 
+                and (((null)) 
+                  or (((((null)) 
+                        or ((((null)) 
+                            or (((null)) 
+                              or (((((null)) 
+                                    and (((null)) 
+                                      and ((null)))) 
+                                  or (((null)) 
+                                    and ((null)))) 
+                                or ((null))))) 
+                          and (((null)) 
+                            or ((((null)) 
+                                or ((null))) 
+                              and ((null)))))) 
+                      or ((null))) 
+                    and ((null))))) 
+              or ((null))) 
+            and (EXISTS (
+              select  
+                  1
+                from 
+                  test_bd.user_profiles as ref_65
+                where ((null))
+                     is NULL
+                ))))) 
+      and ((null))
+    )
+;
+SHOW profiles;
+/* Elapsed old:0.028530 new:0.030188 ratio:1.058106 */
+
+
+--reduced actual_latest = 0.003453

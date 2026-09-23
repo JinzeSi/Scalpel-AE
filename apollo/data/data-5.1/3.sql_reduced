@@ -1,0 +1,62 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+        ref_0.hire_date as c0, 
+        ref_0.hire_date as c2, 
+        ref_0.years as c3, 
+        case when ((null)) 
+            or ((null)) then ref_0.age else ref_0.age end as c4,
+        1
+      from 
+        test_bd.employee as ref_0
+      where EXISTS (
+        select  
+            1
+          from 
+            test_bd.user_profiles as ref_2
+          where (((null)) 
+              and ((null))) 
+            or ((((null)) 
+                and (EXISTS (
+                  select  
+                      1
+                    from 
+                      test_bd.products as ref_4
+                    where ((null)) 
+                      and (((null)) 
+                        and ((EXISTS (
+                            select  
+                                1
+                              from 
+                                test_bd.comments as ref_5
+                              where (((null)) 
+                                  or ((null))) 
+                                or (((null)) 
+                                  or ((null)))
+                              )) 
+                          or (EXISTS (
+                            select  
+                                1
+                              from 
+                                test_bd.users as ref_6
+                              where (((null)) 
+                                  or (((((null)) 
+                                        or ((null))) 
+                                      or ((null))) 
+                                    or (((null)) 
+                                      and ((null))))) 
+                                and ((null))
+                              ))))
+                    ))) 
+              and ((null)))
+          )) as subq_0
+where subq_0.c2 is NULL
+;
+SHOW profiles;
+/* Elapsed old:0.016798 new:0.040097 ratio:2.387016 */
+
+
+--reduced actual_latest = 0.000427

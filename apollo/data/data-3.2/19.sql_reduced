@@ -1,0 +1,309 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  test_bd.employee as ref_0,
+  lateral (select  
+        ref_1.id as c0, 
+        ref_4.created_at as c1, 
+        ref_2.created_at as c2, 
+        case when ref_0.age is NULL then ref_2.post_id else ref_2.post_id end as c3,
+        ref_2.user_id as c4, 
+        ref_2.comment as c5, 
+        ref_1.price as c6
+      from 
+        test_bd.products as ref_1
+            right join test_bd.comments as ref_2
+            on (EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.locations as ref_3
+                  where ref_1.created_at is not NULL
+                  ))
+          left join test_bd.comments as ref_4
+          on ((ref_0.department_id is not NULL) 
+              and (EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.eids as ref_5
+                  where (ref_1.tags is not NULL) 
+                    or (ref_1.category is NULL)
+                  )))
+      where ref_0.email is not NULL
+      ) as subq_0
+where ((((EXISTS (
+          select  
+              1
+            from 
+              test_bd.locations as ref_6
+            where (EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.user_post_comments as ref_7
+                  where ref_0.years is not NULL)) 
+              or ((EXISTS (
+                  select  
+                      1
+                    from 
+                      test_bd.user_post_comments as ref_8
+                    where 78 is not NULL)) 
+                and ((((subq_0.c1 is not NULL) 
+                      or (false)) 
+                    or (EXISTS (
+                      select  
+                          10, 
+                          15
+                        from 
+                          test_bd.comments as ref_9
+                        where (EXISTS (
+                            select  
+                                1
+                              from 
+                                test_bd.user_post_comments as ref_10
+                              where true
+                              )) 
+                          or (true)))) 
+                  or (true)))
+            )) 
+        and (((56 is not NULL) 
+            or (subq_0.c5 is not NULL)) 
+          and (EXISTS (
+            select  
+                1
+              from 
+                test_bd.products as ref_11
+              where ((EXISTS (
+                    select  
+                        1
+                      from 
+                        test_bd.user_profiles as ref_12
+                      where true
+                      )) 
+                  and (true)) 
+                or (EXISTS (
+                  select  
+                      1, 
+                      1
+                    from 
+                      test_bd.employee as ref_13
+                    where subq_0.c5 is not NULL))
+              )))) 
+      and (false)) 
+    or ((true) 
+      or (((false) 
+          or (((false) 
+              and (ref_0.email is not NULL)) 
+            or (subq_0.c4 is NULL))) 
+        or ((ref_0.email is NULL) 
+          or ((false) 
+            or (((EXISTS (
+                  select  
+                      1
+                    from 
+                      test_bd.comments as ref_14
+                    where false
+                    )) 
+                and ((false) 
+                  and (((ref_0.email is not NULL) 
+                      and ((((false) 
+                            or (false)) 
+                          or (true)) 
+                        or (EXISTS (
+                          select  
+                              1
+                            from 
+                              test_bd.comments as ref_15,
+                              lateral (select  
+                                    ref_15.id as c1, 
+                                    ref_16.title as c2
+                                  from 
+                                    test_bd.user_post_comments as ref_16
+                                  where false
+                                  ) as subq_1,
+                              lateral (select  
+                                    ref_15.comment as c3, 
+                                    ref_17.username as c4, 
+                                    1
+                                  from 
+                                    test_bd.user_post_comments as ref_17
+                                  where true) as subq_2
+                            where (true) 
+                              and ((((false) 
+                                    and (EXISTS (
+                                      select distinct 
+                                          1
+                                        from 
+                                          test_bd.employee as ref_18
+                                        where true))) 
+                                  and (true)) 
+                                or (((ref_0.id is NULL) 
+                                    or (EXISTS (
+                                      select  
+                                          1
+                                        from 
+                                          test_bd.users as ref_19
+                                        where false
+                                        ))) 
+                                  and ((true) 
+                                    or (subq_1.c2 is NULL))))
+                            )))) 
+                    or (true)))) 
+              or ((((true) 
+                    and (false)) 
+                  or (EXISTS (
+                    select  
+                        1, 
+                        1
+                      from 
+                        test_bd.user_profiles as ref_20
+                      where (true) 
+                        or ((EXISTS (
+                            select  
+                                subq_0.c2 as c3, 
+                                1
+                              from 
+                                test_bd.user_post_comments as ref_21,
+                                lateral (select  
+                                      subq_0.c3 as c2, 
+                                      subq_0.c2 as c3, 
+                                      (select bio from test_bd.user_profiles limit 1 offset 2) as c5
+                                    from 
+                                      test_bd.users as ref_22
+                                    where true
+                                    ) as subq_3
+                              where (((EXISTS (
+                                      select  
+                                          1
+                                        from 
+                                          test_bd.posts as ref_23
+                                        where subq_3.c3 is NULL
+                                        )) 
+                                    or (false)) 
+                                  and ((false) 
+                                    or (true))) 
+                                and (false))) 
+                          or (false))
+                      ))) 
+                and (((true) 
+                    and (false)) 
+                  or (false))))))))) 
+  or (((EXISTS (
+        select  
+            1
+          from 
+            test_bd.user_post_comments as ref_24
+              inner join test_bd.locations as ref_25
+              on (true)
+          where (true) 
+            or ((EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.posts as ref_26
+                  where (EXISTS (
+                      select  
+                          1
+                        from 
+                          test_bd.eids as ref_27,
+                          lateral (select  
+                                1
+                              from 
+                                test_bd.locations as ref_28,
+                                lateral (select  
+                                      subq_0.c3 as c2, 
+                                      ref_24.comment as c9, 
+                                      ref_25.id as c11, 
+                                      ref_25.coordinates as c21, 
+                                      1
+                                    from 
+                                      test_bd.employee as ref_29
+                                    where 46 is NULL
+                                    ) as subq_4
+                              where (((false) 
+                                    and ((true) 
+                                      and (ref_24.title is NULL))) 
+                                  and (false)) 
+                                or (((false) 
+                                    and (ref_25.id is NULL)) 
+                                  and ((false) 
+                                    and (((ref_24.comment is not NULL) 
+                                        or (((EXISTS (
+                                              select  
+                                                  1
+                                                from 
+                                                  test_bd.user_profiles as ref_30
+                                                where false)) 
+                                            and ((((((true) 
+                                                      and (false)) 
+                                                    or (ref_24.username is NULL)) 
+                                                  or (true)) 
+                                                or ((false) 
+                                                  and (((true) 
+                                                      or (false)) 
+                                                    or (((54 is not NULL) 
+                                                        or ((true) 
+                                                          and (false))) 
+                                                      and (ref_26.updated_at is NULL))))) 
+                                              and (ref_25.user_id is NULL))) 
+                                          or (((false) 
+                                              or (true)) 
+                                            and (true)))) 
+                                      or (true))))
+                              ) as subq_5
+                        where (false) 
+                          and (false)
+                        )) 
+                    or ((ref_24.username is NULL) 
+                      and (((ref_24.title is not NULL) 
+                          and (ref_25.id is NULL)) 
+                        or (87 is not NULL)))
+                  )) 
+              and (((EXISTS (
+                    select  
+                        1
+                      from 
+                        test_bd.posts as ref_31
+                      where EXISTS (
+                        select  
+                            1
+                          from 
+                            test_bd.locations as ref_32,
+                            lateral (select  
+                                  ref_32.id as c3, 
+                                  1
+                                from 
+                                  test_bd.eids as ref_33
+                                where true) as subq_6
+                          where ((select comment from test_bd.comments limit 1 offset 24)
+                                 is NULL) 
+                            and (EXISTS (
+                              select  
+                                  1
+                                from 
+                                  test_bd.posts as ref_34
+                                where ref_34.content is not NULL
+                                ))
+                          )
+                      )) 
+                  or ((EXISTS (
+                      select  
+                          1
+                        from 
+                          test_bd.user_post_comments as ref_35
+                        where true)) 
+                    and (false))) 
+                or ((ref_0.salary is NULL) 
+                  and (ref_25.id is not NULL))))
+          )) 
+      and (7 is not NULL)) 
+    or (true))
+;
+SHOW profiles;
+/* Elapsed old:0.131524 new:0.162434 ratio:1.235014 */
+
+
+--reduced actual_latest = 2.041380

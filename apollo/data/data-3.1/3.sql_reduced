@@ -1,0 +1,29 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+        subq_0.c0 as c1, 
+        1
+      from 
+        (select  
+              ref_0.user_id as c0
+            from 
+              test_bd.user_profiles as ref_0
+            where ref_0.user_id is not NULL
+            ) as subq_0
+      where subq_0.c0 is not NULL) as subq_1,
+  lateral (select  
+        1
+      from 
+        test_bd.posts as ref_1
+          left join test_bd.comments as ref_2
+          on ((null))
+      where ref_1.created_at is NULL) as subq_2
+where true;
+SHOW profiles;
+/* Elapsed old:0.021920 new:0.034648 ratio:1.580657 */
+
+
+--reduced actual_latest = 0.004762

@@ -1,0 +1,317 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  coalesce(subq_6.c2,
+    subq_6.c2) as c0
+from 
+  (select  
+        ref_0.salary as c0, 
+        ref_0.hire_date as c1, 
+        case when (true) 
+            and (EXISTS (
+              select  
+                  subq_0.c7 as c0, 
+                  ref_0.hire_date as c1, 
+                  ref_2.created_at as c2, 
+                  subq_0.c0 as c3, 
+                  ref_2.id as c4, 
+                  (select years from test_bd.employee limit 1 offset 4)
+                     as c5, 
+                  subq_0.c2 as c6, 
+                  subq_1.c8 as c7, 
+                  subq_0.c1 as c8
+                from 
+                  test_bd.posts as ref_2,
+                  lateral (select  
+                        subq_0.c6 as c0, 
+                        subq_0.c4 as c1, 
+                        79 as c2, 
+                        ref_0.salary as c3, 
+                        ref_0.id as c4, 
+                        ref_0.id as c5, 
+                        ref_3.price as c6, 
+                        89 as c7, 
+                        ref_3.category as c8, 
+                        ref_3.price as c9, 
+                        ref_3.category as c10, 
+                        subq_0.c8 as c11, 
+                        ref_0.email as c12, 
+                        subq_0.c4 as c13, 
+                        (select comment from test_bd.comments limit 1 offset 2)
+                           as c14, 
+                        ref_2.id as c15, 
+                        ref_2.user_id as c16, 
+                        ref_0.id as c17
+                      from 
+                        test_bd.products as ref_3
+                      where ref_0.age is NULL
+                      limit 168) as subq_1
+                where ((((EXISTS (
+                          select  
+                              ref_4.eid as c0, 
+                              subq_0.c2 as c1
+                            from 
+                              test_bd.eids as ref_4
+                            where true)) 
+                        and ((EXISTS (
+                            select  
+                                ref_2.id as c0, 
+                                ref_2.updated_at as c1, 
+                                ref_5.email as c2, 
+                                subq_0.c1 as c3, 
+                                subq_1.c11 as c4, 
+                                ref_0.salary as c5, 
+                                ref_2.title as c6, 
+                                subq_1.c3 as c7, 
+                                80 as c8, 
+                                subq_1.c11 as c9, 
+                                2 as c10, 
+                                subq_0.c1 as c11, 
+                                ref_5.username as c12
+                              from 
+                                test_bd.users as ref_5
+                              where EXISTS (
+                                select  
+                                    ref_2.user_id as c0, 
+                                    subq_0.c3 as c1
+                                  from 
+                                    test_bd.employee as ref_6
+                                  where 36 is not NULL
+                                  limit 95)
+                              limit 57)) 
+                          or (ref_0.salary is NULL))) 
+                      and (((subq_0.c5 is NULL) 
+                          and ((((false) 
+                                or (false)) 
+                              or (false)) 
+                            or (true))) 
+                        and ((EXISTS (
+                            select  
+                                (select created_at from test_bd.users limit 1 offset 6)
+                                   as c0, 
+                                subq_0.c2 as c1
+                              from 
+                                test_bd.user_profiles as ref_7
+                              where true
+                              limit 166)) 
+                          or ((((select id from test_bd.locations limit 1 offset 1)
+                                   is NULL) 
+                              and ((true) 
+                                and (subq_1.c16 is not NULL))) 
+                            and ((select id from test_bd.locations limit 1 offset 6)
+                                 is not NULL))))) 
+                    and (EXISTS (
+                      select  
+                          ref_2.updated_at as c0, 
+                          ref_2.content as c1, 
+                          subq_1.c1 as c2, 
+                          subq_0.c7 as c3
+                        from 
+                          test_bd.user_post_comments as ref_8
+                        where (true) 
+                          or (false)
+                        limit 112))) 
+                  and (((((ref_0.department_id is not NULL) 
+                          or (true)) 
+                        and (ref_0.hire_date is not NULL)) 
+                      or (EXISTS (
+                        select  
+                            subq_0.c2 as c0, 
+                            (select id from test_bd.employee limit 1 offset 5)
+                               as c1, 
+                            ref_9.eid as c2, 
+                            subq_0.c2 as c3, 
+                            ref_9.id as c4
+                          from 
+                            test_bd.employee as ref_9,
+                            lateral (select  
+                                  ref_9.hire_date as c0
+                                from 
+                                  test_bd.comments as ref_10,
+                                  lateral (select  
+                                        ref_0.age as c0, 
+                                        ref_11.id as c1, 
+                                        subq_1.c9 as c2, 
+                                        ref_10.comment as c3
+                                      from 
+                                        test_bd.comments as ref_11
+                                      where ref_9.eid is not NULL) as subq_2,
+                                  lateral (select  
+                                        ref_12.user_id as c0, 
+                                        ref_12.id as c1, 
+                                        ref_12.id as c2, 
+                                        subq_1.c4 as c3
+                                      from 
+                                        test_bd.comments as ref_12
+                                      where (true) 
+                                        or (((false) 
+                                            and ((42 is NULL) 
+                                              or (true))) 
+                                          and (false))
+                                      limit 54) as subq_3
+                                where subq_2.c0 is not NULL) as subq_4
+                          where ((false) 
+                              and ((((EXISTS (
+                                      select  
+                                          ref_0.hire_date as c0, 
+                                          ref_9.department_id as c1, 
+                                          subq_4.c0 as c2
+                                        from 
+                                          test_bd.comments as ref_13
+                                        where (false) 
+                                          and (EXISTS (
+                                            select  
+                                                subq_0.c2 as c0, 
+                                                subq_1.c5 as c1, 
+                                                43 as c2, 
+                                                ref_14.username as c3, 
+                                                subq_1.c9 as c4
+                                              from 
+                                                test_bd.users as ref_14
+                                              where (((ref_13.comment is not NULL) 
+                                                    and (ref_9.years is not NULL)) 
+                                                  or (true)) 
+                                                or (subq_0.c7 is not NULL)
+                                              limit 104))
+                                        limit 101)) 
+                                    and (EXISTS (
+                                      select distinct 
+                                          ref_0.hire_date as c0, 
+                                          ref_0.id as c1
+                                        from 
+                                          test_bd.posts as ref_15
+                                        where EXISTS (
+                                          select  
+                                              ref_16.user_id as c0, 
+                                              ref_16.user_id as c1
+                                            from 
+                                              test_bd.user_profiles as ref_16
+                                            where (true) 
+                                              or (false))))) 
+                                  and (false)) 
+                                and (ref_0.email is NULL))) 
+                            or (ref_9.years is NULL)
+                          limit 99))) 
+                    and ((((false) 
+                          or ((((ref_2.created_at is not NULL) 
+                                or ((true) 
+                                  and ((EXISTS (
+                                      select  
+                                          (select title from test_bd.user_post_comments limit 1 offset 6)
+                                             as c0, 
+                                          ref_0.years as c1, 
+                                          ref_17.id as c2, 
+                                          41 as c3, 
+                                          subq_1.c17 as c4, 
+                                          ref_17.created_at as c5, 
+                                          ref_2.id as c6, 
+                                          subq_0.c7 as c7, 
+                                          ref_17.id as c8
+                                        from 
+                                          test_bd.users as ref_17
+                                        where (false) 
+                                          or (true)
+                                        limit 59)) 
+                                    or (EXISTS (
+                                      select  
+                                          44 as c0, 
+                                          subq_1.c16 as c1, 
+                                          subq_1.c4 as c2, 
+                                          subq_1.c1 as c3, 
+                                          ref_18.virtual_col as c4, 
+                                          subq_1.c11 as c5, 
+                                          subq_1.c13 as c6, 
+                                          subq_0.c3 as c7
+                                        from 
+                                          test_bd.eids as ref_18
+                                        where false
+                                        limit 73))))) 
+                              or (ref_2.created_at is NULL)) 
+                            and (ref_2.created_at is not NULL))) 
+                        or (((ref_0.age is NULL) 
+                            and ((((true) 
+                                  or (true)) 
+                                and ((ref_2.updated_at is NULL) 
+                                  or ((subq_1.c4 is NULL) 
+                                    or ((true) 
+                                      and (false))))) 
+                              or (ref_2.updated_at is NULL))) 
+                          or (true))) 
+                      or ((false) 
+                        and (EXISTS (
+                          select  
+                              (select discount from test_bd.products limit 1 offset 1)
+                                 as c0
+                            from 
+                              test_bd.eids as ref_19
+                            where (false) 
+                              or ((true) 
+                                or (ref_0.hire_date is NULL)))))))
+                limit 78)) then (select profile_picture from test_bd.user_profiles limit 1 offset 1)
+             else (select profile_picture from test_bd.user_profiles limit 1 offset 1)
+             end
+           as c2
+      from 
+        test_bd.employee as ref_0
+          inner join (select  
+                ref_1.id as c0, 
+                78 as c1, 
+                ref_1.comment as c2, 
+                ref_1.id as c3, 
+                ref_1.post_id as c4, 
+                ref_1.post_id as c5, 
+                ref_1.id as c6, 
+                ref_1.post_id as c7, 
+                ref_1.user_id as c8
+              from 
+                test_bd.comments as ref_1
+              where ref_1.created_at is not NULL
+              limit 32) as subq_0
+          on ((true) 
+              or (false))
+      where (((subq_0.c4 is not NULL) 
+            or (false)) 
+          and (EXISTS (
+            select  
+                ref_0.salary as c0, 
+                subq_0.c0 as c1, 
+                ref_20.coordinates as c2, 
+                subq_0.c6 as c3
+              from 
+                test_bd.locations as ref_20
+              where true
+              limit 118))) 
+        or ((false) 
+          and (((true) 
+              or ((false) 
+                or ((subq_0.c5 is not NULL) 
+                  or ((select title from test_bd.posts limit 1 offset 3)
+                       is not NULL)))) 
+            and ((EXISTS (
+                select  
+                    subq_0.c1 as c0, 
+                    subq_5.c3 as c1, 
+                    subq_5.c3 as c2, 
+                    subq_5.c5 as c3
+                  from 
+                    test_bd.products as ref_21,
+                    lateral (select  
+                          subq_0.c6 as c0, 
+                          subq_0.c6 as c1, 
+                          ref_21.category as c2, 
+                          ref_0.eid as c3, 
+                          ref_21.discount as c4, 
+                          ref_21.id as c5
+                        from 
+                          test_bd.employee as ref_22
+                        where true
+                        limit 115) as subq_5
+                  where (ref_21.discount is not NULL) 
+                    and (true))) 
+              or (ref_0.id is NULL))))
+      limit 65) as subq_6
+where ((subq_6.c0 is not NULL) 
+    and (true)) 
+  or ((false) 
+    and (true));
+SHOW profiles;

@@ -1,10 +1,12 @@
-# Ignore all root entries except the listed projects and this file.
+# Ignore all root entries except the listed projects and root documentation.
 /*
 !/.gitignore
+!/README.md
 !/redis/
 !/S2E/
 !/Pre-knowledge/
 !/Pre-knowledge-mysql/
 !/perfscope/
+!/apollo/
 
 # Each project's .gitignore controls its generated files.

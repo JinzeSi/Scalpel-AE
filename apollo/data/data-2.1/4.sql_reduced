@@ -1,0 +1,51 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  test_bd.employee as ref_0
+where (EXISTS (
+    select  
+        1
+      from 
+        test_bd.employee as ref_1
+      where case when ref_1.department_id is NULL then ref_1.id else ref_1.id end
+           is not NULL)) 
+  and (((((false) 
+          or (ref_0.email is NULL)) 
+        and ((EXISTS (
+            select  
+                1
+              from 
+                test_bd.eids as ref_2
+              where (((((false) 
+                        or (true)) 
+                      or (((true) 
+                          or (false)) 
+                        and (ref_0.id is NULL))) 
+                    or ((false) 
+                      and (EXISTS (
+                        select  
+                            1
+                          from 
+                            test_bd.comments as ref_3
+                          where true
+                          )))) 
+                  and (true)) 
+                or (ref_0.years is not NULL))) 
+          and (EXISTS (
+            select  
+                1
+              from 
+                test_bd.users as ref_4
+              where ref_0.email is NULL)))) 
+      and ((false) 
+        or (false))) 
+    or (((true) 
+        or (ref_0.age is not NULL)) 
+      and (ref_0.hire_date is not NULL)));
+SHOW profiles;
+/* Elapsed old:0.011508 new:0.012830 ratio:1.114785 */
+
+
+--reduced actual_latest = 0.007212

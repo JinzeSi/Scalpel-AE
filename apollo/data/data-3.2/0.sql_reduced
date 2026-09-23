@@ -1,0 +1,41 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  ref_0.created_at as c0, 
+  ref_0.tags as c1, 
+  case when ((EXISTS (
+          select  
+              1
+            from 
+              test_bd.posts as ref_1
+            )) 
+        and (false)) 
+      or ((ref_0.price is NULL) 
+        and ((((ref_0.tags is not NULL) 
+              or (ref_0.category is NULL)) 
+            or ((ref_0.category is not NULL) 
+              or (ref_0.created_at is NULL))) 
+          or (((ref_0.discount is NULL) 
+              or (false)) 
+            and ((ref_0.name is NULL) 
+              or (ref_0.discount is not NULL))))) then ref_0.category else ref_0.category end as c2,
+  case when ((ref_0.id is not NULL) 
+        or (ref_0.price is NULL)) 
+      or (ref_0.name is not NULL) then 26 else 26 end as c4,
+  case when ((false) 
+        or (false)) 
+      and (ref_0.name is not NULL) then ref_0.discount else ref_0.discount end as c7,
+  1
+from 
+  test_bd.products as ref_0
+where ((false) 
+    and ((ref_0.name is NULL) 
+      or (((select created_at from test_bd.comments limit 1 offset 2)
+             is NULL) 
+        or (ref_0.price is NULL)))) 
+  or (ref_0.id is not NULL);
+SHOW profiles;
+/* Elapsed old:0.037940 new:0.041818 ratio:1.102229 */
+
+
+--reduced actual_latest = 0.032500

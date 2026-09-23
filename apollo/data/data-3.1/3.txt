@@ -1,0 +1,33 @@
+(1.580657, 0.021920, 0.034648, 1.216247, 0.026055, 0.031689)
+[!] Found interesting case in mysql
+QUERY
+====START====
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  subq_1.c1 as c0
+from 
+  (select  
+        subq_0.c0 as c0, 
+        subq_0.c0 as c1, 
+        subq_0.c0 as c2
+      from 
+        (select  
+              ref_0.user_id as c0
+            from 
+              test_bd.user_profiles as ref_0
+            where ref_0.user_id is not NULL
+            limit 181) as subq_0
+      where subq_0.c0 is not NULL) as subq_1,
+  lateral (select  
+        ref_1.updated_at as c0
+      from 
+        test_bd.posts as ref_1
+          left join test_bd.comments as ref_2
+          on (ref_1.content = ref_2.comment )
+      where ref_1.created_at is NULL) as subq_2
+where true;
+SHOW profiles;
+====END====
+0.02192 0.034648
+[!] 1.580657 times longer execution time

@@ -1,0 +1,51 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+        ref_0.eid as c3, 
+        ref_0.eid as c4, 
+        1
+      from 
+        test_bd.eids as ref_0
+          inner join test_bd.comments as ref_1
+          on (((EXISTS (
+                  select  
+                      1
+                    from 
+                      test_bd.products as ref_2
+                    where true)) 
+                or ((((ref_1.created_at is not NULL) 
+                      and (false)) 
+                    and (ref_1.comment is not NULL)) 
+                  or (ref_0.id is NULL))) 
+              or (EXISTS (
+                select  
+                    ref_0.eid as c3, 
+                    1
+                  from 
+                    test_bd.employee as ref_3,
+                    lateral (select  
+                          ref_4.id as c3, 
+                          ref_4.coordinates as c4, 
+                          ref_4.name as c8, 
+                          ref_1.comment as c11, 
+                          1
+                        from 
+                          test_bd.locations as ref_4
+                        where ref_0.eid is not NULL
+                        ) as subq_0
+                  where ((select id from test_bd.eids limit 1 offset 4)
+                         is NULL) 
+                    and (false)
+                  )))
+      where true) as subq_1
+where (true) 
+  or (true)
+;
+SHOW profiles;
+/* Elapsed old:0.013193 new:0.014834 ratio:1.124424 */
+
+
+--reduced actual_latest = 1.995303

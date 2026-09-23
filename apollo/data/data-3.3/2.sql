@@ -1,0 +1,29 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+
+select  
+  ref_1.years as c0
+from 
+  test_bd.locations as ref_0
+    right join test_bd.employee as ref_1
+    on (ref_0.id = ref_1.age ),
+  lateral (select  
+        ref_0.coordinates as c0, 
+        ref_1.salary as c1
+      from 
+        (select  
+              ref_0.user_id as c0, 
+              91 as c1, 
+              ref_0.id as c2, 
+              ref_2.comment as c3
+            from 
+              test_bd.user_post_comments as ref_2
+            where (select eid from test_bd.eids limit 1 offset 3)
+                 is NULL
+            limit 156) as subq_0
+      where (ref_1.salary is NULL) 
+        or (subq_0.c3 is NULL)
+      limit 100) as subq_1
+where (select updated_at from test_bd.posts limit 1 offset 2)
+     is not NULL;
+SHOW profiles;

@@ -1,0 +1,25 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  test_bd.products as ref_0
+    left join test_bd.posts as ref_1
+    on ((ref_1.id is not NULL) 
+        and ((EXISTS (
+            select  
+                1
+              from 
+                test_bd.eids as ref_2
+                  right join test_bd.users as ref_3
+                  on (ref_3.id is not NULL)
+              where ref_2.id is not NULL
+              )) 
+          and (ref_0.tags is not NULL)))
+where true
+;
+SHOW profiles;
+/* Elapsed old:0.955029 new:1.544847 ratio:1.617592 */
+
+
+--reduced actual_latest = 1.990050

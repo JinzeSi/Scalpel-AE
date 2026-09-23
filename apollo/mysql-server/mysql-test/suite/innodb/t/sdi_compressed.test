@@ -1,0 +1,5 @@
+--echo #
+--echo # Bug#26938297 - IMPORT OF COMPRESSED TABLE FAILS AND CRASHES THE SERVER
+--echo #
+
+--source suite/innodb/include/sdi_compressed.inc

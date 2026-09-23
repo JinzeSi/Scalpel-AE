@@ -1,0 +1,14 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  coalesce(ref_0.category,
+    ref_0.category) as c7
+from 
+  test_bd.products as ref_0
+where (ref_0.category is not NULL) 
+  and (ref_0.price is not NULL);
+SHOW profiles;
+/* Elapsed old:0.034137 new:0.036131 ratio:1.058405 */
+
+
+--reduced actual_latest = 0.006540

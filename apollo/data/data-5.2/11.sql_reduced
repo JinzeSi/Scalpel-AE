@@ -1,0 +1,121 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  subq_1.c0 as c0, 
+  subq_1.c0 as c1, 
+  1, 
+  subq_1.c0 as c3, 
+  subq_1.c2 as c4, 
+  62 as c5, 
+  (select comment from test_bd.user_post_comments limit 1 offset 2) as c6,
+  subq_1.c0 as c7, 
+  case when 2 is NULL then case when (subq_1.c0 is NULL) 
+        or (((false) 
+            or (false)) 
+          and (EXISTS (
+            select  
+                1
+              from 
+                test_bd.user_post_comments as ref_4
+              where (EXISTS (
+                  select  
+                      1
+                    from 
+                      test_bd.posts as ref_5
+                    where (false) 
+                      and (true))) 
+                and ((false) 
+                  or (false))
+              ))) then coalesce(subq_1.c1,
+        subq_1.c1) end
+       else case when (subq_1.c0 is NULL) 
+        or (((false) 
+            or (false)) 
+          and (EXISTS (
+            select  
+                1
+              from 
+                test_bd.user_post_comments as ref_4
+              where (EXISTS (
+                  select  
+                      1
+                    from 
+                      test_bd.posts as ref_5
+                    where (false) 
+                      and (true))) 
+                and ((false) 
+                  or (false))
+              ))) then coalesce(subq_1.c1,
+        subq_1.c1) end
+       end as c8,
+  coalesce(subq_1.c0,
+    subq_1.c0) as c9, 
+  case when (subq_1.c0 is not NULL) 
+      or (subq_1.c2 is not NULL) then subq_1.c2 else subq_1.c2 end as c14,
+  1
+from 
+  (select  
+        ref_1.username as c0, 
+        subq_0.c7 as c1, 
+        subq_0.c5 as c2
+      from 
+        (select  
+                (select id from test_bd.eids limit 1 offset 1) as c2,
+                (select virtual_col from test_bd.eids limit 1 offset 6) as c4,
+                81 as c5, 
+                ref_0.id as c6, 
+                ref_0.created_at as c7, 
+                1
+              from 
+                test_bd.comments as ref_0
+              where ((ref_0.user_id is NULL) 
+                  and (true)) 
+                or ((select email from test_bd.users limit 1 offset 6)
+                     is not NULL)) as subq_0
+          left join test_bd.user_post_comments as ref_1
+          on (((false) 
+                or (((EXISTS (
+                      select  
+                          ref_1.username as c0, 
+                          1
+                        from 
+                          test_bd.comments as ref_2
+                        where ref_1.username is not NULL
+                        )) 
+                    and ((false) 
+                      and (false))) 
+                  or (true))) 
+              and (EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.user_post_comments as ref_3
+                  where false
+                  )))
+      where true
+      ) as subq_1
+where (EXISTS (
+    select  
+        1
+      from 
+        (select  
+              1
+            from 
+              test_bd.users as ref_6,
+              lateral (select  
+                    ref_6.email as c4
+                  from 
+                    test_bd.posts as ref_7
+                  where true
+                  ) as subq_2
+            where subq_1.c0 is not NULL
+            ) as subq_3
+      where subq_1.c0 is NULL
+      )) 
+  and (subq_1.c2 is not NULL)
+;
+SHOW profiles;
+/* Elapsed old:0.036786 new:0.042075 ratio:1.143778 */
+
+
+--reduced actual_latest = 0.000666

@@ -1,0 +1,198 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  coalesce((null)) as c0, 
+  ((null)) as c1,
+  subq_2.c3 as c2, 
+  subq_2.c4 as c3, 
+  subq_2.c5 as c5, 
+  subq_0.c2 as c6, 
+  subq_2.c2 as c7, 
+  case when ((null)) 
+      or ((null)) then subq_0.c1 else subq_0.c1 end as c8,
+  subq_0.c4 as c9, 
+  subq_2.c5 as c10, 
+  case when (((null)) 
+        and ((((((null)) 
+                and (((null)) 
+                  or ((null)))) 
+              or (((null)) 
+                and ((null)))) 
+            and (((null)) 
+              or ((null)))) 
+          or ((null)))) 
+      or ((null)) then subq_2.c4 else subq_2.c4 end as c11,
+  subq_0.c7 as c12, 
+  subq_2.c3 as c13, 
+  subq_2.c5 as c14, 
+  subq_2.c3 as c15, 
+  case when EXISTS (
+      select  
+          1
+        from 
+          test_bd.locations as ref_10
+        where ((((null)) 
+              or (((null)) 
+                and ((((((null)) 
+                        or ((null))) 
+                      or (((null)) 
+                        or (((EXISTS (
+                              select  
+                                  1
+                                from 
+                                  test_bd.locations as ref_11
+                                where ((null)) 
+                                  or ((null)))) 
+                            and ((null))) 
+                          or ((null))))) 
+                    and ((((null)) 
+                        and ((null))) 
+                      or (((null)) 
+                        or (EXISTS (
+                          select  
+                              1
+                            from 
+                              test_bd.posts as ref_12
+                            where ((null)) 
+                              or ((null))
+                            ))))) 
+                  and ((null))))) 
+            and ((null))) 
+          or (((((null)) 
+                or ((((null)) 
+                    or ((null))) 
+                  or ((null)))) 
+              and (((null)) 
+                or (EXISTS (
+                  select  
+                      1
+                    from 
+                      test_bd.products as ref_14
+                    where (((null)) 
+                        and ((null))) 
+                      or ((null)))))) 
+            and ((null)))) then ((null))
+       end as c16,
+  1
+from 
+  (select  
+        ref_0.id as c0, 
+        coalesce(((null))
+            ,
+          null) as c1, 
+        ref_0.created_at as c2, 
+        ref_0.comment as c3, 
+        case when ((EXISTS (
+                select  
+                    ref_0.id as c0, 
+                    1
+                  from 
+                    test_bd.users as ref_1
+                  where ((null)) 
+                    and (((null)) 
+                      or (((null)) 
+                        or (((null)) 
+                          and ((null))))))) 
+              or ((null))) 
+            or ((null)) then ref_0.created_at else ref_0.created_at end as c4,
+        ((null)) as c5,
+        ref_0.user_id as c6, 
+        ref_0.comment as c7, 
+        ref_0.comment as c8
+      from 
+        test_bd.comments as ref_0
+      where (EXISTS (
+          select  
+              1
+            from 
+              test_bd.employee as ref_2
+            where (((null)) 
+                or ((((null)) 
+                    and ((null))) 
+                  and (((((null)) 
+                        or ((null))) 
+                      or ((null))) 
+                    or (((null)) 
+                      or (((((null)) 
+                            or ((null))) 
+                          or (((((null)) 
+                                or (((null))
+                                     is not NULL)) 
+                              or ((((null)) 
+                                  or ((((null)) 
+                                      or ((null))) 
+                                    and ((null)))) 
+                                or ((null)))) 
+                            and ((((((null)) 
+                                    or ((null))) 
+                                  or (EXISTS (
+                                    select  
+                                        1
+                                      from 
+                                        test_bd.comments as ref_4
+                                      where ((null)) 
+                                        and ((null))
+                                      ))) 
+                                and (((null)) 
+                                  or ((null)))) 
+                              or (((null)) 
+                                or ((((null)) 
+                                    or ((null))) 
+                                  and ((null))))))) 
+                        and ((null))))))) 
+              or ((((null)) 
+                  or ((null))) 
+                or ((null)))
+            )) 
+        or ((null))
+      ) as subq_0,
+  lateral (select  
+        subq_1.c0 as c0, 
+        subq_1.c3 as c1, 
+        subq_1.c0 as c2, 
+        subq_1.c1 as c3, 
+        subq_0.c2 as c4, 
+        coalesce((null)) as c5
+      from 
+        (select  
+              subq_0.c8 as c0, 
+              subq_0.c1 as c1, 
+              subq_0.c0 as c3
+            from 
+              test_bd.eids as ref_7
+            where ((null)) 
+              and (((((null)) 
+                    and (((((null)) 
+                          and ((((null)) 
+                              and ((null))) 
+                            or ((null)))) 
+                        and ((((((null)) 
+                                and (((null)) 
+                                  or ((null)))) 
+                              and (((null)) 
+                                or ((null)))) 
+                            and ((null))) 
+                          or (((((null)) 
+                                or (((null)) 
+                                  or (((null)) 
+                                    and (((null)) 
+                                      or (((null))
+                                           is NULL))))) 
+                              or ((null))) 
+                            and ((null))))) 
+                      or (((null)) 
+                        and ((null))))) 
+                  or ((null))) 
+                and (((null)) 
+                  and ((null))))
+            ) as subq_1
+      where ((null)) 
+        or ((null))
+      ) as subq_2
+where subq_2.c2 is not NULL
+;
+SHOW profiles;
+/* Elapsed old:0.014064 new:0.023015 ratio:1.636412 */
+
+
+--reduced actual_latest = 0.001248

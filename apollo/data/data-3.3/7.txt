@@ -1,0 +1,39 @@
+(1.292621, 2.994922, 3.871298, 1.468639, 2.856717, 4.195486)
+[!] Found interesting case in mysql
+QUERY
+====START====
+SET profiling=1;
+EXPLAIN ANALYZE
+
+select  
+  subq_1.c3 as c0, 
+  68 as c1
+from 
+  (select  
+        ref_1.price as c0, 
+        subq_0.c1 as c1, 
+        ref_1.category as c2, 
+        subq_0.c0 as c3
+      from 
+        (select  
+                ref_0.profile_picture as c0, 
+                ref_0.profile_picture as c1, 
+                17 as c2, 
+                ref_0.birthdate as c3, 
+                ref_0.user_id as c4, 
+                ref_0.bio as c5, 
+                ref_0.profile_picture as c6
+              from 
+                test_bd.user_profiles as ref_0
+              where ref_0.bio is not NULL) as subq_0
+          right join test_bd.products as ref_1
+          on (subq_0.c2 = ref_1.id )
+      where subq_0.c2 is NULL
+      limit 95) as subq_1
+where (subq_1.c2 is not NULL) 
+  or (subq_1.c0 is not NULL)
+limit 81;
+SHOW profiles;
+====END====
+2.9949225 3.87129825
+[!] 1.292621 times longer execution time

@@ -1,0 +1,36 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  coalesce(subq_0.c0,
+    coalesce((null))) as c8, 
+  1
+from 
+  (select  
+        ref_0.created_at as c0, 
+        ref_2.profile_picture as c1
+      from 
+        test_bd.users as ref_0
+            inner join test_bd.products as ref_1
+            on ((null))
+          inner join test_bd.user_profiles as ref_2
+          on ((((null)) 
+                or ((null))) 
+              and (((null)) 
+                and ((null))))
+      where case when ((null)) 
+            or (((null)) 
+              or (EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.locations as ref_3
+                  where ((null)) 
+                    or ((null))))) then ref_2.birthdate else ref_2.birthdate end
+           is NULL
+      ) as subq_0
+where subq_0.c0 is NULL;
+SHOW profiles;
+/* Elapsed old:5.283098 new:5.541757 ratio:1.048960 */
+
+
+--reduced actual_latest = 0.000407

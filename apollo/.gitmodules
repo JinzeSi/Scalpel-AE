@@ -1,0 +1,4 @@
+[submodule "lib/sqlsmith"]
+	path = lib/sqlsmith
+	url = git@ipads.se.sjtu.edu.cn:maxq/sqlsmith.git
+	branch = mysql

@@ -1,0 +1,126 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+        (select created_at from test_bd.users limit 1 offset 2) as c0,
+        ref_0.email as c1
+      from 
+        test_bd.employee as ref_0,
+        lateral (select  
+              1
+            from 
+              test_bd.locations as ref_1,
+              lateral (select  
+                    ref_0.years as c0
+                  from 
+                    test_bd.posts as ref_2
+                  where false
+                  ) as subq_0
+            where EXISTS (
+              select  
+                  1
+                from 
+                  test_bd.user_profiles as ref_3
+                where EXISTS (
+                  select  
+                      1
+                    from 
+                      test_bd.comments as ref_4
+                    where ((((((subq_0.c0 is not NULL) 
+                                or (true)) 
+                              and ((false) 
+                                or (((ref_3.bio is not NULL) 
+                                    or ((false) 
+                                      and ((EXISTS (
+                                          select  
+                                              1
+                                            from 
+                                              test_bd.eids as ref_5
+                                            where (subq_0.c0 is NULL) 
+                                              and ((((ref_0.email is not NULL) 
+                                                    or (true)) 
+                                                  or (false)) 
+                                                and (EXISTS (
+                                                  select  
+                                                      1
+                                                    from 
+                                                      test_bd.user_post_comments as ref_6
+                                                    where true
+                                                    )))
+                                            )) 
+                                        or (((ref_4.user_id is NULL) 
+                                            or (true)) 
+                                          or ((true) 
+                                            and (false)))))) 
+                                  and (false)))) 
+                            and (((EXISTS (
+                                  select  
+                                      1
+                                    from 
+                                      test_bd.posts as ref_7,
+                                      lateral (select  
+                                            ref_7.content as c0, 
+                                            (select id from test_bd.locations limit 1 offset 6) as c2,
+                                            ref_4.user_id as c3, 
+                                            ref_3.profile_picture as c4
+                                          from 
+                                            test_bd.eids as ref_8
+                                          where true) as subq_1
+                                    where ((EXISTS (
+                                          select  
+                                              1
+                                            from 
+                                              test_bd.user_post_comments as ref_9,
+                                              lateral (select  
+                                                    ref_1.user_id as c2, 
+                                                    subq_1.c2 as c4, 
+                                                    ref_4.user_id as c5
+                                                  from 
+                                                    test_bd.comments as ref_10
+                                                  where ref_3.user_id is NULL) as subq_2
+                                            where true)) 
+                                        and (true)) 
+                                      and (true)
+                                    )) 
+                                and (((((EXISTS (
+                                          select  
+                                              1, 
+                                              1
+                                            from 
+                                              test_bd.locations as ref_11,
+                                              lateral (select  
+                                                    1
+                                                  from 
+                                                    test_bd.user_post_comments as ref_12
+                                                  where true
+                                                  ) as subq_3
+                                            where subq_0.c0 is NULL
+                                            )) 
+                                        and (true)) 
+                                      or (false)) 
+                                    and (true)) 
+                                  or (false))) 
+                              or (ref_3.birthdate is not NULL))) 
+                          and (((false) 
+                              and (((false) 
+                                  or (true)) 
+                                and (true))) 
+                            and (false))) 
+                        or (ref_1.coordinates is not NULL)) 
+                      or ((ref_0.email is NULL) 
+                        or (ref_1.name is not NULL)))
+                )
+            ) as subq_4
+      where (ref_0.email is not NULL) 
+        or (false)
+      ) as subq_5
+where (select title from test_bd.user_post_comments limit 1 offset 6)
+     is not NULL
+;
+SHOW profiles;
+/* Elapsed old:0.022575 new:0.033330 ratio:1.476428 */
+
+
+--reduced actual_latest = 0.001032

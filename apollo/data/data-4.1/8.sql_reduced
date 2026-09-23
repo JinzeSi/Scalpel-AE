@@ -1,0 +1,92 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+        ref_1.coordinates as c2, 
+        ref_7.id as c3, 
+        ref_2.post_id as c5, 
+        ref_2.post_id as c7, 
+        ref_4.username as c9, 
+        ref_7.title as c11, 
+        ref_1.user_id as c12, 
+        ref_3.comment as c13, 
+        1
+      from 
+        test_bd.user_post_comments as ref_0
+          left join test_bd.locations as ref_1
+                inner join test_bd.comments as ref_2
+                on (17 is not NULL)
+              inner join test_bd.user_post_comments as ref_3
+                inner join test_bd.user_post_comments as ref_4
+                on (true)
+              on (EXISTS (
+                  select  
+                      (select id from test_bd.eids limit 1 offset 5) as c0,
+                      1
+                    from 
+                      test_bd.locations as ref_5
+                    where (false) 
+                      or ((true) 
+                        and ((true) 
+                          and (ref_2.id is not NULL)))
+                    ))
+            inner join test_bd.users as ref_6
+              inner join test_bd.posts as ref_7
+              on (ref_6.id is NULL)
+            on ((((ref_4.username is not NULL) 
+                    or ((ref_4.comment is NULL) 
+                      and (EXISTS (
+                        select  
+                            1
+                          from 
+                            test_bd.user_profiles as ref_8
+                          where false
+                          )))) 
+                  and (EXISTS (
+                    select  
+                        1
+                      from 
+                        test_bd.employee as ref_9
+                      where (((ref_2.user_id is NULL) 
+                            and (true)) 
+                          and ((true) 
+                            or (EXISTS (
+                              select  
+                                  1
+                                from 
+                                  test_bd.eids as ref_10
+                                where (ref_10.virtual_col is not NULL) 
+                                  or (57 is not NULL)
+                                )))) 
+                        and (EXISTS (
+                          select  
+                              1
+                            from 
+                              test_bd.posts as ref_11
+                            where false))
+                      ))) 
+                and (EXISTS (
+                  select  
+                      1
+                    from 
+                      test_bd.user_profiles as ref_12
+                    where ref_4.username is not NULL
+                    )))
+          on (((ref_1.name is NULL) 
+                and (false)) 
+              or (ref_6.id is NULL))
+      where ((true) 
+          or (true)) 
+        or (ref_0.comment is NULL)
+      ) as subq_0
+where coalesce((select user_id from test_bd.comments limit 1 offset 2)
+      ,
+    subq_0.c5) is not NULL
+;
+SHOW profiles;
+/* Elapsed old:1.596340 new:1.666760 ratio:1.044114 */
+
+
+--reduced actual_latest = 1.718905

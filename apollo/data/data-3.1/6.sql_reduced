@@ -1,0 +1,59 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  subq_1.c5 as c0, 
+  case when EXISTS (
+      select  
+          subq_1.c8 as c0
+        from 
+          (select  
+                subq_1.c8 as c0
+              from 
+                test_bd.comments as ref_2
+              ) as subq_2
+        where ((null)) 
+          and (((null)) 
+            and ((((((((null)) 
+                        or ((null))) 
+                      and (((null))
+                           is not NULL)) 
+                    or ((null))) 
+                  or (((null)) 
+                    or (((null)) 
+                      or (((null)) 
+                        and ((null)))))) 
+                or ((null))) 
+              and ((null))))
+        ) then subq_1.c7 else subq_1.c7 end as c1
+from 
+  (select  
+        subq_0.c1 as c0, 
+        subq_0.c2 as c1, 
+        ref_1.user_id as c2, 
+        ref_1.user_id as c5, 
+        ref_1.content as c7, 
+        case when ((null)) 
+            and (((null)) 
+              or ((null))) then subq_0.c1 else subq_0.c1 end as c8
+      from 
+        (select  
+                ref_0.comment as c0, 
+                ref_0.username as c1, 
+                ref_0.username as c2, 
+                1
+              from 
+                test_bd.user_post_comments as ref_0
+              where ((null))
+                   is not NULL
+              ) as subq_0
+          right join test_bd.posts as ref_1
+          on ((null))
+      where subq_0.c0 is NULL
+      ) as subq_1
+where (null)
+;
+SHOW profiles;
+/* Elapsed old:0.303532 new:0.375426 ratio:1.236857 */
+
+
+--reduced actual_latest = 0.000298

@@ -1,0 +1,25 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  coalesce(subq_0.c0,
+    subq_0.c0) as c3, 
+  1
+from 
+  (select  
+        ref_0.id as c0
+      from 
+        test_bd.employee as ref_0
+            right join test_bd.employee as ref_1
+            on ((ref_1.age is NULL) 
+                or (ref_1.salary is not NULL))
+          inner join test_bd.user_post_comments as ref_2
+          on (ref_0.age is NULL)
+      where ref_1.years is not NULL) as subq_0
+where (subq_0.c0 is NULL) 
+  and (subq_0.c0 is NULL)
+;
+SHOW profiles;
+/* Elapsed old:5.225942 new:5.564200 ratio:1.064727 */
+
+
+--reduced actual_latest = 1.997221

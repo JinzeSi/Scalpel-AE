@@ -1,0 +1,78 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  test_bd.posts as ref_0
+    left join test_bd.user_post_comments as ref_1
+    on (ref_0.user_id is NULL)
+where (case when ref_0.title is not NULL then ref_0.title else ref_0.title end
+       is NULL) 
+  or ((((EXISTS (
+          select  
+              1
+            from 
+              test_bd.eids as ref_2
+            where ((((true) 
+                    or (ref_1.username is not NULL)) 
+                  or (EXISTS (
+                    select  
+                        1
+                      from 
+                        test_bd.posts as ref_3
+                      where (true) 
+                        and (false)
+                      ))) 
+                or ((ref_0.user_id is not NULL) 
+                  or (true))) 
+              or (true)
+            )) 
+        and (((false) 
+            or (((ref_1.username is not NULL) 
+                or (true)) 
+              or (EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.eids as ref_4
+                  where (true) 
+                    or ((ref_0.updated_at is NULL) 
+                      or ((((false) 
+                            or ((((ref_0.updated_at is not NULL) 
+                                  and (((true) 
+                                      or (false)) 
+                                    or (false))) 
+                                or (false)) 
+                              and (EXISTS (
+                                select  
+                                    1
+                                  from 
+                                    test_bd.employee as ref_5
+                                  where ref_0.user_id is NULL
+                                  )))) 
+                          or ((false) 
+                            and (EXISTS (
+                              select  
+                                  1
+                                from 
+                                  test_bd.products as ref_6
+                                where true
+                                )))) 
+                        and (false)))
+                  )))) 
+          or (false))) 
+      and ((((true) 
+            and (true)) 
+          or (true)) 
+        and (ref_1.username is NULL))) 
+    and (case when false then case when (true) 
+            and (ref_1.title is NULL) then ref_0.content else ref_0.content end
+           else case when (true) 
+            and (ref_1.title is NULL) then ref_0.content else ref_0.content end
+           end
+         is not NULL));
+SHOW profiles;
+/* Elapsed old:11.282070 new:12.868896 ratio:1.140650 */
+
+
+--reduced actual_latest = 1.995972

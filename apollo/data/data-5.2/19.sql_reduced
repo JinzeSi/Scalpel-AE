@@ -1,0 +1,100 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  coalesce(case when true then ref_0.birthdate else ref_0.birthdate end
+      ,
+    ref_0.birthdate) as c1, 
+  case when EXISTS (
+      select  
+          1
+        from 
+          test_bd.employee as ref_1
+            inner join test_bd.comments as ref_2
+              inner join test_bd.employee as ref_3
+              on (((true) 
+                    and ((ref_3.id is not NULL) 
+                      or ((false) 
+                        or ((((EXISTS (
+                                select  
+                                    1
+                                  from 
+                                    test_bd.user_profiles as ref_4
+                                  where ref_3.department_id is not NULL)) 
+                              or (((ref_0.profile_picture is not NULL) 
+                                  and (true)) 
+                                or (false))) 
+                            or (false)) 
+                          and (ref_2.user_id is NULL))))) 
+                  or (((true) 
+                      or ((ref_0.profile_picture is NULL) 
+                        or ((true) 
+                          or (EXISTS (
+                            select  
+                                17, 
+                                1
+                              from 
+                                test_bd.locations as ref_5
+                              where (ref_5.name is not NULL) 
+                                or ((EXISTS (
+                                    select  
+                                        1
+                                      from 
+                                        test_bd.eids as ref_6
+                                      where ref_3.email is not NULL
+                                      )) 
+                                  or (ref_2.comment is not NULL))
+                              ))))) 
+                    or (true)))
+            on ((true) 
+                and (true)),
+          lateral (select  
+                ref_3.department_id as c6
+              from 
+                test_bd.employee as ref_7
+                  left join test_bd.products as ref_8
+                  on (EXISTS (
+                      select  
+                          1
+                        from 
+                          test_bd.eids as ref_9
+                        where (((true) 
+                              or ((ref_3.salary is not NULL) 
+                                or (((((true) 
+                                        and (ref_8.id is not NULL)) 
+                                      and (true)) 
+                                    or (false)) 
+                                  and ((ref_7.age is NULL) 
+                                    or ((ref_0.bio is not NULL) 
+                                      and (false)))))) 
+                            or (ref_0.user_id is not NULL)) 
+                          or ((false) 
+                            and ((false) 
+                              or (EXISTS (
+                                select  
+                                    1
+                                  from 
+                                    test_bd.user_profiles as ref_10
+                                  where false))))))
+              where false
+              ) as subq_0
+        where EXISTS (
+          select  
+              1
+            from 
+              test_bd.users as ref_11
+            )) then ref_0.profile_picture else ref_0.profile_picture end as c2,
+  1
+from 
+  test_bd.user_profiles as ref_0
+where (((ref_0.bio is NULL) 
+      or (ref_0.bio is NULL)) 
+    and ((select id from test_bd.locations limit 1 offset 3)
+         is not NULL)) 
+  or (((true) 
+      or (ref_0.user_id is not NULL)) 
+    or (false));
+SHOW profiles;
+/* Elapsed old:1.522644 new:1.658484 ratio:1.089214 */
+
+
+--reduced actual_latest = 0.006667

@@ -1,0 +1,123 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  subq_0.c2 as c0, 
+  case when (null) then 28 else 28 end as c1,
+  case when ((null)) 
+      and (((null)) 
+        or (((((null))
+                 is not NULL) 
+            and (((null)) 
+              or (((((null)) 
+                    and (((null)) 
+                      or (((null)) 
+                        or ((((null)) 
+                            or (((((null)) 
+                                  or (((null)) 
+                                    or ((null)))) 
+                                and (EXISTS (
+                                  select  
+                                      1
+                                    from 
+                                      test_bd.products as ref_8
+                                    where ((null)) 
+                                      and (((null)) 
+                                        or ((null)))))) 
+                              or (EXISTS (
+                                select  
+                                    1
+                                  from 
+                                    test_bd.eids as ref_9
+                                  where EXISTS (
+                                    select  
+                                        1
+                                      from 
+                                        test_bd.eids as ref_10
+                                      where (null)
+                                      )
+                                  )))) 
+                          and ((null)))))) 
+                  and ((null))) 
+                and ((((((null)) 
+                        and ((null))) 
+                      or ((null))) 
+                    and (((null)) 
+                      or ((((null)) 
+                          and (((((null)) 
+                                or ((null))) 
+                              or ((((((null)) 
+                                      or ((null))) 
+                                    or ((null))) 
+                                  or ((((null)) 
+                                      or ((null))) 
+                                    or (((null)) 
+                                      and ((((null)) 
+                                          or ((null))) 
+                                        and ((null)))))) 
+                                or (EXISTS (
+                                  select  
+                                      1
+                                    from 
+                                      test_bd.employee as ref_13
+                                    where ((null)) 
+                                      and (((null)) 
+                                        and ((null)))
+                                    )))) 
+                            and ((null)))) 
+                        and ((((null)) 
+                            and ((null))) 
+                          or ((null)))))) 
+                  and ((null)))))) 
+          and ((((((null)) 
+                  and ((null))) 
+                or (((null)) 
+                  and ((null)))) 
+              or ((null))) 
+            and ((null))))) then subq_0.c4 else subq_0.c4 end as c3,
+  1, 
+  1
+from 
+  (select  
+        ref_3.coordinates as c0, 
+        ref_0.username as c1, 
+        17 as c2, 
+        ((null)) as c3,
+        ref_1.user_id as c4, 
+        ref_2.virtual_col as c5
+      from 
+        test_bd.users as ref_0
+            inner join test_bd.posts as ref_1
+            on ((null))
+          left join test_bd.eids as ref_2
+            left join test_bd.locations as ref_3
+            on (EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.products as ref_4
+                  where ((null)) 
+                    and (EXISTS (
+                      select  
+                          1
+                        from 
+                          test_bd.products as ref_5
+                        where ((null)) 
+                          and (((null)) 
+                            or ((EXISTS (
+                                select  
+                                    1
+                                  from 
+                                    test_bd.employee as ref_6
+                                  where (null))) 
+                              or ((null))))
+                        ))
+                  ))
+          on ((null))
+      ) as subq_0
+where subq_0.c5 is NULL
+;
+SHOW profiles;
+/* Elapsed old:0.019752 new:0.020790 ratio:1.052578 */
+
+
+--reduced actual_latest = 0.000616

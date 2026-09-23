@@ -1,0 +1,133 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  ref_0.virtual_col as c0, 
+  ref_0.eid as c1, 
+  ((null)) as c2,
+  case when EXISTS (
+      select  
+          1
+        from 
+          test_bd.locations as ref_1
+        where ((null)) 
+          and (EXISTS (
+            select  
+                1
+              from 
+                test_bd.locations as ref_2
+              where ((null)) 
+              ))
+        ) then ref_0.virtual_col else ref_0.virtual_col end as c3,
+  1
+from 
+  test_bd.eids as ref_0
+where EXISTS (
+  select  
+      case when ((null)) 
+          and ((((((null)) 
+                  and (((null)) 
+                    or (((null)) 
+                      or ((EXISTS (
+                          select  
+                              1
+                            from 
+                              test_bd.user_post_comments as ref_6,
+                              lateral (select  
+                                    ref_7.category as c0, 
+                                    subq_0.c1 as c1
+                                  from 
+                                    test_bd.products as ref_7
+                                  where EXISTS (
+                                    select  
+                                        1
+                                      from 
+                                        test_bd.users as ref_8,
+                                        lateral (select  
+                                              1
+                                            from 
+                                              test_bd.users as ref_9
+                                            where ((null)) 
+                                              or (((null)) 
+                                                or (((null)) 
+                                                  and ((null))))
+                                            ) as subq_1
+                                      where (null)
+                                      )) as subq_2
+                            where (EXISTS (
+                                select  
+                                    1
+                                  from 
+                                    test_bd.comments as ref_10,
+                                    lateral (select  
+                                          ref_6.username as c0
+                                        from 
+                                          test_bd.posts as ref_11
+                                        where (null)
+                                        ) as subq_3
+                                  where ((((null)) 
+                                        and ((null))) 
+                                      and ((null))) 
+                                    and ((EXISTS (
+                                        select  
+                                            1
+                                          from 
+                                            test_bd.comments as ref_12
+                                          where (null)
+                                          )) 
+                                      and ((null)))
+                                  )) 
+                              or (EXISTS (
+                                select  
+                                    1
+                                  from 
+                                    test_bd.users as ref_13
+                                  where ((null)) 
+                                    or ((null))
+                                  ))
+                            )) 
+                        and (EXISTS (
+                          select  
+                              ref_0.virtual_col as c0, 
+                              1, 
+                              1
+                            from 
+                              test_bd.user_post_comments as ref_14
+                            where (null)
+                            )))))) 
+                and ((null))) 
+              or ((null))) 
+            or (((null)) 
+              or ((EXISTS (
+                  select  
+                      1, 
+                      1
+                    from 
+                      test_bd.posts as ref_15
+                    where ((((null)) 
+                          or ((((null)) 
+                              and ((null))) 
+                            and ((null)))) 
+                        and ((null))) 
+                      and (((null)) 
+                        and ((null)))
+                    )) 
+                and ((null))))) then ref_0.eid else ref_0.eid end as c1
+    from 
+      (select  
+              ref_0.virtual_col as c0, 
+              ref_0.eid as c1, 
+              ref_4.username as c2
+            from 
+              test_bd.users as ref_4
+            where (null)
+            ) as subq_0
+        inner join test_bd.user_profiles as ref_5
+        on ((null))
+    where (null)
+    )
+;
+SHOW profiles;
+/* Elapsed old:0.011381 new:0.012302 ratio:1.080899 */
+
+
+--reduced actual_latest = 0.001015

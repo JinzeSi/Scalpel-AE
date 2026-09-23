@@ -1,0 +1,110 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  subq_0.c0 as c0, 
+  case when EXISTS (
+      select  
+          1
+        from 
+          test_bd.locations as ref_1
+        where false) then subq_0.c2 else subq_0.c2 end as c1,
+  case when subq_0.c0 is not NULL then (select username from test_bd.users limit 1 offset 34)
+       end as c3,
+  case when (subq_0.c2 is not NULL) 
+      and (subq_0.c2 is NULL) then subq_0.c2 else subq_0.c2 end as c11,
+  1
+from 
+  (select  
+        ref_0.email as c0, 
+        ref_0.id as c1, 
+        ref_0.department_id as c2
+      from 
+        test_bd.employee as ref_0
+      where (false) 
+        or ((ref_0.department_id is NULL) 
+          or (true))) as subq_0
+where ((((subq_0.c2 is NULL) 
+        and ((((((((true) 
+                      and (subq_0.c2 is NULL)) 
+                    and ((false) 
+                      or (EXISTS (
+                        select  
+                            1, 
+                            1
+                          from 
+                            test_bd.posts as ref_2
+                          where false
+                          )))) 
+                  and (true)) 
+                or (true)) 
+              or ((subq_0.c0 is NULL) 
+                and (((false) 
+                    or (EXISTS (
+                      select  
+                          1
+                        from 
+                          test_bd.comments as ref_3,
+                          lateral (select  
+                                subq_0.c2 as c3, 
+                                1
+                              from 
+                                test_bd.comments as ref_4
+                              where (87 is NULL) 
+                                or (false)
+                              ) as subq_1
+                        where true))) 
+                  or (subq_0.c0 is NULL)))) 
+            or (EXISTS (
+              select  
+                  1
+                from 
+                  test_bd.users as ref_5,
+                  lateral (select  
+                        ref_5.username as c0, 
+                        ref_5.username as c1, 
+                        1
+                      from 
+                        test_bd.eids as ref_6
+                      where (false) 
+                        or (true)
+                      ) as subq_2
+                where ref_5.created_at is not NULL))) 
+          or ((EXISTS (
+              select  
+                  14, 
+                  1
+                from 
+                  test_bd.posts as ref_7
+                where EXISTS (
+                  select  
+                      1
+                    from 
+                      test_bd.posts as ref_8
+                    where false
+                    )
+                )) 
+            or (false)))) 
+      or ((subq_0.c2 is not NULL) 
+        and (subq_0.c1 is not NULL))) 
+    and (EXISTS (
+      select  
+          subq_0.c2 as c4, 
+          1
+        from 
+          (select  
+                subq_0.c2 as c3, 
+                subq_0.c2 as c4, 
+                1
+              from 
+                test_bd.products as ref_9
+              where (false) 
+                and (true)
+              ) as subq_3
+        where false))) 
+  or (subq_0.c0 is NULL)
+;
+SHOW profiles;
+/* Elapsed old:0.024698 new:0.025209 ratio:1.020710 */
+
+
+--reduced actual_latest = 0.022545

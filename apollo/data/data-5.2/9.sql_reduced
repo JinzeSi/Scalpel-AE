@@ -1,0 +1,31 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  subq_0.c0 as c0, 
+  subq_0.c0 as c1, 
+  subq_0.c0 as c2, 
+  subq_0.c0 as c3, 
+  case when EXISTS (
+      select  
+          1
+        from 
+          test_bd.comments as ref_1
+        where ((null)) 
+          and (((null))
+               is not NULL)
+        ) then subq_0.c0 else subq_0.c0 end as c4,
+  coalesce((null)) as c7, 
+  1
+from 
+  (select  
+        ref_0.id as c0
+      from 
+        test_bd.users as ref_0
+      where ref_0.id is not NULL) as subq_0
+where true
+;
+SHOW profiles;
+/* Elapsed old:0.261876 new:0.289781 ratio:1.106558 */
+
+
+--reduced actual_latest = 0.001611

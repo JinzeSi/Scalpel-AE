@@ -1,0 +1,54 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+          29 as c0, 
+          1
+        from 
+          test_bd.user_profiles as ref_0
+            right join test_bd.users as ref_1
+              inner join test_bd.user_post_comments as ref_2
+                right join test_bd.user_post_comments as ref_3
+                on (true)
+              on (5 is not NULL)
+            on ((select id from test_bd.eids limit 1 offset 6)
+                   is NULL)
+        where (true) 
+          or (EXISTS (
+            select distinct 
+                1
+              from 
+                test_bd.products as ref_4
+              where EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.employee as ref_5
+                  where false
+                  )))) as subq_0
+    left join (select  
+              ref_6.user_id as c1, 
+              ref_6.coordinates as c8, 
+              ref_6.name as c12, 
+              1
+            from 
+              test_bd.locations as ref_6
+            where ref_6.id is not NULL) as subq_1
+        right join test_bd.users as ref_7
+        on ((true) 
+            and ((ref_7.email is NULL) 
+              or (false)))
+      left join test_bd.user_post_comments as ref_8
+      on (ref_8.title is not NULL)
+    on (subq_0.c0 = ref_7.id )
+where (subq_1.c1 is NULL) 
+  or ((ref_7.created_at is NULL) 
+    or (ref_8.comment is NULL))
+;
+SHOW profiles;
+/* Elapsed old:0.024364 new:0.030736 ratio:1.261510 */
+
+
+--reduced actual_latest = 1.992153

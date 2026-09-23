@@ -1,0 +1,41 @@
+(1.031688, 0.017917, 0.018485, 1.040548, 0.017023, 0.017713)
+[!] Found interesting case in mysql
+QUERY
+====START====
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  case when subq_0.c3 is NULL then subq_0.c3 else subq_0.c3 end
+     as c0, 
+  coalesce(subq_0.c0,
+    subq_0.c0) as c1, 
+  subq_0.c2 as c2, 
+  subq_0.c3 as c3, 
+  case when false then subq_0.c0 else subq_0.c0 end
+     as c4, 
+  subq_0.c2 as c5, 
+  subq_0.c0 as c6
+from 
+  (select  
+        ref_1.price as c0, 
+        69 as c1, 
+        ref_3.user_id as c2, 
+        ref_3.profile_picture as c3
+      from 
+        test_bd.employee as ref_0
+            inner join test_bd.products as ref_1
+            on (ref_0.salary = ref_1.price )
+          left join test_bd.user_profiles as ref_2
+            left join test_bd.user_profiles as ref_3
+            on (ref_3.user_id is NULL)
+          on (ref_0.id is NULL)
+      where ((true) 
+          or (true)) 
+        and (true)
+      limit 133) as subq_0
+where subq_0.c2 is not NULL
+limit 69;
+SHOW profiles;
+====END====
+0.01791675 0.0184845
+[!] 1.031688 times longer execution time

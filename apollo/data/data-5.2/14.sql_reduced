@@ -1,0 +1,68 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+        ref_1.id as c0, 
+        ref_0.virtual_col as c1, 
+        ref_2.title as c2, 
+        ref_2.comment as c3, 
+        ref_0.eid as c4, 
+        ref_2.comment as c6, 
+        ref_0.virtual_col as c7, 
+        ref_0.id as c8
+      from 
+        test_bd.eids as ref_0
+            left join test_bd.posts as ref_1
+            on (ref_0.id is NULL)
+          right join test_bd.user_post_comments as ref_2
+          on ((ref_1.user_id is not NULL) 
+              or (ref_0.eid is not NULL))
+      where ref_2.comment is not NULL
+      ) as subq_0
+where (((subq_0.c1 is NULL) 
+      and (subq_0.c0 is not NULL)) 
+    and (((((subq_0.c4 is NULL) 
+            and ((EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.locations as ref_3
+                  where ((true) 
+                      or ((subq_0.c4 is NULL) 
+                        or (false))) 
+                    or (true)
+                  )) 
+              or ((subq_0.c1 is NULL) 
+                and (((select comment from test_bd.comments limit 1 offset 22)
+                       is not NULL) 
+                  or ((((select profile_picture from test_bd.user_profiles limit 1 offset 6)
+                           is NULL) 
+                      and ((false) 
+                        and (subq_0.c0 is NULL))) 
+                    or (true)))))) 
+          or ((true) 
+            and ((true) 
+              and (false)))) 
+        or (true)) 
+      or (false))) 
+  or (EXISTS (
+    select  
+        1
+      from 
+        (select  
+              subq_0.c8 as c0
+            from 
+              test_bd.user_profiles as ref_4
+            where subq_0.c2 is NULL
+            ) as subq_1
+      where (subq_0.c3 is not NULL) 
+        and (subq_0.c6 is not NULL)
+      ))
+;
+SHOW profiles;
+/* Elapsed old:0.407938 new:0.457818 ratio:1.122271 */
+
+
+--reduced actual_latest = 1.995480

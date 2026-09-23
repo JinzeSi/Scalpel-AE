@@ -1,0 +1,56 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+        ref_0.created_at as c0, 
+        ref_0.created_at as c1, 
+        ref_0.email as c2, 
+        ref_0.created_at as c3, 
+        ref_0.created_at as c4, 
+        case when ((null)) 
+            or ((((null))
+                   is NULL) 
+              and (((null)) 
+                and (((null)) 
+                  and ((((null)) 
+                      and ((null))) 
+                    and ((null)))))) then ref_0.id else ref_0.id end as c5,
+        ref_0.username as c7, 
+        ref_0.username as c10, 
+        1
+      from 
+        test_bd.users as ref_0
+      where EXISTS (
+        select  
+            ref_0.email as c2, 
+            ref_0.username as c10, 
+            1
+          from 
+            test_bd.locations as ref_2
+                left join test_bd.user_post_comments as ref_3
+                on (EXISTS (
+                    select  
+                        1
+                      from 
+                        test_bd.users as ref_4
+                      where ((null)) 
+                        or ((((null)) 
+                            or ((null))) 
+                          or ((null)))
+                      ))
+              left join test_bd.user_profiles as ref_5
+                left join test_bd.users as ref_6
+                on ((null))
+              on ((null))
+          where (null)
+          )
+      ) as subq_0
+where subq_0.c3 is NULL
+;
+SHOW profiles;
+/* Elapsed old:0.014835 new:0.017557 ratio:1.183488 */
+
+
+--reduced actual_latest = 0.001051

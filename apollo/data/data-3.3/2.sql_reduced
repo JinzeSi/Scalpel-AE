@@ -1,0 +1,28 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  test_bd.locations as ref_0
+    right join test_bd.employee as ref_1
+    on (ref_0.id = ref_1.age ),
+  lateral (select  
+        1
+      from 
+        (select  
+              ref_2.comment as c3
+            from 
+              test_bd.user_post_comments as ref_2
+            where (select eid from test_bd.eids limit 1 offset 3)
+                 is NULL
+            ) as subq_0
+      where (ref_1.salary is NULL) 
+        or (subq_0.c3 is NULL)
+      ) as subq_1
+where (select updated_at from test_bd.posts limit 1 offset 2)
+     is not NULL;
+SHOW profiles;
+/* Elapsed old:0.020942 new:0.023031 ratio:1.099776 */
+
+
+--reduced actual_latest = 0.001228

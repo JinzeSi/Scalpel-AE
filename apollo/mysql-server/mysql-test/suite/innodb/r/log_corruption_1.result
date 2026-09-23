@@ -1,0 +1,29 @@
+include/stop_mysqld.inc [server 1]
+############################################################################################
+# Case 1: Crash after redo logging information about corrupted clustered index.
+############################################################################################
+# Verify that InnoDB can recover.
+# restart: --datadir=tmp/log_corruption_1 --log-error=my_restart.err --skip-log-bin --lower_case_table_names=1
+Pattern "CORRUPT LOG RECORD FOUND" not found
+CHECK TABLE t;
+Table	Op	Msg_type	Msg_text
+test.t	check	Warning	InnoDB: Index b_idx is marked as corrupted
+test.t	check	error	Corrupt
+ALTER TABLE t DROP INDEX b_idx;
+CHECK TABLE t;
+Table	Op	Msg_type	Msg_text
+test.t	check	status	OK
+ALTER TABLE t ADD INDEX b_idx (b);
+include/stop_mysqld.inc [server 1]
+############################################################################################
+# Case 2: Crash after redo logging *corrupted* information about corrupted clustered index
+#         (logging number of indexes corrupted = 100 > MAX_INDEXES).
+############################################################################################
+# Verify that InnoDB cannot recover, because it encounters the corrupted redo record.
+# Matching the server logs for corrupted redo logs...
+Pattern "CORRUPT LOG RECORD FOUND" found
+Pattern "Hex dump starting .* bytes before and ending .* bytes after the corrupted record" found
+Pattern "innodb-unknown-compound-v" not found
+############################################################################################
+# Cleanup...
+# restart:

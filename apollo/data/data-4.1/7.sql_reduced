@@ -1,0 +1,85 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  test_bd.employee as ref_0
+where (((((ref_0.department_id is NULL) 
+          or (false)) 
+        or ((EXISTS (
+            select  
+                1
+              from 
+                test_bd.user_profiles as ref_1
+              where (true) 
+                or (((((((select id from test_bd.users limit 1 offset 2)
+                               is not NULL) 
+                          and ((ref_0.years is not NULL) 
+                            or (false))) 
+                        and (false)) 
+                      and ((true) 
+                        or (ref_0.hire_date is not NULL))) 
+                    or (false)) 
+                  and (EXISTS (
+                    select  
+                        1
+                      from 
+                        test_bd.users as ref_2
+                      where ((false) 
+                          and (ref_1.user_id is NULL)) 
+                        and (EXISTS (
+                          select  
+                              1
+                            from 
+                              test_bd.posts as ref_3
+                            where EXISTS (
+                              select  
+                                  1
+                                from 
+                                  test_bd.users as ref_4
+                                where ref_1.bio is not NULL
+                                )
+                            ))
+                      ))))) 
+          and (EXISTS (
+            select  
+                1
+              from 
+                test_bd.comments as ref_5
+              where (true) 
+                and ((true) 
+                  or (EXISTS (
+                    select  
+                        1
+                      from 
+                        test_bd.user_profiles as ref_6
+                      where (ref_0.id is NULL) 
+                        and (true)))))))) 
+      and ((true) 
+        or (ref_0.id is NULL))) 
+    or ((true) 
+      and (EXISTS (
+        select  
+            11
+          from 
+            test_bd.user_profiles as ref_7
+          where (false) 
+            and (ref_0.eid is not NULL)
+          )))) 
+  and ((((ref_0.department_id is not NULL) 
+        or ((false) 
+          or (true))) 
+      or (false)) 
+    and ((true) 
+      or (EXISTS (
+        select  
+            1
+          from 
+            test_bd.comments as ref_8
+          where true
+          ))));
+SHOW profiles;
+/* Elapsed old:0.312320 new:0.342686 ratio:1.097226 */
+
+
+--reduced actual_latest = 0.272508

@@ -1,0 +1,105 @@
+(1.183488, 0.014835, 0.017557, 1.054647, 0.015522, 0.016370)
+[!] Found interesting case in mysql
+QUERY
+====START====
+SET profiling=1;
+EXPLAIN ANALYZE
+
+select  
+  subq_0.c7 as c0, 
+  subq_0.c3 as c1, 
+  subq_0.c2 as c2, 
+  subq_0.c10 as c3
+from 
+  (select  
+        ref_0.created_at as c0, 
+        ref_0.created_at as c1, 
+        ref_0.email as c2, 
+        ref_0.created_at as c3, 
+        ref_0.created_at as c4, 
+        case when (false) 
+            or (((select id from test_bd.comments limit 1 offset 4)
+                   is NULL) 
+              and ((false) 
+                and ((ref_0.email is NULL) 
+                  and (((ref_0.id is NULL) 
+                      and (EXISTS (
+                        select  
+                            ref_1.username as c0, 
+                            ref_0.username as c1, 
+                            (select id from test_bd.users limit 1 offset 6)
+                               as c2, 
+                            75 as c3, 
+                            ref_0.id as c4, 
+                            ref_0.created_at as c5, 
+                            ref_1.username as c6, 
+                            ref_1.username as c7, 
+                            ref_0.created_at as c8, 
+                            ref_0.id as c9, 
+                            ref_1.comment as c10
+                          from 
+                            test_bd.user_post_comments as ref_1
+                          where ref_0.username is NULL
+                          limit 119))) 
+                    and (ref_0.username is NULL))))) then ref_0.id else ref_0.id end
+           as c5, 
+        ref_0.created_at as c6, 
+        ref_0.username as c7, 
+        ref_0.email as c8, 
+        ref_0.username as c9, 
+        ref_0.username as c10, 
+        ref_0.email as c11, 
+        (select user_id from test_bd.user_profiles limit 1 offset 2)
+           as c12, 
+        ref_0.id as c13, 
+        79 as c14, 
+        ref_0.username as c15, 
+        ref_0.email as c16, 
+        ref_0.email as c17, 
+        ref_0.email as c18, 
+        ref_0.username as c19
+      from 
+        test_bd.users as ref_0
+      where EXISTS (
+        select  
+            ref_2.name as c0, 
+            79 as c1, 
+            ref_0.email as c2, 
+            ref_3.username as c3, 
+            ref_2.name as c4, 
+            ref_3.title as c5, 
+            ref_0.created_at as c6, 
+            ref_2.name as c7, 
+            ref_2.id as c8, 
+            ref_6.username as c9, 
+            ref_0.username as c10, 
+            ref_6.created_at as c11, 
+            ref_0.id as c12, 
+            ref_5.bio as c13, 
+            ref_3.comment as c14
+          from 
+            test_bd.locations as ref_2
+                left join test_bd.user_post_comments as ref_3
+                on (EXISTS (
+                    select  
+                        ref_0.email as c0
+                      from 
+                        test_bd.users as ref_4
+                      where (ref_0.id is NULL) 
+                        or (((false) 
+                            or (ref_3.title is not NULL)) 
+                          or (true))
+                      limit 88))
+              left join test_bd.user_profiles as ref_5
+                left join test_bd.users as ref_6
+                on (false)
+              on (ref_2.id = ref_6.id )
+          where true
+          limit 58)
+      limit 139) as subq_0
+where subq_0.c3 is NULL
+limit 144;
+SHOW profiles;
+====END====
+0.01483475 0.01755675
+[!] 1.183488 times longer execution time

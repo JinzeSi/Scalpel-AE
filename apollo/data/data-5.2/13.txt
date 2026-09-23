@@ -1,0 +1,160 @@
+(1.123209, 10.562940, 11.864393, 1.255210, 8.530244, 10.707251)
+[!] Found interesting case in mysql
+QUERY
+====START====
+SET profiling=1;
+EXPLAIN ANALYZE
+
+select  
+  subq_1.c0 as c0, 
+  52 as c1
+from 
+  (select  
+        ref_0.category as c0, 
+        ref_1.virtual_col as c1, 
+        ref_0.created_at as c2, 
+        ref_1.eid as c3, 
+        ref_0.name as c4
+      from 
+        test_bd.products as ref_0
+            left join test_bd.eids as ref_1
+            on (ref_0.id = ref_1.eid )
+          inner join test_bd.user_post_comments as ref_2
+          on ((EXISTS (
+                select  
+                    (select discount from test_bd.products limit 1 offset 6)
+                       as c0
+                  from 
+                    test_bd.locations as ref_3
+                  where (EXISTS (
+                      select  
+                          ref_0.id as c0, 
+                          ref_0.id as c1, 
+                          ref_2.username as c2, 
+                          ref_3.id as c3, 
+                          ref_1.eid as c4, 
+                          ref_0.category as c5, 
+                          ref_0.category as c6, 
+                          (select id from test_bd.employee limit 1 offset 1)
+                             as c7, 
+                          ref_1.virtual_col as c8, 
+                          ref_0.discount as c9, 
+                          ref_1.id as c10
+                        from 
+                          test_bd.users as ref_4
+                        where ref_3.user_id is not NULL
+                        limit 55)) 
+                    and (true)
+                  limit 98)) 
+              or (ref_2.username is not NULL))
+      where ((((true) 
+              or (((false) 
+                  and (((false) 
+                      or (ref_0.price is not NULL)) 
+                    or ((ref_2.title is not NULL) 
+                      and ((EXISTS (
+                          select  
+                              ref_0.id as c0, 
+                              ref_1.eid as c1, 
+                              ref_5.user_id as c2
+                            from 
+                              test_bd.comments as ref_5,
+                              lateral (select  
+                                    ref_2.comment as c0, 
+                                    ref_5.comment as c1
+                                  from 
+                                    test_bd.users as ref_6
+                                  where ref_5.id is not NULL) as subq_0
+                            where (ref_5.post_id is not NULL) 
+                              and (EXISTS (
+                                select  
+                                    ref_1.id as c0, 
+                                    ref_0.category as c1, 
+                                    subq_0.c0 as c2, 
+                                    ref_2.title as c3, 
+                                    (select title from test_bd.user_post_comments limit 1 offset 5)
+                                       as c4, 
+                                    ref_5.id as c5, 
+                                    ref_0.created_at as c6, 
+                                    ref_5.comment as c7, 
+                                    ref_0.price as c8, 
+                                    ref_7.user_id as c9
+                                  from 
+                                    test_bd.user_profiles as ref_7
+                                  where (((false) 
+                                        or ((false) 
+                                          or ((false) 
+                                            and (false)))) 
+                                      or (false)) 
+                                    and (EXISTS (
+                                      select  
+                                          ref_8.eid as c0
+                                        from 
+                                          test_bd.employee as ref_8
+                                        where EXISTS (
+                                          select  
+                                              ref_2.comment as c0, 
+                                              subq_0.c0 as c1, 
+                                              (select created_at from test_bd.posts limit 1 offset 3)
+                                                 as c2, 
+                                              ref_9.title as c3, 
+                                              ref_9.comment as c4, 
+                                              (select comment from test_bd.comments limit 1 offset 85)
+                                                 as c5, 
+                                              ref_7.user_id as c6, 
+                                              ref_2.username as c7, 
+                                              ref_0.created_at as c8, 
+                                              ref_8.eid as c9, 
+                                              ref_2.title as c10, 
+                                              ref_1.id as c11, 
+                                              ref_7.birthdate as c12, 
+                                              ref_9.comment as c13, 
+                                              ref_9.comment as c14, 
+                                              ref_8.eid as c15, 
+                                              ref_8.salary as c16, 
+                                              ref_8.email as c17, 
+                                              ref_8.department_id as c18
+                                            from 
+                                              test_bd.user_post_comments as ref_9
+                                            where true)
+                                        limit 100))))
+                            limit 165)) 
+                        and (ref_2.comment is NULL))))) 
+                or (ref_1.virtual_col is not NULL))) 
+            or (true)) 
+          or (ref_0.id is NULL)) 
+        and ((((false) 
+              and (ref_0.name is NULL)) 
+            and (((EXISTS (
+                  select distinct 
+                      ref_1.virtual_col as c0, 
+                      ref_0.created_at as c1, 
+                      ref_10.salary as c2
+                    from 
+                      test_bd.employee as ref_10
+                    where ref_2.title is not NULL)) 
+                or (true)) 
+              or (EXISTS (
+                select  
+                    ref_11.username as c0, 
+                    ref_11.title as c1, 
+                    ref_11.username as c2, 
+                    ref_1.eid as c3, 
+                    ref_1.virtual_col as c4, 
+                    ref_11.comment as c5, 
+                    ref_1.id as c6, 
+                    ref_2.title as c7, 
+                    ref_2.username as c8
+                  from 
+                    test_bd.user_post_comments as ref_11
+                  where ref_2.comment is NULL
+                  limit 122)))) 
+          or (ref_1.virtual_col is not NULL))
+      limit 126) as subq_1
+where (subq_1.c4 is NULL) 
+  or (subq_1.c3 is NULL)
+limit 127;
+SHOW profiles;
+====END====
+10.56294025 11.86439275
+[!] 1.123209 times longer execution time

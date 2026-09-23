@@ -1,0 +1,44 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  test_bd.posts as ref_0
+where (((false) 
+      and (ref_0.updated_at is not NULL)) 
+    or (case when (ref_0.updated_at is not NULL) 
+          and (false) then ref_0.user_id else ref_0.user_id end
+         is not NULL)) 
+  and (((((51 is not NULL) 
+          and ((true) 
+            or (EXISTS (
+              select  
+                  1
+                from 
+                  test_bd.user_post_comments as ref_1
+                where EXISTS (
+                  select  
+                      1
+                    from 
+                      test_bd.users as ref_2
+                    where false
+                    )
+                )))) 
+        or ((true) 
+          and (ref_0.updated_at is NULL))) 
+      or (ref_0.updated_at is not NULL)) 
+    or ((((select name from test_bd.locations limit 1 offset 6)
+             is not NULL) 
+        or (((ref_0.user_id is NULL) 
+            and (true)) 
+          or ((false) 
+            or (true)))) 
+      or (((select post_id from test_bd.comments limit 1 offset 4)
+             is not NULL) 
+        or ((false) 
+          or (ref_0.user_id is not NULL)))));
+SHOW profiles;
+/* Elapsed old:0.013937 new:0.015111 ratio:1.084218 */
+
+
+--reduced actual_latest = 0.006533

@@ -1,0 +1,43 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  coalesce(subq_0.c5,
+    case when subq_0.c2 is NULL then subq_0.c4 else subq_0.c4 end
+      ) as c0
+from 
+  (select  
+          case when false then ref_0.user_id else ref_0.user_id end as c2,
+          ref_0.bio as c4, 
+          ref_0.bio as c5, 
+          (select eid from test_bd.eids limit 1 offset 4) as c6,
+          1
+        from 
+          test_bd.user_profiles as ref_0
+        where ref_0.bio is not NULL) as subq_0
+    right join (select  
+          ref_1.post_id as c4
+        from 
+          test_bd.comments as ref_1
+            left join test_bd.posts as ref_2
+            on ((EXISTS (
+                  select  
+                      1
+                    from 
+                      test_bd.user_post_comments as ref_3
+                    where true
+                    )) 
+                and (false))
+        where (false) 
+          or (true)
+        ) as subq_1
+    on (true)
+where case when subq_1.c4 is not NULL then coalesce(subq_0.c6,
+      subq_0.c2) else coalesce(subq_0.c6,
+      subq_0.c2) end
+     is NULL
+;
+SHOW profiles;
+/* Elapsed old:0.086734 new:0.106800 ratio:1.231342 */
+
+
+--reduced actual_latest = 1.990382

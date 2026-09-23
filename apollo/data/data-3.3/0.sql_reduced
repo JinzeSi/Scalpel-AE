@@ -1,0 +1,37 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  test_bd.users as ref_0
+    inner join test_bd.locations as ref_1
+    on (EXISTS (
+        select  
+            1
+          from 
+            test_bd.products as ref_2
+              right join test_bd.eids as ref_3
+              on (ref_2.id = ref_3.eid )
+          where EXISTS (
+            select  
+                1
+              from 
+                test_bd.comments as ref_4
+              where (EXISTS (
+                  select  
+                      1
+                    from 
+                      test_bd.user_post_comments as ref_5
+                    where false
+                    )) 
+                or (true)
+              )
+          ))
+where (ref_0.email is NULL) 
+  or (ref_1.coordinates is not NULL)
+;
+SHOW profiles;
+/* Elapsed old:3.342942 new:3.968068 ratio:1.186998 */
+
+
+--reduced actual_latest = 1.989990

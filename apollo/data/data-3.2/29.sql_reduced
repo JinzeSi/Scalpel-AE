@@ -1,0 +1,73 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  coalesce(ref_3.user_id,
+    ref_2.id) as c11, 
+  coalesce(ref_3.user_id,
+    coalesce(ref_4.id,
+      ref_4.id)) as c12, 
+  1
+from 
+  test_bd.locations as ref_0
+    right join (select  
+              1
+            from 
+              test_bd.user_profiles as ref_1
+            where ref_1.birthdate is not NULL
+            ) as subq_0
+        left join test_bd.products as ref_2
+        on (true)
+      right join test_bd.user_profiles as ref_3
+        right join test_bd.products as ref_4
+        on ((true) 
+            or ((ref_4.discount is not NULL) 
+              or (((ref_3.user_id is NULL) 
+                  or (((true) 
+                      and ((((true) 
+                            and (ref_3.user_id is NULL)) 
+                          or (((EXISTS (
+                                select  
+                                    1
+                                  from 
+                                    test_bd.user_post_comments as ref_5,
+                                    lateral (select  
+                                          ref_3.user_id as c0, 
+                                          ref_5.title as c1
+                                        from 
+                                          test_bd.users as ref_6
+                                        where false
+                                        ) as subq_1
+                                  where EXISTS (
+                                    select  
+                                        ref_3.user_id as c0, 
+                                        1
+                                      from 
+                                        test_bd.users as ref_7
+                                      where (true) 
+                                        and (((true) 
+                                            and (false)) 
+                                          or (((((false) 
+                                                  and (ref_4.created_at is NULL)) 
+                                                and ((false) 
+                                                  or (false))) 
+                                              or ((ref_4.discount is not NULL) 
+                                                or (true))) 
+                                            or (false))))
+                                  )) 
+                              and (true)) 
+                            or ((select id from test_bd.eids limit 1 offset 96)
+                                 is not NULL))) 
+                        and (false))) 
+                    and ((true) 
+                      and (ref_4.price is NULL)))) 
+                or (false))))
+      on ((false) 
+          and (ref_2.category is not NULL))
+    on (ref_0.id = ref_4.id )
+where ref_3.profile_picture is NULL
+;
+SHOW profiles;
+/* Elapsed old:9.663511 new:10.254673 ratio:1.061175 */
+
+
+--reduced actual_latest = 1.852226

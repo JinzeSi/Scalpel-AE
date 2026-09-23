@@ -1,0 +1,175 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+WITH 
+jennifer_0 AS (select  
+    coalesce((null)) as c0, 
+    case when ((null)) 
+        or ((null)) then subq_1.c5 else subq_1.c5 end as c1
+  from 
+    (select  
+            1
+          from 
+            test_bd.user_profiles as ref_0
+              right join test_bd.locations as ref_1
+                inner join test_bd.employee as ref_2
+                  inner join test_bd.products as ref_3
+                  on ((null))
+                on ((null))
+              on ((null))
+          where (((null)) 
+              or (((null))
+                   is not NULL)) 
+            or ((((((null)) 
+                    and ((((null)) 
+                        and (((null)) 
+                          and ((null)))) 
+                      or ((null)))) 
+                  or ((((((null)) 
+                          and ((null))) 
+                        and ((null))) 
+                      or ((null))) 
+                    and (((null)) 
+                      or ((null))))) 
+                or (((null)) 
+                  and (((((null)) 
+                        and (((null)) 
+                          and ((EXISTS (
+                              select  
+                                  1
+                                from 
+                                  test_bd.products as ref_4
+                                where EXISTS (
+                                  select  
+                                      1
+                                    from 
+                                      test_bd.eids as ref_5
+                                    where ((null)) 
+                                      or (((null)) 
+                                        or ((null)))))) 
+                            and ((null))))) 
+                      and ((((EXISTS (
+                              select  
+                                  1, 
+                                  1
+                                from 
+                                  test_bd.products as ref_6
+                                where ((null)) 
+                                  and (EXISTS (
+                                    select  
+                                        1
+                                      from 
+                                        test_bd.posts as ref_7
+                                      where (null)))
+                                )) 
+                            or ((null))) 
+                          or ((null))) 
+                        or (((null))
+                             is NULL))) 
+                    or (((null)) 
+                      or ((null)))))) 
+              and (EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.products as ref_8
+                  where (null)
+                  )))
+          ) as subq_0
+      inner join (select  
+            1
+          from 
+            test_bd.locations as ref_9
+          where (((null)) 
+              or (EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.eids as ref_10
+                  where EXISTS (
+                    select  
+                        1
+                      from 
+                        test_bd.comments as ref_11
+                      where (null)
+                      )))) 
+            or ((null))) as subq_1
+      on ((null)),
+    lateral (select  
+          1
+        from 
+          test_bd.products as ref_12
+            right join test_bd.posts as ref_13
+            on ((((null)) 
+                  and ((null))) 
+                or ((null)))
+        where subq_1.c8 is not NULL) as subq_2
+  where subq_1.c5 is NULL
+  )
+select  
+    1
+  from 
+    (select  
+          ref_14.age as c0, 
+          ref_14.years as c1
+        from 
+          test_bd.employee as ref_14
+        where ref_14.age is not NULL) as subq_3,
+    lateral (select  
+          subq_3.c0 as c0
+        from 
+          test_bd.users as ref_15
+        where (((null)) 
+            or ((((null)) 
+                or (EXISTS (
+                  select  
+                      1
+                    from 
+                      test_bd.products as ref_16
+                    where EXISTS (
+                      select  
+                          1
+                        from 
+                          test_bd.employee as ref_17
+                        where (null)
+                        )
+                    ))) 
+              and (((EXISTS (
+                    select  
+                        1
+                      from 
+                        test_bd.locations as ref_18
+                      where (null))) 
+                  and ((((null)) 
+                      and ((((null)) 
+                          or (((null)) 
+                            or ((null)))) 
+                        and ((null)))) 
+                    and ((null)))) 
+                or (((null)) 
+                  and ((EXISTS (
+                      select  
+                          1
+                        from 
+                          test_bd.comments as ref_19
+                        where (((null)) 
+                            and ((null))) 
+                          and ((null))
+                        )) 
+                    and (((null)) 
+                      and ((null)))))))) 
+          and (((null)) 
+            or ((null)))
+        ) as subq_4
+  where EXISTS (
+    select  
+        subq_3.c0 as c0
+      from 
+        test_bd.products as ref_20
+      where subq_3.c0 is not NULL)
+  
+;
+SHOW profiles;
+/* Elapsed old:0.453194 new:0.526740 ratio:1.162285 */
+
+
+--reduced actual_latest = 0.000419

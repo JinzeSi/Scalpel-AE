@@ -1,0 +1,25 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  coalesce((null)) as c1, 
+  1
+from 
+  (select  
+        ref_0.comment as c0, 
+        ref_1.user_id as c1, 
+        ref_0.title as c2
+      from 
+        test_bd.user_post_comments as ref_0
+          inner join test_bd.user_profiles as ref_1
+          on ((null))
+      where ((((null)) 
+            and (((null)) 
+              or ((null)))) 
+          and ((null))) 
+        or ((null))) as subq_0
+where (null);
+SHOW profiles;
+/* Elapsed old:14.184204 new:17.129707 ratio:1.207661 */
+
+
+--reduced actual_latest = 0.000220

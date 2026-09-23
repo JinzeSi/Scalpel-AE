@@ -1,0 +1,115 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+          ref_0.birthdate as c4, 
+          ref_0.user_id as c7, 
+          1
+        from 
+          test_bd.user_profiles as ref_0
+              left join test_bd.comments as ref_1
+                right join test_bd.user_post_comments as ref_2
+                on (EXISTS (
+                    select  
+                        1
+                      from 
+                        test_bd.users as ref_3
+                      where ((true) 
+                          and (ref_2.username is not NULL)) 
+                        or (ref_3.email is NULL)
+                      ))
+              on ((((false) 
+                      or (ref_1.comment is not NULL)) 
+                    or ((ref_0.user_id is not NULL) 
+                      or ((((false) 
+                            and (true)) 
+                          or (((true) 
+                              or (((ref_1.comment is not NULL) 
+                                  and (false)) 
+                                or (false))) 
+                            or (((ref_1.user_id is not NULL) 
+                                or ((false) 
+                                  or (true))) 
+                              or (true)))) 
+                        and (EXISTS (
+                          select  
+                              1
+                            from 
+                              test_bd.products as ref_4,
+                              lateral (select  
+                                    (select price from test_bd.products limit 1 offset 6) as c0,
+                                    ref_1.user_id as c1, 
+                                    ref_5.comment as c2
+                                  from 
+                                    test_bd.user_post_comments as ref_5
+                                  where (false) 
+                                    and ((true) 
+                                      or ((false) 
+                                        and (true)))) as subq_0
+                            where ((subq_0.c1 is not NULL) 
+                                or (false)) 
+                              and ((subq_0.c2 is not NULL) 
+                                and ((((true) 
+                                      and ((subq_0.c0 is NULL) 
+                                        and (true))) 
+                                    and (true)) 
+                                  and (EXISTS (
+                                    select  
+                                        1
+                                      from 
+                                        test_bd.employee as ref_6
+                                      where ((false) 
+                                          or (true)) 
+                                        and (subq_0.c1 is NULL)
+                                      ))))
+                            ))))) 
+                  and (ref_0.bio is NULL))
+            left join test_bd.user_post_comments as ref_7
+            on ((false) 
+                and (ref_7.username is not NULL))
+        where (EXISTS (
+            select  
+                1
+              from 
+                test_bd.user_post_comments as ref_8,
+                lateral (select  
+                      ref_0.birthdate as c4, 
+                      ref_0.user_id as c7, 
+                      1
+                    from 
+                      test_bd.user_post_comments as ref_9,
+                      lateral (select  
+                            ref_10.eid as c0, 
+                            1
+                          from 
+                            test_bd.eids as ref_10
+                          where ref_8.title is not NULL) as subq_1
+                    where false
+                    ) as subq_2
+              where (true) 
+                and (ref_0.profile_picture is not NULL)
+              )) 
+          or ((ref_1.user_id is not NULL) 
+            and (true))
+        ) as subq_3
+    inner join (select  
+          ref_11.id as c0, 
+          ref_11.name as c1, 
+          ref_11.user_id as c2
+        from 
+          test_bd.locations as ref_11
+              left join test_bd.eids as ref_12
+              on (ref_11.user_id is not NULL)
+            left join test_bd.user_post_comments as ref_13
+            on (ref_11.name = ref_13.title )
+        where ref_11.name is NULL
+        ) as subq_4
+    on (subq_4.c2 is not NULL)
+where subq_4.c1 is NULL;
+SHOW profiles;
+/* Elapsed old:0.015488 new:0.016154 ratio:1.042984 */
+
+
+--reduced actual_latest = 0.022255

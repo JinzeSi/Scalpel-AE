@@ -1,0 +1,20 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+        38 as c2, 
+        ref_0.user_id as c5
+      from 
+        test_bd.locations as ref_0
+          inner join test_bd.user_profiles as ref_1
+          on ((null))
+      where ((null)) 
+        or ((null))) as subq_0
+where (null);
+SHOW profiles;
+/* Elapsed old:1.176755 new:1.384701 ratio:1.176712 */
+
+
+--reduced actual_latest = 0.000160

@@ -1,0 +1,29 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+        ((null)) as c0
+      from 
+        test_bd.users as ref_0
+      where ((EXISTS (
+            select  
+                1
+              from 
+                test_bd.comments as ref_1
+              where ((null)) 
+                or ((null))
+              )) 
+          or (((null)) 
+            and ((null)))) 
+        or ((((null)) 
+            or ((null))) 
+          and ((null)))
+      ) as subq_0
+where subq_0.c0 is not NULL;
+SHOW profiles;
+/* Elapsed old:0.022789 new:0.029173 ratio:1.280146 */
+
+
+--reduced actual_latest = 0.000251

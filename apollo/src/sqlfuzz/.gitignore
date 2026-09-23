@@ -1,0 +1,4 @@
+fuzz_log_*
+out*
+*.sql_reduced
+

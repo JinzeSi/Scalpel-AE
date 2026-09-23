@@ -1,0 +1,67 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+        ref_0.id as c0, 
+        ref_0.post_id as c1, 
+        ref_0.post_id as c2
+      from 
+        test_bd.comments as ref_0
+      where (null)
+      ) as subq_0
+where EXISTS (
+  select  
+      subq_0.c1 as c0, 
+      1
+    from 
+      (select  
+            subq_0.c1 as c0, 
+            subq_1.c2 as c7, 
+            subq_0.c1 as c9
+          from 
+            test_bd.comments as ref_1,
+            lateral (select  
+                  subq_0.c1 as c0, 
+                  ref_1.comment as c1, 
+                  ref_2.years as c2
+                from 
+                  test_bd.employee as ref_2
+                where EXISTS (
+                  select  
+                      1
+                    from 
+                      test_bd.eids as ref_3
+                    where (((null)) 
+                        or ((null))) 
+                      or ((((null)) 
+                          and ((null))) 
+                        or ((null)))
+                    )
+                ) as subq_1
+          where subq_1.c1 is not NULL
+          ) as subq_2,
+      lateral (select  
+            1
+          from 
+            test_bd.user_post_comments as ref_4,
+            lateral (select  
+                  ref_4.comment as c0, 
+                  ref_5.title as c3
+                from 
+                  test_bd.user_post_comments as ref_5
+                where (null)) as subq_3
+          where ((null)) 
+            and (((null)) 
+              and (((null)) 
+                and ((null))))
+          ) as subq_4
+    where subq_2.c0 is not NULL
+    )
+;
+SHOW profiles;
+/* Elapsed old:0.019741 new:0.030500 ratio:1.545015 */
+
+
+--reduced actual_latest = 0.000563

@@ -1,0 +1,75 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+        ref_0.title as c1, 
+        ref_0.title as c3, 
+        ref_0.username as c4, 
+        ref_0.title as c5
+      from 
+        test_bd.user_post_comments as ref_0
+      where (EXISTS (
+          select  
+              1
+            from 
+              test_bd.posts as ref_1
+                inner join test_bd.comments as ref_2
+                on ((((EXISTS (
+                          select  
+                              1
+                            from 
+                              test_bd.comments as ref_3
+                            where ((null)) 
+                              and ((null))
+                            )) 
+                        or (EXISTS (
+                          select  
+                              ref_0.title as c1, 
+                              1
+                            from 
+                              test_bd.comments as ref_4
+                            where (null)
+                            ))) 
+                      or ((null))) 
+                    or ((null)))
+            where (((((null)) 
+                    and ((null))) 
+                  and ((null))) 
+                or ((null))) 
+              and (((null)) 
+                or (((null)) 
+                  or ((null))))
+            )) 
+        and (((null)) 
+          or (EXISTS (
+            select  
+                1
+              from 
+                test_bd.user_post_comments as ref_5
+              where (null)
+              )))
+      ) as subq_0
+where EXISTS (
+  select  
+      1
+    from 
+      test_bd.comments as ref_6
+        right join test_bd.products as ref_7
+          right join test_bd.eids as ref_8
+          on ((null))
+        on ((null))
+    where ((null)) 
+      or (((((null)) 
+            or ((null))) 
+          or (((null)) 
+            or ((null)))) 
+        and ((null)))
+    )
+;
+SHOW profiles;
+/* Elapsed old:0.037414 new:0.041884 ratio:1.119467 */
+
+
+--reduced actual_latest = 0.000786

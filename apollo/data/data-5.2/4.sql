@@ -1,0 +1,80 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  subq_2.c0 as c0
+from 
+  (select  
+        ref_3.id as c0, 
+        ref_3.email as c1, 
+        ref_0.eid as c2, 
+        ref_3.created_at as c3, 
+        (select username from test_bd.user_post_comments limit 1 offset 6)
+           as c4, 
+        ref_3.username as c5, 
+        (select age from test_bd.employee limit 1 offset 2)
+           as c6, 
+        ref_2.id as c7, 
+        (select id from test_bd.users limit 1 offset 4)
+           as c8, 
+        ref_0.id as c9, 
+        ref_2.id as c10
+      from 
+        test_bd.eids as ref_0
+          right join test_bd.posts as ref_1
+              inner join test_bd.users as ref_2
+              on (true)
+            left join test_bd.users as ref_3
+            on ((EXISTS (
+                  select  
+                      ref_4.title as c0, 
+                      95 as c1, 
+                      ref_1.content as c2, 
+                      ref_1.updated_at as c3
+                    from 
+                      test_bd.user_post_comments as ref_4
+                    where ref_1.id is not NULL
+                    limit 13)) 
+                and (EXISTS (
+                  select  
+                      ref_3.id as c0
+                    from 
+                      test_bd.eids as ref_5
+                    where false
+                    limit 149)))
+          on ((false) 
+              or (ref_3.created_at is NULL))
+      where ref_0.id is NULL
+      limit 119) as subq_0,
+  lateral (select  
+        subq_1.c9 as c0, 
+        subq_0.c4 as c1, 
+        subq_1.c6 as c2
+      from 
+        (select  
+              subq_0.c4 as c0, 
+              subq_0.c6 as c1, 
+              subq_0.c6 as c2, 
+              ref_6.coordinates as c3, 
+              subq_0.c4 as c4, 
+              (select department_id from test_bd.employee limit 1 offset 5)
+                 as c5, 
+              subq_0.c1 as c6, 
+              ref_6.coordinates as c7, 
+              ref_6.coordinates as c8, 
+              (select title from test_bd.user_post_comments limit 1 offset 1)
+                 as c9, 
+              ref_6.user_id as c10, 
+              (select profile_picture from test_bd.user_profiles limit 1 offset 2)
+                 as c11, 
+              ref_6.name as c12, 
+              subq_0.c8 as c13
+            from 
+              test_bd.locations as ref_6
+            where ref_6.user_id is not NULL
+            limit 45) as subq_1
+      where (true) 
+        and (subq_0.c10 is not NULL)) as subq_2
+where (true) 
+  and (true)
+limit 21;
+SHOW profiles;

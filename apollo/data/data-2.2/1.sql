@@ -1,0 +1,49 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+
+select  
+  ref_0.price as c0, 
+  ref_0.category as c1
+from 
+  test_bd.products as ref_0
+where EXISTS (
+  select  
+      subq_0.c7 as c0, 
+      ref_0.created_at as c1, 
+      38 as c2, 
+      ref_0.name as c3, 
+      ref_0.created_at as c4, 
+      ref_0.tags as c5, 
+      subq_0.c0 as c6, 
+      subq_0.c11 as c7, 
+      subq_0.c12 as c8, 
+      subq_0.c1 as c9, 
+      subq_0.c11 as c10, 
+      subq_0.c13 as c11
+    from 
+      (select  
+            ref_1.id as c0, 
+            ref_1.email as c1, 
+            ref_0.name as c2, 
+            ref_0.discount as c3, 
+            (select id from test_bd.locations limit 1 offset 4)
+               as c4, 
+            ref_1.username as c5, 
+            (select title from test_bd.user_post_comments limit 1 offset 33)
+               as c6, 
+            ref_0.created_at as c7, 
+            ref_1.created_at as c8, 
+            ref_1.id as c9, 
+            22 as c10, 
+            ref_1.id as c11, 
+            ref_1.id as c12, 
+            ref_0.tags as c13
+          from 
+            test_bd.users as ref_1
+          where ref_1.id is not NULL
+          limit 115) as subq_0
+    where (ref_0.name is not NULL) 
+      and (ref_0.id is not NULL)
+    limit 78)
+limit 99;
+SHOW profiles;

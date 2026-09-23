@@ -1,0 +1,125 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  case when subq_6.c1 is NULL then coalesce(subq_3.c2,
+      subq_3.c10) end as c1,
+  1
+from 
+  (select  
+          subq_1.c2 as c2, 
+          subq_1.c0 as c3, 
+          subq_2.c0 as c5, 
+          subq_1.c2 as c10
+        from 
+          (select  
+                ref_0.name as c0, 
+                ref_0.id as c1, 
+                subq_0.c7 as c2, 
+                subq_0.c4 as c3
+              from 
+                test_bd.locations as ref_0,
+                lateral (select  
+                      ref_1.birthdate as c4, 
+                      ref_0.coordinates as c7
+                    from 
+                      test_bd.user_profiles as ref_1
+                    where true) as subq_0
+              where ref_0.coordinates is not NULL) as subq_1,
+          lateral (select  
+                subq_1.c1 as c0
+              from 
+                test_bd.locations as ref_2
+              where false
+              ) as subq_2
+        where true
+        ) as subq_3
+    inner join (select  
+          ref_3.id as c1
+        from 
+          test_bd.employee as ref_3
+                inner join test_bd.eids as ref_4
+                on ((((false) 
+                        and (true)) 
+                      and (((ref_4.eid is NULL) 
+                          and (ref_4.virtual_col is not NULL)) 
+                        and (EXISTS (
+                          select  
+                              1
+                            from 
+                              test_bd.user_profiles as ref_5
+                            where (false) 
+                              or (((ref_4.eid is not NULL) 
+                                  or (ref_5.birthdate is not NULL)) 
+                                or ((ref_5.bio is not NULL) 
+                                  and (false)))
+                            )))) 
+                    or (EXISTS (
+                      select  
+                          1
+                        from 
+                          test_bd.locations as ref_6
+                        where true
+                        )))
+              right join test_bd.eids as ref_7
+              on ((false) 
+                  or ((true) 
+                    or (EXISTS (
+                      select  
+                          1
+                        from 
+                          test_bd.users as ref_8,
+                          lateral (select  
+                                ref_8.username as c0, 
+                                ref_3.years as c2, 
+                                (select id from test_bd.users limit 1 offset 6) as c3,
+                                ref_7.id as c7, 
+                                1
+                              from 
+                                test_bd.users as ref_9
+                              where ref_4.virtual_col is not NULL) as subq_4
+                        where EXISTS (
+                          select  
+                              1
+                            from 
+                              test_bd.users as ref_10
+                            where true)
+                        ))))
+            inner join test_bd.locations as ref_11
+            on ((true) 
+                and (true))
+        where (true) 
+          and (((true) 
+              and (ref_11.coordinates is not NULL)) 
+            or (EXISTS (
+              select  
+                  1
+                from 
+                  test_bd.user_profiles as ref_12,
+                  lateral (select  
+                        ref_13.coordinates as c4
+                      from 
+                        test_bd.locations as ref_13
+                      where ref_7.virtual_col is not NULL) as subq_5
+                where subq_5.c4 is NULL)))
+        ) as subq_6
+    on ((EXISTS (
+          select  
+              1
+            from 
+              test_bd.user_profiles as ref_14
+            where EXISTS (
+              select  
+                  1
+                from 
+                  test_bd.locations as ref_15
+                where true
+                ))) 
+        or ((false) 
+          or (subq_6.c1 is not NULL)))
+where true
+;
+SHOW profiles;
+/* Elapsed old:2.186107 new:2.929746 ratio:1.340166 */
+
+
+--reduced actual_latest = 0.000822

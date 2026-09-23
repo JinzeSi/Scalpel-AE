@@ -1,0 +1,142 @@
+(1.097226, 0.312320, 0.342686, 1.064972, 0.321983, 0.342902)
+[!] Found interesting case in mysql
+QUERY
+====START====
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  ref_0.hire_date as c0, 
+  ref_0.hire_date as c1
+from 
+  test_bd.employee as ref_0
+where (((((ref_0.department_id is NULL) 
+          or (false)) 
+        or ((EXISTS (
+            select  
+                ref_0.email as c0, 
+                ref_1.birthdate as c1, 
+                (select id from test_bd.eids limit 1 offset 1)
+                   as c2, 
+                ref_0.hire_date as c3
+              from 
+                test_bd.user_profiles as ref_1
+              where (true) 
+                or (((((((select id from test_bd.users limit 1 offset 2)
+                               is not NULL) 
+                          and ((ref_0.years is not NULL) 
+                            or (false))) 
+                        and (false)) 
+                      and ((true) 
+                        or (ref_0.hire_date is not NULL))) 
+                    or (false)) 
+                  and (EXISTS (
+                    select  
+                        ref_2.username as c0, 
+                        ref_2.username as c1, 
+                        ref_2.email as c2, 
+                        ref_2.username as c3, 
+                        ref_0.hire_date as c4, 
+                        26 as c5, 
+                        ref_0.eid as c6, 
+                        ref_0.eid as c7, 
+                        ref_0.email as c8, 
+                        ref_2.email as c9, 
+                        (select user_id from test_bd.locations limit 1 offset 6)
+                           as c10, 
+                        ref_1.birthdate as c11
+                      from 
+                        test_bd.users as ref_2
+                      where ((false) 
+                          and (ref_1.user_id is NULL)) 
+                        and (EXISTS (
+                          select  
+                              ref_0.id as c0, 
+                              ref_2.username as c1, 
+                              ref_1.user_id as c2, 
+                              ref_0.eid as c3, 
+                              (select created_at from test_bd.comments limit 1 offset 6)
+                                 as c4, 
+                              ref_3.id as c5
+                            from 
+                              test_bd.posts as ref_3
+                            where EXISTS (
+                              select  
+                                  ref_1.bio as c0, 
+                                  ref_1.user_id as c1, 
+                                  ref_4.id as c2, 
+                                  ref_4.id as c3, 
+                                  ref_3.id as c4, 
+                                  ref_4.id as c5, 
+                                  ref_0.age as c6, 
+                                  ref_2.created_at as c7, 
+                                  ref_0.email as c8, 
+                                  ref_2.username as c9, 
+                                  59 as c10, 
+                                  ref_4.id as c11, 
+                                  (select updated_at from test_bd.posts limit 1 offset 51)
+                                     as c12, 
+                                  ref_1.bio as c13
+                                from 
+                                  test_bd.users as ref_4
+                                where ref_1.bio is not NULL
+                                limit 66)
+                            limit 113))
+                      limit 23))))) 
+          and (EXISTS (
+            select  
+                ref_0.age as c0, 
+                ref_0.salary as c1, 
+                ref_5.id as c2
+              from 
+                test_bd.comments as ref_5
+              where (true) 
+                and ((true) 
+                  or (EXISTS (
+                    select  
+                        (select created_at from test_bd.comments limit 1 offset 3)
+                           as c0, 
+                        ref_0.years as c1
+                      from 
+                        test_bd.user_profiles as ref_6
+                      where (ref_0.id is NULL) 
+                        and (true)))))))) 
+      and ((true) 
+        or (ref_0.id is NULL))) 
+    or ((true) 
+      and (EXISTS (
+        select  
+            ref_7.profile_picture as c0, 
+            ref_7.profile_picture as c1, 
+            ref_0.email as c2, 
+            ref_7.bio as c3, 
+            ref_7.user_id as c4, 
+            ref_0.age as c5, 
+            ref_0.email as c6, 
+            ref_7.profile_picture as c7, 
+            ref_0.eid as c8, 
+            ref_0.eid as c9, 
+            ref_7.bio as c10, 
+            ref_0.hire_date as c11
+          from 
+            test_bd.user_profiles as ref_7
+          where (false) 
+            and (ref_0.eid is not NULL)
+          limit 134)))) 
+  and ((((ref_0.department_id is not NULL) 
+        or ((false) 
+          or (true))) 
+      or (false)) 
+    and ((true) 
+      or (EXISTS (
+        select  
+            ref_0.eid as c0, 
+            ref_0.email as c1, 
+            ref_0.email as c2
+          from 
+            test_bd.comments as ref_8
+          where true
+          limit 91))));
+SHOW profiles;
+====END====
+0.31232 0.34268575
+[!] 1.097226 times longer execution time

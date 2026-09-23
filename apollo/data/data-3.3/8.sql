@@ -1,0 +1,157 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+
+select  
+  subq_2.c2 as c0
+from 
+  (select  
+          ref_0.comment as c0, 
+          ref_0.comment as c1, 
+          ref_1.name as c2, 
+          ref_0.comment as c3, 
+          (select profile_picture from test_bd.user_profiles limit 1 offset 3)
+             as c4, 
+          ref_2.name as c5, 
+          ref_1.coordinates as c6, 
+          ref_2.id as c7
+        from 
+          test_bd.user_post_comments as ref_0
+              inner join test_bd.locations as ref_1
+              on (ref_1.user_id is not NULL)
+            right join test_bd.locations as ref_2
+                left join test_bd.products as ref_3
+                on ((ref_3.name is not NULL) 
+                    or (EXISTS (
+                      select  
+                          ref_3.created_at as c0, 
+                          ref_4.salary as c1
+                        from 
+                          test_bd.employee as ref_4
+                        where false
+                        limit 69)))
+              right join test_bd.eids as ref_5
+              on ((((true) 
+                      or (ref_5.eid is NULL)) 
+                    or ((EXISTS (
+                        select  
+                            ref_2.id as c0
+                          from 
+                            test_bd.comments as ref_6
+                          where ((true) 
+                              and (true)) 
+                            and (((false) 
+                                or (((false) 
+                                    and (EXISTS (
+                                      select  
+                                          ref_3.price as c0, 
+                                          ref_3.price as c1
+                                        from 
+                                          test_bd.user_post_comments as ref_7
+                                        where false
+                                        limit 136))) 
+                                  and (EXISTS (
+                                    select  
+                                        ref_3.created_at as c0, 
+                                        ref_5.virtual_col as c1, 
+                                        ref_2.coordinates as c2
+                                      from 
+                                        test_bd.comments as ref_8
+                                      where (false) 
+                                        or (ref_2.user_id is not NULL)
+                                      limit 103)))) 
+                              and (true))
+                          limit 126)) 
+                      and ((((select tags from test_bd.products limit 1 offset 1)
+                               is not NULL) 
+                          and ((false) 
+                            or (ref_5.eid is not NULL))) 
+                        or ((true) 
+                          or (ref_3.name is NULL))))) 
+                  or (22 is NULL))
+            on ((ref_1.name is NULL) 
+                or ((select user_id from test_bd.posts limit 1 offset 37)
+                     is NULL))
+        where ((EXISTS (
+              select  
+                  ref_0.username as c0, 
+                  ref_1.id as c1, 
+                  ref_9.eid as c2, 
+                  ref_9.id as c3, 
+                  ref_9.eid as c4, 
+                  ref_3.price as c5, 
+                  ref_9.virtual_col as c6, 
+                  ref_9.virtual_col as c7, 
+                  ref_3.name as c8, 
+                  ref_2.user_id as c9, 
+                  ref_2.id as c10, 
+                  ref_1.name as c11, 
+                  ref_9.virtual_col as c12, 
+                  ref_3.id as c13, 
+                  95 as c14, 
+                  ref_9.eid as c15, 
+                  ref_5.eid as c16, 
+                  ref_1.name as c17, 
+                  ref_1.id as c18, 
+                  ref_2.id as c19, 
+                  ref_5.eid as c20, 
+                  ref_5.virtual_col as c21, 
+                  ref_3.name as c22, 
+                  ref_2.user_id as c23, 
+                  ref_3.name as c24, 
+                  (select created_at from test_bd.users limit 1 offset 4)
+                     as c25, 
+                  ref_9.id as c26, 
+                  ref_5.virtual_col as c27, 
+                  ref_3.tags as c28, 
+                  ref_2.coordinates as c29, 
+                  ref_2.user_id as c30
+                from 
+                  test_bd.eids as ref_9
+                where false)) 
+            and ((false) 
+              or (false))) 
+          and (ref_0.title is not NULL)) as subq_0
+    right join (select  
+          ref_10.tags as c0, 
+          ref_10.id as c1, 
+          (select eid from test_bd.eids limit 1 offset 3)
+             as c2, 
+          ref_10.discount as c3
+        from 
+          test_bd.products as ref_10
+        where ((true) 
+            and (EXISTS (
+              select  
+                  subq_1.c5 as c0, 
+                  75 as c1, 
+                  ref_10.price as c2, 
+                  ref_11.age as c3, 
+                  ref_11.department_id as c4, 
+                  subq_1.c7 as c5, 
+                  ref_11.eid as c6, 
+                  ref_10.discount as c7, 
+                  ref_10.discount as c8, 
+                  subq_1.c3 as c9, 
+                  subq_1.c5 as c10
+                from 
+                  test_bd.employee as ref_11,
+                  lateral (select  
+                        ref_12.id as c0, 
+                        ref_10.category as c1, 
+                        ref_10.category as c2, 
+                        ref_12.user_id as c3, 
+                        ref_10.created_at as c4, 
+                        ref_10.price as c5, 
+                        6 as c6, 
+                        ref_12.coordinates as c7
+                      from 
+                        test_bd.locations as ref_12
+                      where false
+                      limit 84) as subq_1
+                where (true) 
+                  or (true)
+                limit 130))) 
+          and (ref_10.discount is not NULL)) as subq_2
+    on (subq_0.c7 = subq_2.c1 )
+where 34 is not NULL;
+SHOW profiles;

@@ -1,0 +1,75 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  ref_0.email as c0, 
+  1, 
+  ref_0.username as c2, 
+  case when (EXISTS (
+        select  
+            1
+          from 
+            test_bd.comments as ref_1
+                  inner join test_bd.user_post_comments as ref_2
+                  on (EXISTS (
+                      select  
+                          1
+                        from 
+                          test_bd.posts as ref_3
+                        ))
+                right join test_bd.user_post_comments as ref_4
+                on (ref_1.post_id is NULL)
+              inner join test_bd.products as ref_5
+                inner join test_bd.comments as ref_6
+                on ((((EXISTS (
+                          select distinct 
+                              1
+                            from 
+                              test_bd.user_profiles as ref_7,
+                              lateral (select  
+                                    ref_0.username as c0, 
+                                    1
+                                  from 
+                                    test_bd.products as ref_8
+                                  where false) as subq_0
+                            where (ref_7.user_id is not NULL) 
+                              or ((ref_0.username is NULL) 
+                                or (((ref_0.email is NULL) 
+                                    or (false)) 
+                                  or (ref_7.profile_picture is NULL)))
+                            )) 
+                        and (false)) 
+                      or ((true) 
+                        and ((false) 
+                          and ((EXISTS (
+                              select  
+                                  1
+                                from 
+                                  test_bd.comments as ref_9
+                                where false
+                                )) 
+                            and (((false) 
+                                and (ref_6.id is not NULL)) 
+                              and (true)))))) 
+                    or (ref_0.created_at is NULL))
+              on (ref_4.comment = ref_6.comment )
+          )) 
+      and ((ref_0.created_at is NULL) 
+        or (EXISTS (
+          select  
+              1
+            from 
+              test_bd.eids as ref_10
+            ))) then ref_0.email else ref_0.email end as c3,
+  coalesce(case when ref_0.created_at is not NULL then ref_0.created_at else ref_0.created_at end
+      ,
+    ref_0.created_at) as c8, 
+  1
+from 
+  test_bd.users as ref_0
+where ref_0.email is not NULL
+;
+SHOW profiles;
+/* Elapsed old:0.164570 new:0.178128 ratio:1.082383 */
+
+
+--reduced actual_latest = 1.997262

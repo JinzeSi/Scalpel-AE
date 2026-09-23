@@ -1,0 +1,145 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  coalesce(subq_0.c1,
+    subq_0.c1) as c3, 
+  coalesce(case when case when subq_0.c1 is not NULL then subq_0.c2 else subq_0.c2 end
+           is not NULL then subq_0.c2 else subq_0.c2 end
+      ,
+    subq_0.c2) as c4
+from 
+  (select  
+        ref_0.email as c0, 
+        ref_0.username as c1, 
+        ref_0.created_at as c2
+      from 
+        test_bd.users as ref_0
+      where ref_0.created_at is NULL) as subq_0
+where (subq_0.c2 is not NULL) 
+  or (EXISTS (
+    select  
+        1
+      from 
+        test_bd.employee as ref_1
+          left join test_bd.products as ref_2
+          on (((ref_1.hire_date is not NULL) 
+                and (false)) 
+              or (false))
+      where EXISTS (
+        select  
+            1
+          from 
+            test_bd.posts as ref_3
+              left join test_bd.employee as ref_4
+              on (ref_3.user_id = ref_4.age )
+          where ((ref_3.user_id is not NULL) 
+              and (ref_4.eid is not NULL)) 
+            or ((EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.employee as ref_5,
+                    lateral (select  
+                          1
+                        from 
+                          test_bd.users as ref_6
+                        where (ref_5.eid is NULL) 
+                          or (ref_2.tags is not NULL)
+                        ) as subq_1,
+                    lateral (select  
+                          ref_2.category as c3, 
+                          1
+                        from 
+                          test_bd.employee as ref_7
+                        where ((false) 
+                            and (true)) 
+                          or (true)
+                        ) as subq_2
+                  where ref_4.years is not NULL
+                  )) 
+              and (EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.user_profiles as ref_8,
+                    lateral (select  
+                          ref_1.salary as c11, 
+                          1
+                        from 
+                          test_bd.eids as ref_9
+                        where ((false) 
+                            or (true)) 
+                          and (EXISTS (
+                            select  
+                                1
+                              from 
+                                test_bd.eids as ref_10,
+                                lateral (select  
+                                      ref_9.id as c0, 
+                                      ref_1.salary as c1, 
+                                      ref_9.virtual_col as c3
+                                    from 
+                                      test_bd.eids as ref_11,
+                                      lateral (select  
+                                            1
+                                          from 
+                                            test_bd.locations as ref_12
+                                          where (ref_1.salary is NULL) 
+                                            or (false)
+                                          ) as subq_3
+                                    where (false) 
+                                      or (((true) 
+                                          and (false)) 
+                                        and (ref_11.id is not NULL))
+                                    ) as subq_4,
+                                lateral (select  
+                                      1
+                                    from 
+                                      test_bd.posts as ref_13,
+                                      lateral (select  
+                                            ref_13.user_id as c0, 
+                                            1
+                                          from 
+                                            test_bd.posts as ref_14
+                                          where 31 is NULL
+                                          ) as subq_5,
+                                      lateral (select  
+                                            1
+                                          from 
+                                            test_bd.products as ref_15
+                                          where (false) 
+                                            or (ref_4.email is not NULL)) as subq_6
+                                    where ((true) 
+                                        and (true)) 
+                                      or (ref_4.email is not NULL)
+                                    ) as subq_7,
+                                lateral (select  
+                                      ref_4.eid as c7, 
+                                      1
+                                    from 
+                                      test_bd.posts as ref_16,
+                                      lateral (select  
+                                            1
+                                          from 
+                                            test_bd.posts as ref_17
+                                          where true) as subq_8
+                                    where ref_8.bio is NULL
+                                    ) as subq_9
+                              where (EXISTS (
+                                  select  
+                                      1
+                                    from 
+                                      test_bd.products as ref_18
+                                    where false
+                                    )) 
+                                or (true)
+                              ))) as subq_10
+                  where true)))
+          )
+      ))
+;
+SHOW profiles;
+/* Elapsed old:0.011178 new:0.011924 ratio:1.066762 */
+
+
+--reduced actual_latest = 0.023678

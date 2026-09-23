@@ -1,0 +1,131 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+          1
+        from 
+          (select  
+                ref_0.user_id as c0
+              from 
+                test_bd.user_profiles as ref_0
+              where EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.employee as ref_1
+                  where EXISTS (
+                    select  
+                        1
+                      from 
+                        test_bd.employee as ref_2
+                      where ((false) 
+                          and (false)) 
+                        or (((false) 
+                            or (true)) 
+                          and (ref_1.email is not NULL))
+                      )
+                  )) as subq_0
+        where subq_0.c0 is not NULL
+        ) as subq_1
+    left join test_bd.comments as ref_3
+        inner join test_bd.employee as ref_4
+        on (EXISTS (
+            select  
+                1
+              from 
+                test_bd.employee as ref_5
+              where EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.user_profiles as ref_6
+                  where (true) 
+                    or ((EXISTS (
+                        select  
+                            1
+                          from 
+                            test_bd.locations as ref_7,
+                            lateral (select  
+                                  85 as c2, 
+                                  1
+                                from 
+                                  test_bd.comments as ref_8
+                                where ((false) 
+                                    and (false)) 
+                                  or ((EXISTS (
+                                      select  
+                                          1
+                                        from 
+                                          test_bd.employee as ref_9
+                                        where ((ref_3.created_at is not NULL) 
+                                            or (false)) 
+                                          or (ref_9.years is NULL))) 
+                                    or (false))) as subq_2
+                          where EXISTS (
+                            select  
+                                1
+                              from 
+                                test_bd.posts as ref_10
+                              where (false) 
+                                or (false))
+                          )) 
+                      or (true)))
+              ))
+      left join test_bd.locations as ref_11
+          left join test_bd.posts as ref_12
+          on ((ref_11.id is not NULL) 
+              or (((EXISTS (
+                    select  
+                        1
+                      from 
+                        test_bd.user_post_comments as ref_13
+                      where ((((EXISTS (
+                                select  
+                                    1
+                                  from 
+                                    test_bd.comments as ref_14
+                                  where EXISTS (
+                                    select  
+                                        12, 
+                                        1
+                                      from 
+                                        test_bd.posts as ref_15
+                                      where true))) 
+                              or ((EXISTS (
+                                  select  
+                                      1
+                                    from 
+                                      test_bd.user_post_comments as ref_16
+                                    where true)) 
+                                and ((true) 
+                                  or ((true) 
+                                    and (84 is not NULL))))) 
+                            and (ref_13.username is not NULL)) 
+                          or ((ref_11.user_id is not NULL) 
+                            or (((ref_11.id is not NULL) 
+                                or ((((false) 
+                                      and (68 is NULL)) 
+                                    or ((true) 
+                                      and (true))) 
+                                  and (ref_13.comment is NULL))) 
+                              and (false)))) 
+                        and (ref_12.content is not NULL)
+                      )) 
+                  or (ref_12.title is NULL)) 
+                or (ref_12.id is NULL)))
+        inner join test_bd.user_profiles as ref_17
+        on (ref_12.id = ref_17.user_id )
+      on (ref_3.id is NULL)
+    on (ref_4.salary is not NULL)
+where (ref_12.user_id is NULL) 
+  and ((coalesce(ref_3.id,
+        ref_11.id) is NULL) 
+    or (ref_11.coordinates is NULL))
+;
+SHOW profiles;
+/* Elapsed old:8.628376 new:9.336429 ratio:1.082061 */
+
+
+--reduced actual_latest = 1.972532

@@ -1,0 +1,51 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+        ref_0.profile_picture as c5, 
+        subq_2.c0 as c9, 
+        subq_2.c0 as c12
+      from 
+        test_bd.user_profiles as ref_0,
+        lateral (select  
+              ref_0.birthdate as c0
+            from 
+              test_bd.products as ref_1
+            where ((null)) 
+              and (EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.employee as ref_2,
+                    lateral (select  
+                          ref_3.age as c0, 
+                          ref_1.tags as c1
+                        from 
+                          test_bd.employee as ref_3,
+                          lateral (select  
+                                1
+                              from 
+                                test_bd.users as ref_4
+                              where ((null)) 
+                                or ((null))
+                              ) as subq_0
+                        where (null)
+                        ) as subq_1
+                  where (null)
+                  ))
+            ) as subq_2
+      where ((((null)) 
+            or (((null)) 
+              or ((null)))) 
+          and ((null))) 
+        or ((null))
+      ) as subq_3
+where subq_3.c5 is NULL
+;
+SHOW profiles;
+/* Elapsed old:0.085829 new:0.097638 ratio:1.137588 */
+
+
+--reduced actual_latest = 0.000582

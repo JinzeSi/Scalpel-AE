@@ -1,0 +1,48 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+            ref_0.user_id as c0, 
+            ref_1.created_at as c4
+          from 
+            test_bd.locations as ref_0
+              inner join test_bd.posts as ref_1
+              on (ref_0.name is NULL)
+          where (ref_1.user_id is NULL) 
+            or (EXISTS (
+              select  
+                  1
+                from 
+                  test_bd.eids as ref_2
+                where true))
+          ) as subq_0
+      left join test_bd.employee as ref_3
+        right join test_bd.user_profiles as ref_4
+          left join test_bd.products as ref_5
+          on (false)
+        on ((ref_4.bio is NULL) 
+            or (EXISTS (
+              select  
+                  1
+                from 
+                  test_bd.employee as ref_6
+                where (false) 
+                  and ((true) 
+                    and (true)))))
+      on (subq_0.c0 = ref_4.user_id )
+    left join (select  
+          1
+        from 
+          test_bd.eids as ref_7
+        where (true) 
+          or ((true) 
+            or (false))) as subq_1
+    on (ref_5.name is not NULL)
+where ref_4.bio is NULL;
+SHOW profiles;
+/* Elapsed old:0.010654 new:0.011082 ratio:1.040196 */
+
+
+--reduced actual_latest = 0.008299

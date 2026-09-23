@@ -1,0 +1,32 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+        subq_0.c0 as c0
+      from 
+        (select  
+              ref_0.bio as c0
+            from 
+              test_bd.user_profiles as ref_0
+            where (EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.eids as ref_1
+                  where ref_1.virtual_col is NULL
+                  )) 
+              or ((select username from test_bd.users limit 1 offset 82)
+                   is NULL)
+            ) as subq_0
+      where (subq_0.c0 is NULL) 
+        and (true)) as subq_1
+where (true) 
+  and (subq_1.c0 is NULL)
+;
+SHOW profiles;
+/* Elapsed old:1.961610 new:2.118884 ratio:1.080176 */
+
+
+--reduced actual_latest = 0.001282

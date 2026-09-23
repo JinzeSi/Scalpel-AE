@@ -1,0 +1,68 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  test_bd.users as ref_0
+    right join test_bd.products as ref_1
+    on ((((ref_0.email is NULL) 
+            or (true)) 
+          and (true)) 
+        or (((false) 
+            or ((select salary from test_bd.employee limit 1 offset 5)
+                 is not NULL)) 
+          or ((ref_0.username is not NULL) 
+            and (true))))
+where ((EXISTS (
+      select  
+          1
+        from 
+          test_bd.locations as ref_2
+        where true
+        limit 154)) 
+    and (coalesce(ref_1.category,
+        ref_1.category) is not NULL)) 
+  and ((EXISTS (
+      select  
+          1
+        from 
+          test_bd.users as ref_3,
+          lateral (select  
+                ref_3.created_at as c1, 
+                ref_5.id as c6, 
+                1
+              from 
+                test_bd.users as ref_4
+                  left join test_bd.employee as ref_5
+                  on (ref_4.username = ref_5.email )
+              where EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.employee as ref_6
+                  where ref_4.created_at is NULL
+                  limit 166)
+              ) as subq_0
+        where ref_3.email is not NULL
+        limit 71)) 
+    or ((ref_1.name is NULL) 
+      or ((true) 
+        and ((EXISTS (
+            select  
+                1
+              from 
+                test_bd.locations as ref_7
+              where EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.products as ref_8
+                  where ref_1.id is not NULL
+                  limit 124)
+              limit 133)) 
+          or (ref_1.tags is not NULL)))));
+SHOW profiles;
+/* Elapsed old:3.029308 new:3.609811 ratio:1.191629 */
+
+
+--reduced actual_latest = 1.995915

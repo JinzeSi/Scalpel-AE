@@ -1,0 +1,101 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+        ref_0.category as c0, 
+        ref_1.eid as c3, 
+        ref_0.name as c4
+      from 
+        test_bd.products as ref_0
+            left join test_bd.eids as ref_1
+            on (ref_0.id = ref_1.eid )
+          inner join test_bd.user_post_comments as ref_2
+          on ((EXISTS (
+                select  
+                    1
+                  from 
+                    test_bd.locations as ref_3
+                  where (EXISTS (
+                      select  
+                          1
+                        from 
+                          test_bd.users as ref_4
+                        where ref_3.user_id is not NULL
+                        )) 
+                    and (true)
+                  )) 
+              or (ref_2.username is not NULL))
+      where ((((true) 
+              or (((false) 
+                  and (((false) 
+                      or (ref_0.price is not NULL)) 
+                    or ((ref_2.title is not NULL) 
+                      and ((EXISTS (
+                          select  
+                              1
+                            from 
+                              test_bd.comments as ref_5,
+                              lateral (select  
+                                    ref_2.comment as c0, 
+                                    1
+                                  from 
+                                    test_bd.users as ref_6
+                                  where ref_5.id is not NULL) as subq_0
+                            where (ref_5.post_id is not NULL) 
+                              and (EXISTS (
+                                select  
+                                    1
+                                  from 
+                                    test_bd.user_profiles as ref_7
+                                  where (((false) 
+                                        or ((false) 
+                                          or ((false) 
+                                            and (false)))) 
+                                      or (false)) 
+                                    and (EXISTS (
+                                      select  
+                                          1
+                                        from 
+                                          test_bd.employee as ref_8
+                                        where EXISTS (
+                                          select  
+                                              ref_2.comment as c0, 
+                                              1
+                                            from 
+                                              test_bd.user_post_comments as ref_9
+                                            where true)
+                                        ))))
+                            )) 
+                        and (ref_2.comment is NULL))))) 
+                or (ref_1.virtual_col is not NULL))) 
+            or (true)) 
+          or (ref_0.id is NULL)) 
+        and ((((false) 
+              and (ref_0.name is NULL)) 
+            and (((EXISTS (
+                  select distinct 
+                      1
+                    from 
+                      test_bd.employee as ref_10
+                    where ref_2.title is not NULL)) 
+                or (true)) 
+              or (EXISTS (
+                select  
+                    ref_1.eid as c3, 
+                    1
+                  from 
+                    test_bd.user_post_comments as ref_11
+                  where ref_2.comment is NULL
+                  )))) 
+          or (ref_1.virtual_col is not NULL))
+      ) as subq_1
+where (subq_1.c4 is NULL) 
+  or (subq_1.c3 is NULL)
+;
+SHOW profiles;
+/* Elapsed old:10.562940 new:11.864393 ratio:1.123209 */
+
+
+--reduced actual_latest = 0.001718

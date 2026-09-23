@@ -1,0 +1,64 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  case when EXISTS (
+      select  
+          1
+        from 
+          test_bd.comments as ref_3
+            left join test_bd.comments as ref_4
+            on (((null))
+                   is not NULL),
+          lateral (select  
+                28 as c1
+              from 
+                test_bd.users as ref_5
+              where ((null)) 
+              ) as subq_2
+        ) then subq_1.c3 else subq_1.c3 end as c0
+from 
+  (select  
+        subq_0.c0 as c2, 
+        subq_0.c29 as c3, 
+        1
+      from 
+        (select  
+              ref_0.content as c0, 
+              ref_0.created_at as c3, 
+              ref_0.title as c4, 
+              ref_0.id as c14, 
+              ref_0.created_at as c16, 
+              ref_0.id as c17, 
+              ref_0.created_at as c18, 
+              ref_0.id as c22, 
+              ref_0.title as c24, 
+              ref_0.title as c27, 
+              ref_0.updated_at as c29, 
+              ref_0.updated_at as c31, 
+              ref_0.content as c33
+            from 
+              test_bd.posts as ref_0
+            ) as subq_0
+      where EXISTS (
+        select  
+            1
+          from 
+            test_bd.user_profiles as ref_1
+          where (((null)) 
+              or (((null)) 
+                and ((null)))) 
+            and (EXISTS (
+              select  
+                  1
+                from 
+                  test_bd.comments as ref_2
+                where ((null))
+                     is not NULL))
+          )
+      ) as subq_1
+;
+SHOW profiles;
+/* Elapsed old:6.103328 new:11.374011 ratio:1.863575 */
+
+
+--reduced actual_latest = 0.000299

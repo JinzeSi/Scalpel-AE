@@ -1,0 +1,110 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+
+select  
+  ref_0.email as c0
+from 
+  test_bd.users as ref_0
+    right join test_bd.products as ref_1
+    on ((((ref_0.email is NULL) 
+            or (true)) 
+          and (true)) 
+        or (((false) 
+            or ((select salary from test_bd.employee limit 1 offset 5)
+                 is not NULL)) 
+          or ((ref_0.username is not NULL) 
+            and (true))))
+where ((EXISTS (
+      select  
+          ref_0.username as c0, 
+          ref_2.user_id as c1, 
+          ref_0.email as c2, 
+          ref_1.tags as c3, 
+          ref_2.user_id as c4, 
+          (select bio from test_bd.user_profiles limit 1 offset 4)
+             as c5
+        from 
+          test_bd.locations as ref_2
+        where true
+        limit 154)) 
+    and (coalesce(ref_1.category,
+        ref_1.category) is not NULL)) 
+  and ((EXISTS (
+      select  
+          ref_1.discount as c0, 
+          ref_1.name as c1, 
+          subq_0.c1 as c2, 
+          74 as c3, 
+          ref_1.id as c4, 
+          subq_0.c6 as c5, 
+          ref_3.email as c6
+        from 
+          test_bd.users as ref_3,
+          lateral (select  
+                ref_5.years as c0, 
+                ref_3.created_at as c1, 
+                ref_0.email as c2, 
+                ref_0.username as c3, 
+                20 as c4, 
+                (select created_at from test_bd.products limit 1 offset 5)
+                   as c5, 
+                ref_5.id as c6, 
+                ref_1.category as c7, 
+                ref_3.email as c8
+              from 
+                test_bd.users as ref_4
+                  left join test_bd.employee as ref_5
+                  on (ref_4.username = ref_5.email )
+              where EXISTS (
+                select  
+                    ref_3.email as c0, 
+                    ref_6.department_id as c1, 
+                    ref_0.email as c2, 
+                    ref_3.email as c3
+                  from 
+                    test_bd.employee as ref_6
+                  where ref_4.created_at is NULL
+                  limit 166)
+              limit 107) as subq_0
+        where ref_3.email is not NULL
+        limit 71)) 
+    or ((ref_1.name is NULL) 
+      or ((true) 
+        and ((EXISTS (
+            select  
+                ref_7.id as c0, 
+                ref_0.id as c1, 
+                ref_1.discount as c2, 
+                ref_0.created_at as c3, 
+                20 as c4, 
+                ref_7.coordinates as c5, 
+                ref_0.created_at as c6, 
+                ref_0.username as c7, 
+                ref_0.username as c8, 
+                ref_0.email as c9, 
+                ref_0.username as c10, 
+                ref_1.discount as c11, 
+                ref_0.email as c12, 
+                ref_7.coordinates as c13, 
+                ref_1.category as c14, 
+                ref_0.created_at as c15, 
+                ref_0.email as c16, 
+                ref_7.user_id as c17, 
+                ref_0.email as c18, 
+                ref_0.username as c19, 
+                ref_0.username as c20
+              from 
+                test_bd.locations as ref_7
+              where EXISTS (
+                select  
+                    ref_8.category as c0, 
+                    ref_7.id as c1, 
+                    ref_1.discount as c2, 
+                    ref_7.coordinates as c3
+                  from 
+                    test_bd.products as ref_8
+                  where ref_1.id is not NULL
+                  limit 124)
+              limit 133)) 
+          or (ref_1.tags is not NULL)))));
+SHOW profiles;

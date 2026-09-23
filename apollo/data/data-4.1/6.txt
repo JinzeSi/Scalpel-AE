@@ -1,0 +1,95 @@
+(1.137588, 0.085829, 0.097638, 1.061194, 0.079284, 0.084136)
+[!] Found interesting case in mysql
+QUERY
+====START====
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  subq_3.c9 as c0, 
+  (select user_id from test_bd.locations limit 1 offset 5)
+     as c1, 
+  subq_3.c12 as c2
+from 
+  (select  
+        subq_2.c0 as c0, 
+        ref_0.profile_picture as c1, 
+        subq_2.c0 as c2, 
+        ref_0.profile_picture as c3, 
+        subq_2.c0 as c4, 
+        ref_0.profile_picture as c5, 
+        subq_2.c0 as c6, 
+        subq_2.c0 as c7, 
+        ref_0.birthdate as c8, 
+        subq_2.c0 as c9, 
+        ref_0.birthdate as c10, 
+        subq_2.c0 as c11, 
+        subq_2.c0 as c12
+      from 
+        test_bd.user_profiles as ref_0,
+        lateral (select  
+              ref_0.birthdate as c0
+            from 
+              test_bd.products as ref_1
+            where (ref_1.price is not NULL) 
+              and (EXISTS (
+                select  
+                    subq_1.c1 as c0, 
+                    9 as c1, 
+                    55 as c2, 
+                    ref_2.id as c3, 
+                    ref_0.bio as c4, 
+                    ref_2.id as c5, 
+                    subq_1.c0 as c6, 
+                    (select discount from test_bd.products limit 1 offset 4)
+                       as c7, 
+                    ref_2.eid as c8, 
+                    ref_2.id as c9, 
+                    ref_1.name as c10, 
+                    subq_1.c1 as c11, 
+                    ref_2.salary as c12, 
+                    ref_0.user_id as c13, 
+                    ref_0.user_id as c14, 
+                    ref_0.user_id as c15, 
+                    subq_1.c0 as c16, 
+                    ref_0.birthdate as c17, 
+                    ref_0.profile_picture as c18, 
+                    ref_2.email as c19, 
+                    subq_1.c0 as c20, 
+                    ref_2.email as c21
+                  from 
+                    test_bd.employee as ref_2,
+                    lateral (select  
+                          ref_3.age as c0, 
+                          ref_1.tags as c1
+                        from 
+                          test_bd.employee as ref_3,
+                          lateral (select  
+                                ref_3.email as c0, 
+                                (select comment from test_bd.comments limit 1 offset 3)
+                                   as c1, 
+                                ref_2.years as c2, 
+                                30 as c3, 
+                                ref_3.age as c4, 
+                                ref_4.id as c5
+                              from 
+                                test_bd.users as ref_4
+                              where (false) 
+                                or (true)
+                              limit 97) as subq_0
+                        where true
+                        limit 111) as subq_1
+                  where true
+                  limit 14))
+            limit 155) as subq_2
+      where (((false) 
+            or ((subq_2.c0 is not NULL) 
+              or (true))) 
+          and (ref_0.profile_picture is not NULL)) 
+        or (subq_2.c0 is not NULL)
+      limit 69) as subq_3
+where subq_3.c5 is NULL
+limit 50;
+SHOW profiles;
+====END====
+0.0858285 0.0976375
+[!] 1.137588 times longer execution time

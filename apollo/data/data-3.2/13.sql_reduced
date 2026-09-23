@@ -1,0 +1,129 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  (select  
+        ref_1.created_at as c1, 
+        ref_0.id as c2
+      from 
+        test_bd.products as ref_0
+          inner join test_bd.comments as ref_1
+          on ((null))
+      where EXISTS (
+        select  
+            1
+          from 
+            test_bd.products as ref_2
+                inner join test_bd.user_post_comments as ref_3
+                on ((null))
+              left join test_bd.eids as ref_4
+              on ((null))
+          where EXISTS (
+            select  
+                1
+              from 
+                test_bd.user_profiles as ref_5
+              where (((((null)) 
+                      and ((((null)) 
+                          or ((null))) 
+                        or (((((null)) 
+                              or ((null))) 
+                            and ((null))) 
+                          and (((null)) 
+                            or ((null)))))) 
+                    and (((((null)) 
+                          or ((null))) 
+                        or (((null)) 
+                          or ((null)))) 
+                      and ((((null)) 
+                          and ((((null)) 
+                              and (((null)) 
+                                or (((null)) 
+                                  or ((((null)) 
+                                      and ((((null)) 
+                                          and (EXISTS (
+                                            select  
+                                                1
+                                              from 
+                                                test_bd.user_profiles as ref_6
+                                              where EXISTS (
+                                                select  
+                                                    1 as c0, 
+                                                    1
+                                                  from 
+                                                    test_bd.products as ref_7
+                                                  where ((null)) 
+                                                    or (EXISTS (
+                                                      select  
+                                                          1
+                                                        from 
+                                                          test_bd.eids as ref_8
+                                                        where (null)
+                                                        ))
+                                                  )
+                                              ))) 
+                                        or ((null)))) 
+                                    or (EXISTS (
+                                      select  
+                                          1
+                                        from 
+                                          test_bd.locations as ref_9,
+                                          lateral (select  
+                                                ref_1.comment as c0, 
+                                                ref_2.name as c1, 
+                                                ref_5.bio as c2
+                                              from 
+                                                test_bd.user_post_comments as ref_10
+                                              where ref_1.comment is not NULL) as subq_0
+                                        where (EXISTS (
+                                            select  
+                                                1
+                                              from 
+                                                test_bd.employee as ref_11,
+                                                lateral (select  
+                                                      subq_1.c2 as c0
+                                                    from 
+                                                      test_bd.locations as ref_12,
+                                                      lateral (select  
+                                                            ref_12.coordinates as c2, 
+                                                            1
+                                                          from 
+                                                            test_bd.posts as ref_13
+                                                          where ref_11.id is not NULL
+                                                          ) as subq_1
+                                                    where ref_5.profile_picture is NULL
+                                                    ) as subq_2,
+                                                lateral (select  
+                                                      subq_0.c2 as c8, 
+                                                      1
+                                                    from 
+                                                      test_bd.user_post_comments as ref_14,
+                                                      lateral (select  
+                                                            ref_15.title as c0, 
+                                                            ref_15.comment as c1, 
+                                                            1
+                                                          from 
+                                                            test_bd.user_post_comments as ref_15
+                                                          where (null)
+                                                          ) as subq_3
+                                                    where (null)
+                                                    ) as subq_4
+                                              where (null)
+                                              )) 
+                                          and ((null))
+                                        )))))) 
+                            and ((null)))) 
+                        or (((null)) 
+                          or ((((null)) 
+                              or ((null))) 
+                            or ((null))))))) 
+                  or ((null))) 
+                or ((null)))
+          )) as subq_5
+where (null);
+SHOW profiles;
+/* Elapsed old:10.923189 new:12.609771 ratio:1.154404 */
+
+
+--reduced actual_latest = 0.001216

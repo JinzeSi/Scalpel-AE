@@ -1,0 +1,76 @@
+SET profiling=1;
+EXPLAIN ANALYZE
+select  
+  1
+from 
+  test_bd.user_profiles as ref_0
+    inner join test_bd.comments as ref_1
+    on (((EXISTS (
+            select  
+                1
+              from 
+                test_bd.posts as ref_2
+                  left join test_bd.eids as ref_3
+                  on (ref_2.id = ref_3.eid )
+              where ((EXISTS (
+                    select  
+                        1
+                      from 
+                        test_bd.users as ref_4
+                      where (select email from test_bd.users limit 1 offset 28)
+                           is NULL
+                      )) 
+                  and ((ref_1.post_id is not NULL) 
+                    or (((EXISTS (
+                          select  
+                              1
+                            from 
+                              test_bd.eids as ref_5
+                            where false
+                            )) 
+                        and (false)) 
+                      or (false)))) 
+                or (ref_1.post_id is not NULL))) 
+          or (ref_0.bio is not NULL)) 
+        and ((ref_0.bio is not NULL) 
+          and (EXISTS (
+            select  
+                1
+              from 
+                test_bd.products as ref_6
+                  inner join test_bd.comments as ref_7
+                  on ((((EXISTS (
+                            select  
+                                1
+                              from 
+                                test_bd.user_post_comments as ref_8
+                              where EXISTS (
+                                select  
+                                    1
+                                  from 
+                                    test_bd.user_profiles as ref_9
+                                  where 11 is NULL
+                                  ))) 
+                          or ((false) 
+                            and (((ref_1.comment is NULL) 
+                                or ((true) 
+                                  and (ref_6.name is NULL))) 
+                              and (false)))) 
+                        and (((true) 
+                            or (false)) 
+                          or ((select updated_at from test_bd.posts limit 1 offset 5)
+                               is NULL))) 
+                      or (((ref_6.id is NULL) 
+                          or ((29 is not NULL) 
+                            and ((true) 
+                              and (ref_7.id is not NULL)))) 
+                        or ((ref_0.bio is not NULL) 
+                          or (ref_1.comment is NULL))))
+              where ref_7.user_id is NULL))))
+where true
+;
+SHOW profiles;
+/* Elapsed old:0.020245 new:0.020959 ratio:1.035256 */
+
+
+--reduced actual_latest = 1.989088
