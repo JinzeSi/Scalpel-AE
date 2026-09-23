@@ -1,0 +1,52 @@
+# Local Git metadata, editor settings and Python caches
+.git
+.vscode/
+.idea/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+*.swp
+*.swo
+.DS_Store
+
+# Workflow locks, logs, reports and previous experiment runs
+/.run_auto.lock
+/.pipeline.lock
+/pipeline-runs/
+/report/
+/report-final/
+/report-confirmation/
+/full-*/
+/replay-*/
+/trial-*/
+/pre-full-*-source-backup-*/
+/time-tall*.txt
+/*.log
+
+# Per-commit result directories, including <parent>-old/.
+/[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]*/
+
+# MySQL build trees; keep both source checkouts and extracted Boost headers.
+/mysql-server/build*/
+/mysql-server-2/build*/
+/mysql-server/boost_1_77_0.tar.gz
+/mysql-server-2/boost_1_77_0.tar.gz
+
+# Analysis output generated at the root of either source checkout
+/mysql-server*/getFuncName*.txt
+/mysql-server*/new_function.txt
+/mysql-server*/call_analyse*.txt
+/mysql-server*/symbolic_analyse.txt
+/mysql-server*/end_to_end.txt
+/mysql-server*/testcase.txt
+/mysql-server*/symbolic_testcase.txt
+/mysql-server*/modified_part_info.txt
+/mysql-server*/icount-new.txt
+/mysql-server*/icount-old.txt
+/mysql-server*/block.txt
+/mysql-server*/tmp
+/mysql-server*/tmp2
+
+# Keep tool/, scripts, commit-tmp.txt, sql-times.txt and upstream test fixtures.
+# Do not globally ignore binaries, *.sql, *.txt, *.bc, *.ll, *.o or *.a.

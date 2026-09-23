@@ -8,5 +8,13 @@
 !/Pre-knowledge-mysql/
 !/perfscope/
 !/apollo/
+!/mysql/
+!/replication package/
+
+# Finder metadata is not part of the replication package.
+/replication package/**/.DS_Store
+
+# Redis evaluation PDFs are excluded from the replication package.
+/replication package/(2)evaluation_results/*Redis dataset/
 
 # Each project's .gitignore controls its generated files.

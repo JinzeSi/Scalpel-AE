@@ -1,0 +1,29 @@
+# Format: SQL<TAB>execution_count; ignore lines starting with #.
+# Source: testcase-runtime-brk-5-5/sql-groups.csv, pure_median_seconds per 10000 queries.
+# Target: approximately 30 seconds per batch, with a minimum of 10000 queries.
+# Count = 10000 * max(1, ceil(30 / pure_median_seconds)).
+# Use the same count for both versions of a testcase. Slow cases remain above 30 seconds.
+# Invalid testcase text (error num1Int && num2Int) is excluded.
+UPDATE IGNORE users SET email = 'new_user1@example.com' WHERE id = @user_id;	960000
+INSERT INTO eids(id, eid) VALUES (65536, 72004) ON DUPLICATE KEY UPDATE eid = 72004;	850000
+INSERT INTO users SET id = 1, username = 'user1', email = 'user1@example.com' ON DUPLICATE KEY UPDATE email = 'updated_user1@example.com';	720000
+CREATE TABLE IF NOT EXISTS comments_new ( id INT AUTO_INCREMENT PRIMARY KEY, post_id INT, comment TEXT NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (post_id) REFERENCES posts(id) );	220000
+SET PERSIST max_connections = 200;	180000
+SELECT * FROM posts WHERE MATCH(title, content) AGAINST('search term' IN NATURAL LANGUAGE MODE);	90000
+SELECT username FROM users WHERE id BETWEEN 700 AND 1200;	60000
+CREATE OR REPLACE VIEW user_post_comments_new AS SELECT u.username, p.title, c.comment FROM users u JOIN posts p ON u.id = p.user_id JOIN comments c ON p.id = c.post_id;	40000
+UPDATE IGNORE users SET email = 'new_user1@example.com' WHERE NOT id = 1;	30000
+CALL GetUserPosts(1);	20000
+ALTER TABLE users CHANGE COLUMN username username VARCHAR(60);	10000
+SELECT * FROM (SELECT user_id FROM posts UNION SELECT user_id FROM comments) AS derived_table WHERE user_id > 10;	10000
+ALTER TABLE users ALTER COLUMN email SET DEFAULT 'inactive';	10000
+ALTER TABLE employee CHANGE eid eid INT NOT NULL;	10000
+SELECT DISTINCT u.username, COUNT(p.id) AS post_count FROM users u, posts p WHERE u.id = p.user_id AND p.created_at BETWEEN '2025-01-01' AND '2025-12-31' GROUP BY u.username ORDER BY post_count DESC LIMIT 5;	10000
+SELECT DISTINCT u.username, COUNT(p.id) AS post_count FROM users u, posts p WHERE u.id = p.user_id AND u.id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01') GROUP BY u.username HAVING COUNT(p.id) > 1;	10000
+REPLACE INTO users (username, email) SELECT username, CONCAT(username, '@example.com') FROM users WHERE id < 1000;	10000
+SELECT * FROM products WHERE FIND_IN_SET('New', tags);	10000
+SELECT DISTINCT u.username, COUNT(p.id) AS post_count, AVG(LENGTH(p.content)) AS avg_content_length FROM users u LEFT JOIN posts p ON u.id = p.user_id GROUP BY u.username HAVING COUNT(p.id) > 1 AND AVG(LENGTH(p.content)) > 100;	10000
+SELECT DISTINCT u.username, p.title, c.comment FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id AND u.id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01') ORDER BY c.comment DESC;	10000
+UPDATE comments SET post_id=post_id+1 WHERE id>1000;	10000
+OPTIMIZE TABLE posts;	10000
+INSERT IGNORE INTO users (id, username, email) SELECT p.id, u.username, CONCAT(u.username, '@example.com') FROM users u, posts p WHERE u.id = p.user_id;	10000

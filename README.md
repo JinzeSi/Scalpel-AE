@@ -33,6 +33,17 @@ See the [Apollo README](apollo/README.md) for the Python 2 environment, target
 commits, fuzzing commands, and result inspection. Run the four targets one at a
 time, using the documented 10-hour duration for the full evaluation.
 
+For example, start a full run for `0fa789a` with:
+
+```bash
+cd /data3/sjz/AE/apollo
+conda activate apollo-py2
+./ae/run-0fa789a.sh 10h
+```
+
+The other targets are `cd66c5c`, `c17d86b`, and `6ba1fef`; use their corresponding
+`ae/run-<commitId>.sh` scripts after the preceding run has finished.
+
 The commands use the prepared MySQL installations under `apollo/opt/` and the
 built SQLSmith executable. These generated dependencies are excluded from Git;
 the source checkout alone does not provide a ready-to-run environment.
@@ -130,6 +141,18 @@ Both Redis and MySQL organize final reports as
 The final directory may be empty when no reports meet the retention criteria.
 The presence of a result directory or older reports does not establish that the
 current run has completed.
+
+## Replication Package
+
+The [replication package](replication%20package/) contains the analysis spreadsheet
+in `(1)analysis_results/` and evaluation PDFs in `(2)evaluation_results/`:
+
+| Dataset | Directory Within `(2)evaluation_results/` |
+| --- | --- |
+| RocksDB | `(1) Rocksdb dataset/` |
+| MySQL | `(2) MySQL dataset/` |
+| httpd | `(3) Httpd dataset/` |
+| MariaDB | `(4) MariaDB dataset/` |
 
 ## License
 
