@@ -1,0 +1,49 @@
+# Local editor settings and Python caches
+.vscode/
+.idea/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+*.swp
+*.swo
+
+# Compiler, coverage and runtime output
+*.o
+*.a
+*.so
+*.bc
+*.ll
+*.gcda
+*.gcno
+*.gcov
+*.sancov
+*.symcov
+*.log
+*.pid
+*.sock
+*.sock.lock
+
+# Worker coordination and generated analysis results
+/.mysql-ae-peer.lock
+/build_KeyValue_hashTable.txt
+/demo-S2E-times-res-*.txt
+/mysql-BB/
+/mysql-brk/
+/re-build/
+/re-build-*/
+/init_file_*/
+/mysql-BB*.txt
+/demo-mysql-BB.txt
+/mysql-map.txt
+/generate_S2E_case-*.txt
+/gitshow.txt
+/mysqld.res
+/sql-res.txt
+/tmptmptmp.txt
+
+# Mutable database files are restored from the supplied seed archive.
+/mysql-data/data/
+
+# Keep mysql-data/tables.tar.gz, SQL inputs, command/commit lists,
+# source files, scripts and supplied helper executables.

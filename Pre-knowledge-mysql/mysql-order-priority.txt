@@ -1,0 +1,774 @@
+CREATE DATABASE IF NOT EXISTS test_db;
+2
+USE test;
+15
+SHOW DATABASES;
+15
+SHOW TABLES;
+15
+DESC users;
+15
+SET @user_id = 1;
+15
+SET PERSIST max_connections = 200;
+15
+OPTIMIZE TABLE posts;
+15
+SELECT * FROM performance_schema.events_statements_current;
+15
+SELECT id, user,host,command,state FROM performance_schema.processlist ORDER BY user, id;
+15
+SELECT * FROM (SELECT user_id FROM posts UNION SELECT user_id FROM comments) AS derived_table WHERE user_id > 10;
+76
+SELECT * FROM posts WHERE (user_id, id) = (1588, 2000);
+78
+SELECT * FROM users WHERE id IN (SELECT * FROM (SELECT id FROM posts ORDER BY id LIMIT 2) x where id < 1000);
+78
+ALTER USER 'root'@'localhost' IDENTIFIED BY '';
+15
+DROP USER IF EXISTS 'newuser'@'localhost';
+15
+ALTER TABLE employee CHANGE eid eid INT NOT NULL;
+15
+ALTER TABLE employee CHANGE eid eid INT NOT NULL, ALGORITHM=INSTANT;
+15
+UPDATE employee SET eid = 21726 WHERE eid = 21726;
+15
+INSERT IGNORE INTO eids(id, eid) VALUES (65536, 72004);
+13
+INSERT INTO eids(id, eid) VALUES (65536, 72004) ON DUPLICATE KEY UPDATE eid = 72004;
+20
+REPLACE INTO eids(id, eid) VALUES (65536, 72004);
+20
+UPDATE eids SET eid = 90229 WHERE eid = 90229;
+15
+DELETE FROM employee WHERE id = 1436;
+15
+CREATE TABLE IF NOT EXISTS users_new ( id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(50) NOT NULL, email VARCHAR(100) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+4
+CREATE TABLE IF NOT EXISTS posts_new ( id INT AUTO_INCREMENT PRIMARY KEY, user_id INT, title VARCHAR(255) NOT NULL, content TEXT NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ) ENGINE=MyISAM;
+3
+CREATE TABLE IF NOT EXISTS comments_new ( id INT AUTO_INCREMENT PRIMARY KEY, post_id INT, comment TEXT NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (post_id) REFERENCES posts(id) );
+5
+CREATE TABLE IF NOT EXISTS user_profiles_new ( user_id INT PRIMARY KEY, bio TEXT, birthdate DATE, profile_picture CHAR(20), FOREIGN KEY (user_id) REFERENCES users(id) ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='User Profiles Table';
+5
+CREATE TABLE IF NOT EXISTS locations_new ( id INT AUTO_INCREMENT PRIMARY KEY, `name` VARCHAR(100), coordinates POINT );
+4
+CREATE TABLE IF NOT EXISTS products_new ( id INT AUTO_INCREMENT PRIMARY KEY, `name` VARCHAR(100) NOT NULL, category ENUM('Electronics', 'Clothing', 'Books', 'Furniture') NOT NULL, tags SET('New', 'Sale', 'Popular', 'Limited') NOT NULL, price DECIMAL(10, 2) NOT NULL, discount FLOAT NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+5
+CREATE TABLE IF NOT EXISTS products_new AS SELECT * FROM products;
+1
+CREATE TABLE IF NOT EXISTS products_new LIKE products;
+3
+CREATE TEMPORARY TABLE IF NOT EXISTS temp_users ( id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(50) NOT NULL, email VARCHAR(100) NOT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP );
+6
+CREATE TEMPORARY TABLE IF NOT EXISTS temp_users LIKE users;
+5
+CREATE TEMPORARY TABLE IF NOT EXISTS temp_users AS SELECT * FROM users;
+2
+INSERT INTO users (id, username, email) VALUES (65536, 'user1', 'user1@example.com') ON DUPLICATE KEY UPDATE username = VALUES(username), email = VALUES(email);
+20
+INSERT IGNORE INTO users (id, username, email) VALUES (65536, 'user1', 'user1@example.com');
+13
+REPLACE INTO users (id, username, email) VALUES (65536, 'user1', 'user1@example.com');
+20
+INSERT INTO posts (id, user_id, title, content) VALUES (65536, 1, 'First Post', 'This is the content of the first post.') ON DUPLICATE KEY UPDATE user_id = VALUES(user_id), title = VALUES(title), content = VALUES(content);
+20
+INSERT IGNORE INTO posts (id, user_id, title, content) VALUES (65536, 1, 'First Post', 'This is the content of the first post.');
+13
+REPLACE INTO posts (id, user_id, title, content) VALUES (65536, 1, 'First Post', 'This is the content of the first post.');
+20
+INSERT INTO posts (id, user_id, title, content, created_at) VALUES (65536, 1, 'Sixth Post', 'This is the content of the sixth post.', NOW()) ON DUPLICATE KEY UPDATE user_id = VALUES(user_id), title = VALUES(title), content = VALUES(content), created_at = VALUES(created_at);
+20
+INSERT IGNORE INTO posts (id, user_id, title, content, created_at) VALUES (65536, 1, 'Sixth Post', 'This is the content of the sixth post.', NOW());
+13
+REPLACE INTO posts (id, user_id, title, content, created_at) VALUES (65536, 1, 'Sixth Post', 'This is the content of the sixth post.', NOW());
+20
+INSERT IGNORE INTO posts VALUES (65536, 2, 'Seventh Post', 'This is the content of the seventh post.', NOW(), DATE_ADD(NOW(), INTERVAL 1 DAY));
+13
+INSERT INTO posts VALUES (65536, 2, 'Seventh Post', 'This is the content of the seventh post.', NOW(), DATE_ADD(NOW(), INTERVAL 1 DAY)) ON DUPLICATE KEY UPDATE user_id = VALUES(user_id), title = VALUES(title), content = VALUES(content), created_at = VALUES(created_at), updated_at = VALUES(updated_at);
+20
+REPLACE INTO posts VALUES (65536, 2, 'Seventh Post', 'This is the content of the seventh post.', NOW(), DATE_ADD(NOW(), INTERVAL 1 DAY));
+20
+INSERT IGNORE INTO posts (id, user_id, title, content) VALUES (65536, @user_id, 'Fourth Post', 'This is the content of the fourth post.');
+13
+INSERT INTO posts (id, user_id, title, content) VALUES (65536, @user_id, 'Fourth Post', 'This is the content of the fourth post.') ON DUPLICATE KEY UPDATE user_id = VALUES(user_id), title = VALUES(title), content = VALUES(content);
+20
+REPLACE INTO posts (id, user_id, title, content) VALUES (65536, @user_id, 'Fourth Post', 'This is the content of the fourth post.');
+20
+INSERT IGNORE INTO posts VALUES (65538, 238, 'Posting Book generation thousand evidence.', 'Choice smile employee director questions development walk. Leg add we eye hit assume. Development south collection range well natural of.', '2026-04-26 10:20:52', '2026-04-26 10:20:52');
+13
+INSERT INTO posts VALUES (65538, 238, 'Posting Book generation thousand evidence.', 'Choice smile employee director questions development walk. Leg add we eye hit assume. Development south collection range well natural of.', '2026-04-26 10:20:52', '2026-04-26 10:20:52') ON DUPLICATE KEY UPDATE user_id = VALUES(user_id), title = VALUES(title), content = VALUES(content), created_at = VALUES(created_at), updated_at = VALUES(updated_at);
+20
+REPLACE INTO posts VALUES (65538, 238, 'Posting Book generation thousand evidence.', 'Choice smile employee director questions development walk. Leg add we eye hit assume. Development south collection range well natural of.', '2026-04-26 10:20:52', '2026-04-26 10:20:52');
+20
+INSERT IGNORE INTO comments (id, post_id, comment) VALUES (65536, 1, 'This is a comment on the first post.');
+13
+INSERT INTO comments (id, post_id, comment) VALUES (65536, 1, 'This is a comment on the first post.') ON DUPLICATE KEY UPDATE post_id = VALUES(post_id), comment = VALUES(comment);
+20
+REPLACE INTO comments (id, post_id, comment) VALUES (65536, 1, 'This is a comment on the first post.');
+20
+INSERT IGNORE INTO user_profiles (user_id, bio, birthdate) VALUES (65536, 'This is user1 bio.', '1990-01-01');
+13
+INSERT INTO user_profiles (user_id, bio, birthdate) VALUES (65536, 'This is user1 bio.', '1990-01-01') ON DUPLICATE KEY UPDATE bio = VALUES(bio), birthdate = VALUES(birthdate);
+20
+REPLACE INTO user_profiles (user_id, bio, birthdate) VALUES (65536, 'This is user1 bio.', '1990-01-01');
+20
+INSERT IGNORE INTO user_profiles VALUES (65536, 'This is user2 bio.', '1992-02-02', 'profile.jpg');
+13
+INSERT INTO user_profiles VALUES (65536, 'This is user2 bio.', '1992-02-02', 'profile.jpg') ON DUPLICATE KEY UPDATE bio = VALUES(bio), birthdate = VALUES(birthdate), profile_picture = VALUES(profile_picture);
+20
+REPLACE INTO user_profiles VALUES (65536, 'This is user2 bio.', '1992-02-02', 'profile.jpg');
+20
+SELECT * FROM products WHERE category = 'Electronics';
+95
+SELECT * FROM products WHERE FIND_IN_SET('New', tags);
+98
+SELECT `name`, price, discount, price * (1 - discount) AS final_price FROM products;
+75
+SELECT category, COUNT(*) AS product_count, AVG(price) AS avg_price FROM products GROUP BY category;
+81
+REPLACE INTO users (id, username, email) VALUES (1, 'user1', 'new_user1@example.com');
+20
+INSERT IGNORE INTO users (id, username, email) VALUES (1, 'user1', 'user1@example.com');
+14
+INSERT INTO users (id, username, email) VALUES (1, 'user1', 'user1@example.com') ON DUPLICATE KEY UPDATE email = 'updated_user1@example.com';
+20
+REPLACE INTO users SET username = 'user5', email = 'user5@example.com';
+20
+INSERT IGNORE INTO users SET username = 'user5', email = 'user5@example.com';
+14
+INSERT INTO users SET id = 1, username = 'user1', email = 'user1@example.com' ON DUPLICATE KEY UPDATE email = 'updated_user1@example.com';
+20
+INSERT IGNORE INTO users (username, email) SELECT username, CONCAT(username, '@example.com') FROM users WHERE id < 1000;
+13
+REPLACE INTO users (username, email) SELECT username, CONCAT(username, '@example.com') FROM users WHERE id < 1000;
+20
+REPLACE INTO users (id, username, email) SELECT p.id, u.username, CONCAT(u.username, '@example.com') FROM users u, posts p WHERE u.id = p.user_id;
+20
+INSERT IGNORE INTO users (id, username, email) SELECT p.id, u.username, CONCAT(u.username, '@example.com') FROM users u, posts p WHERE u.id = p.user_id;
+18
+INSERT INTO users (id, username, email) SELECT id, username, CONCAT(username, '@example.com') FROM users WHERE id < 1000 ON DUPLICATE KEY UPDATE email = VALUES(email);
+20
+SELECT * FROM users;
+75
+SELECT username FROM users WHERE id = 1000;
+100
+SELECT username FROM users WHERE id BETWEEN 700 AND 1200;
+99
+SELECT SUM(price) FROM products WHERE id BETWEEN 700 AND 1200;
+99
+SELECT username FROM users WHERE id BETWEEN 700 AND 1200 ORDER BY username;
+99
+SELECT DISTINCT username FROM users WHERE id BETWEEN 700 AND 1200 ORDER BY username;
+99
+UPDATE comments SET post_id=post_id+1 WHERE id>1000;
+101
+UPDATE comments SET post_id=post_id+1 WHERE id=1000;
+100
+UPDATE comments SET user_id=user_id+1 WHERE id>1000;
+100
+UPDATE comments SET user_id=user_id+1 WHERE id=1000;
+99
+SELECT * FROM employee WHERE department_id = 1;
+90
+SELECT * FROM employee WHERE salary > 6000;
+91
+SELECT * FROM employee WHERE department_id = 1 AND salary > 6000;
+90
+SELECT * FROM employee WHERE salary > 6000 AND department_id = 1;
+90
+SELECT * FROM employee WHERE salary > 6000 ORDER BY department_id;
+90
+SELECT * FROM employee WHERE department_id = 1 AND salary > 6000 ORDER BY salary;
+90
+SELECT * FROM employee WHERE department_id = 1 ORDER BY salary;
+90
+SELECT * FROM employee WHERE salary > 6000 AND department_id = 1 ORDER BY department_id;
+90
+SELECT * FROM employee WHERE salary > 6000 OR department_id = 1;
+90
+SELECT department_id, AVG(salary) AS avg_salary FROM employee WHERE department_id = 1 GROUP BY department_id ORDER BY department_id;
+90
+SELECT department_id, AVG(salary) AS avg_salary FROM employee WHERE department_id = 1 GROUP BY salary ORDER BY department_id;
+90
+SELECT * FROM employee WHERE salary > 6000 AND department_id = 1 AND hire_date > '2025-01-01';
+90
+SELECT * FROM employee WHERE salary > 6000 OR department_id = 1 OR hire_date > '2025-01-01';
+90
+SELECT * FROM employee WHERE salary > 6000 AND (department_id = 1 OR hire_date > '2025-01-01');
+90
+SELECT * FROM employee WHERE salary > 6000 OR (department_id = 1 AND hire_date > '2025-01-01');
+90
+SELECT * FROM employee WHERE salary > 6000 AND department_id = 1 OR hire_date > '2025-01-01';
+90
+SELECT * FROM employee WHERE salary > 6000 OR department_id = 1 AND hire_date > '2025-01-01';
+90
+SELECT * FROM employee WHERE hire_date BETWEEN '2025-01-01' AND '2025-12-31';
+90
+SELECT * FROM employee WHERE email LIKE '%@example.com';
+90
+SELECT * FROM employee WHERE email LIKE '%@example.com' AND salary > 6000;  
+90
+SELECT * FROM employee WHERE email LIKE '%@example.com' OR salary > 6000;
+90
+SELECT * FROM employee WHERE email LIKE '%@example.com' AND (salary > 6000 OR department_id = 1);
+90
+SELECT * FROM employee WHERE YEAR(hire_date) = 2025;
+90
+SELECT * FROM employee WHERE email NOT LIKE '%@example.com';
+90
+SELECT * FROM employee WHERE years BETWEEN 5 AND 10;
+90
+SELECT * FROM employee WHERE age = 30;
+90
+SELECT * FROM employee WHERE age != 30;
+90
+SELECT * FROM employee WHERE department_id = 1 ORDER BY salary LIMIT 10;
+90
+UPDATE employee SET salary = salary * 2 WHERE department_id = 1;
+98
+UPDATE employee SET salary = salary * 2 WHERE department_id = 1 AND salary > 0;
+97
+UPDATE employee SET department_id = 1 WHERE department_id = 1;
+97
+UPDATE employee SET age = age + 1 WHERE age < 30;
+99
+SELECT u.username, p.title, c.comment FROM users u JOIN posts p ON u.id = p.user_id JOIN comments c ON p.id = c.post_id;
+81
+SELECT u.username, p.title, c.comment FROM users u INNER JOIN posts p ON u.id = p.user_id INNER JOIN comments c ON p.id = c.post_id;
+81
+SELECT u.username, p.title, c.comment FROM users u INNER JOIN posts p ON u.id = p.user_id INNER JOIN comments c ON p.id = c.post_id WHERE u.created_at > '2025-01-01' AND p.title LIKE '%Post%';
+84
+SELECT u.username, p.title, c.comment FROM users u LEFT JOIN posts p ON u.id = p.user_id LEFT JOIN comments c ON p.id = c.post_id;
+81
+SELECT u.username, p.title, c.comment FROM users u LEFT JOIN posts p ON u.id = p.user_id LEFT JOIN comments c ON p.id = c.post_id WHERE p.title IS NOT NULL OR c.comment IS NOT NULL;
+82
+SELECT u.username, p.title, c.comment FROM users u RIGHT JOIN posts p ON u.id = p.user_id RIGHT JOIN comments c ON p.id = c.post_id;
+81
+SELECT u.username, p.title, c.comment FROM users u RIGHT JOIN posts p ON u.id = p.user_id RIGHT JOIN comments c ON p.id = c.post_id WHERE p.created_at > '2025-01-01' AND c.created_at > '2025-01-01';
+82
+SELECT u.username, p.title, c.comment FROM users u LEFT JOIN posts p ON u.id = p.user_id LEFT JOIN comments c ON p.id = c.post_id UNION SELECT u.username, p.title, c.comment FROM users u RIGHT JOIN posts p ON u.id = p.user_id RIGHT JOIN comments c ON p.id = c.post_id;
+83
+SELECT u.username, p.title, c.comment FROM users u LEFT JOIN posts p ON u.id = p.user_id LEFT JOIN comments c ON p.id = c.post_id WHERE p.title IS NOT NULL AND c.comment IS NOT NULL UNION SELECT u.username, p.title, c.comment FROM users u RIGHT JOIN posts p ON u.id = p.user_id RIGHT JOIN comments c ON p.id = c.post_id WHERE p.title IS NOT NULL AND c.comment IS NOT NULL;
+84
+SELECT u.username, p.title FROM users u CROSS JOIN posts p;
+81
+SELECT u.username, p.title FROM users u CROSS JOIN posts p WHERE u.created_at > '2025-01-01' OR p.title LIKE '%Post%';
+84
+SELECT u1.username AS user1, u2.username AS user2 FROM users u1 INNER JOIN users u2 ON u1.id <> u2.id;
+81
+SELECT u1.username AS user1, u2.username AS user2 FROM users u1 INNER JOIN users u2 ON u1.id <> u2.id WHERE u1.username LIKE 'user%' AND u2.username LIKE 'user%';
+84
+SELECT u.username, p.title, c.comment, up.bio FROM users u INNER JOIN posts p ON u.id = p.user_id LEFT JOIN comments c ON p.id = c.post_id INNER JOIN user_profiles up ON u.id = up.user_id;
+81
+SELECT u.username, p.title, c.comment, up.bio FROM users u INNER JOIN posts p ON u.id = p.user_id LEFT JOIN comments c ON p.id = c.post_id INNER JOIN user_profiles up ON u.id = up.user_id WHERE u.created_at > '2025-01-01' AND (p.title LIKE '%Post%' OR c.comment LIKE '%comment%');
+84
+SELECT u.username, p.title, c.comment FROM users u INNER JOIN ( SELECT * FROM posts WHERE created_at > '2025-01-01' ) p ON u.id = p.user_id INNER JOIN comments c ON p.id = c.post_id;
+56
+SELECT u.username, p.title, c.comment FROM users u INNER JOIN ( SELECT * FROM posts WHERE created_at > '2025-01-01' ) p ON u.id = p.user_id INNER JOIN comments c ON p.id = c.post_id WHERE c.comment IS NOT NULL;
+56
+WITH recent_posts AS ( SELECT * FROM posts WHERE created_at > '2025-01-01' ) SELECT u.username, p.title FROM users u JOIN recent_posts p ON u.id = p.user_id;
+21
+SELECT user_id, COUNT(*) AS post_count FROM posts GROUP BY user_id;
+81
+SELECT user_id, AVG(LENGTH(content)) AS avg_content_length FROM posts GROUP BY user_id;
+81
+SELECT post_id, COUNT(*) AS comment_count FROM comments GROUP BY post_id;
+81
+SELECT user_id, MAX(created_at) AS last_post_time FROM posts GROUP BY user_id;
+81
+SELECT user_id, MIN(created_at) AS first_post_time FROM posts GROUP BY user_id;
+84
+SELECT user_id, SUM(LENGTH(content)) AS total_content_length FROM posts GROUP BY user_id;
+81
+SELECT user_id, COUNT(*) AS post_count FROM posts GROUP BY user_id HAVING COUNT(*) > 1;
+86
+SELECT user_id, AVG(LENGTH(content)) AS avg_content_length FROM posts GROUP BY user_id HAVING AVG(LENGTH(content)) > 100;
+86
+SELECT post_id, COUNT(*) AS comment_count FROM comments GROUP BY post_id HAVING COUNT(*) > 1;
+86
+SELECT user_id, MAX(created_at) AS last_post_time FROM posts GROUP BY user_id HAVING MAX(created_at) > '2025-01-01';
+86
+SELECT user_id, MIN(created_at) AS first_post_time FROM posts GROUP BY user_id HAVING MIN(created_at) < '2025-01-01';
+86
+SELECT user_id, SUM(LENGTH(content)) AS total_content_length FROM posts GROUP BY user_id HAVING SUM(LENGTH(content)) > 1000;
+86
+SELECT u.username, COUNT(p.id) AS post_count, MAX(p.created_at) AS last_post_time FROM users u LEFT JOIN posts p ON u.id = p.user_id GROUP BY u.username;
+87
+SELECT u.username, COUNT(p.id) AS post_count, MAX(p.created_at) AS last_post_time FROM users u LEFT JOIN posts p ON u.id = p.user_id GROUP BY u.username HAVING COUNT(p.id) > 1 AND MAX(p.created_at) > '2025-01-01';
+90
+SELECT u.username, COUNT(p.id) AS post_count, AVG(LENGTH(p.content)) AS avg_content_length FROM users u LEFT JOIN posts p ON u.id = p.user_id GROUP BY u.username HAVING COUNT(p.id) > 1;
+89
+SELECT u.username, COUNT(p.id) AS post_count, AVG(LENGTH(p.content)) AS avg_content_length FROM users u LEFT JOIN posts p ON u.id = p.user_id GROUP BY u.username HAVING COUNT(p.id) > 1 AND AVG(LENGTH(p.content)) > 100;
+90
+SELECT username, email FROM users WHERE id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01');
+78
+SELECT username, email FROM users WHERE id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01') AND email LIKE '%example.com';
+81
+SELECT u.username, u.email FROM users u WHERE EXISTS ( SELECT 1 FROM posts p WHERE p.user_id = u.id AND p.created_at > '2025-01-01' );
+52
+SELECT u.username, u.email FROM users u WHERE EXISTS ( SELECT 1 FROM posts p WHERE p.user_id = u.id AND p.created_at > '2025-01-01' ) AND u.email LIKE '%example.com';
+54
+SELECT username, email FROM users WHERE id IN (100, 200, 300, 400, 500, 600, 700, 800, 900, 1000);
+78
+SELECT username, email FROM users WHERE id IN (100, 200, 300, 400, 500, 600, 700, 800, 900, 1000) AND email LIKE '%example.com';
+81
+SELECT u.username, p.title FROM users u JOIN posts p ON u.id = p.user_id WHERE u.id IN (100, 200, 300, 400, 500, 600, 700, 800, 900, 1000);
+81
+SELECT u.username, p.title FROM users u JOIN posts p ON u.id = p.user_id WHERE u.id IN (100, 200, 300, 400, 500, 600, 700, 800, 900, 1000) AND p.created_at > '2025-01-01';
+82
+SELECT user_id, COUNT(*) AS post_count FROM posts WHERE user_id IN (100, 200, 300, 400, 500, 600, 700, 800, 900, 1000) GROUP BY user_id;
+84
+SELECT user_id, COUNT(*) AS post_count FROM posts WHERE user_id IN (100, 200, 300, 400, 500, 600, 700, 800, 900, 1000) GROUP BY user_id HAVING COUNT(*) > 1;
+86
+SELECT u.username, p.title, c.comment FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id AND p.id IN (SELECT id FROM posts WHERE created_at > '2025-01-01');
+83
+SELECT u.username, p.title, c.comment FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id AND p.id IN (SELECT id FROM posts WHERE created_at > '2025-01-01') AND u.created_at > '2025-01-01';
+83
+SELECT u.username, p.title, c.comment FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id AND p.id IN (100, 200, 300, 400, 500, 600, 700, 800, 900, 1000);
+83
+SELECT u.username, p.title, c.comment FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id AND p.id IN (100, 200, 300, 400, 500, 600, 700, 800, 900, 1000) AND u.created_at > '2025-01-01';
+83
+SELECT u.username, COUNT(p.id) AS post_count FROM users u, posts p WHERE u.id = p.user_id AND u.id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01') GROUP BY u.username;
+89
+SELECT u.username, COUNT(p.id) AS post_count FROM users u, posts p WHERE u.id = p.user_id AND u.id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01') GROUP BY u.username HAVING COUNT(p.id) > 1;
+91
+SELECT u.username, COUNT(p.id) AS post_count FROM users u, posts p WHERE u.id = p.user_id AND u.id IN (100, 200, 300, 400, 500, 600, 700, 800, 900, 1000) GROUP BY u.username;
+89
+SELECT u.username, COUNT(p.id) AS post_count FROM users u, posts p WHERE u.id = p.user_id AND u.id IN (100, 200, 300, 400, 500, 600, 700, 800, 900, 1000) GROUP BY u.username HAVING COUNT(p.id) > 1;
+91
+SELECT id, `name` FROM locations UNION ALL SELECT id, `name` FROM products;
+77
+SELECT id, `name` FROM locations WHERE `name` LIKE '%an%' UNION SELECT id, `name` FROM products WHERE price > 100;
+79
+SELECT u.username, p.title, c.comment FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id;
+80
+SELECT u.username, p.title, c.comment FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id AND u.created_at > '2025-01-01';
+80
+SELECT u.username, COUNT(p.id) AS post_count FROM users u, posts p WHERE u.id = p.user_id GROUP BY u.username;
+85
+SELECT u.username, COUNT(p.id) AS post_count FROM users u, posts p WHERE u.id = p.user_id GROUP BY u.username HAVING COUNT(p.id) > 1;
+90
+SELECT u.username, p.title, c.comment FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id AND u.id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01');
+83
+SELECT u.username, p.title, c.comment FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id AND u.id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01') AND u.created_at > '2025-01-01';
+83
+SELECT DISTINCT username FROM users;
+81
+SELECT DISTINCT username, email FROM users WHERE email LIKE '%example.com';
+83
+SELECT DISTINCT user_id, COUNT(*) AS post_count FROM posts GROUP BY user_id;
+87
+SELECT DISTINCT user_id, COUNT(*) AS post_count FROM posts GROUP BY user_id HAVING COUNT(*) > 1;
+89
+SELECT DISTINCT u.username, p.title FROM users u JOIN posts p ON u.id = p.user_id;
+84
+SELECT DISTINCT u.username, p.title FROM users u JOIN posts p ON u.id = p.user_id WHERE p.created_at > '2025-01-01';
+84
+SELECT DISTINCT username FROM users WHERE id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01');
+81
+SELECT DISTINCT username, email FROM users WHERE id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01') AND email LIKE '%example.com';
+84
+SELECT DISTINCT u.username, p.title, c.comment FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id;
+86
+SELECT DISTINCT u.username, p.title, c.comment FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id AND p.title LIKE '%Post%' AND c.comment LIKE '%comment%';
+88
+SELECT DISTINCT u.username, COUNT(p.id) AS post_count FROM users u, posts p WHERE u.id = p.user_id AND u.id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01') GROUP BY u.username;
+92
+SELECT DISTINCT u.username, COUNT(p.id) AS post_count FROM users u, posts p WHERE u.id = p.user_id AND u.id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01') GROUP BY u.username HAVING COUNT(p.id) > 1;
+94
+SELECT DISTINCT u.username, COUNT(p.id) AS post_count, AVG(LENGTH(p.content)) AS avg_content_length FROM users u LEFT JOIN posts p ON u.id = p.user_id GROUP BY u.username HAVING COUNT(p.id) > 1;
+92
+SELECT DISTINCT u.username, COUNT(p.id) AS post_count, AVG(LENGTH(p.content)) AS avg_content_length FROM users u LEFT JOIN posts p ON u.id = p.user_id GROUP BY u.username HAVING COUNT(p.id) > 1 AND AVG(LENGTH(p.content)) > 100;
+93
+SELECT id, username, id * 2 AS id_double FROM users;
+75
+SELECT id, username, id * 2 AS id_double FROM users WHERE id * 2 > 10;
+75
+SELECT user_id, SUM(id + 10) AS total_id_plus_10 FROM posts GROUP BY user_id;
+81
+SELECT user_id, SUM(id + 10) AS total_id_plus_10 FROM posts GROUP BY user_id HAVING SUM(id + 10) > 1000;
+86
+SELECT u.username, p.title, p.id / 2 AS half_id FROM users u JOIN posts p ON u.id = p.user_id;
+81
+SELECT u.username, p.title, p.id / 2 AS half_id FROM users u JOIN posts p ON u.id = p.user_id WHERE p.id / 2 > 50;
+81
+SELECT id, username, (SELECT COUNT(*) FROM posts WHERE user_id = users.id) * 2 AS post_count_double FROM users;
+78
+SELECT id, username, (SELECT COUNT(*) FROM posts WHERE user_id = users.id) * 2 AS post_count_double FROM users WHERE (SELECT COUNT(*) FROM posts WHERE user_id = users.id) * 2 > 4;
+78
+SELECT u.username, p.title, p.id + c.id AS total_id FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id;
+80
+SELECT u.username, p.title, p.id + c.id AS total_id FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id AND p.id + c.id > 1000;
+80
+SELECT u.username, SUM(p.id + 10) AS total_id_plus_10 FROM users u, posts p WHERE u.id = p.user_id AND u.id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01') GROUP BY u.username;
+89
+SELECT u.username, SUM(p.id + 10) AS total_id_plus_10 FROM users u, posts p WHERE u.id = p.user_id AND u.id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01') GROUP BY u.username HAVING SUM(p.id + 10) > 1000;
+91
+SELECT DISTINCT username, id * 2 AS id_double FROM users;
+81
+SELECT DISTINCT username, id * 2 AS id_double FROM users WHERE id * 2 > 10;
+81
+SELECT DISTINCT user_id, SUM(id + 10) AS total_id_plus_10 FROM posts GROUP BY user_id;
+87
+SELECT DISTINCT user_id, SUM(id + 10) AS total_id_plus_10 FROM posts GROUP BY user_id HAVING SUM(id + 10) > 1000;
+89
+SELECT DISTINCT u.username, p.title, p.id / 2 AS half_id FROM users u JOIN posts p ON u.id = p.user_id;
+84
+SELECT DISTINCT u.username, p.title, p.id / 2 AS half_id FROM users u JOIN posts p ON u.id = p.user_id WHERE p.id / 2 > 50;
+84
+SELECT DISTINCT id, username, (SELECT COUNT(*) FROM posts WHERE user_id = users.id) * 2 AS post_count_double FROM users;
+76
+SELECT DISTINCT id, username, (SELECT COUNT(*) FROM posts WHERE user_id = users.id) * 2 AS post_count_double FROM users WHERE (SELECT COUNT(*) FROM posts WHERE user_id = users.id) * 2 > 4;
+84
+SELECT DISTINCT u.username, p.title, p.id + c.id AS total_id FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id;
+86
+SELECT DISTINCT u.username, p.title, p.id + c.id AS total_id FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id AND p.id + c.id > 100;
+86
+SELECT username, email FROM users ORDER BY username ASC;
+79
+SELECT username, email FROM users WHERE email LIKE '%example.com' ORDER BY username DESC;
+81
+SELECT user_id, COUNT(*) AS post_count FROM posts GROUP BY user_id ORDER BY post_count DESC;
+85
+SELECT user_id, COUNT(*) AS post_count FROM posts GROUP BY user_id HAVING COUNT(*) > 1 ORDER BY post_count DESC;
+90
+SELECT u.username, p.title FROM users u JOIN posts p ON u.id = p.user_id ORDER BY p.created_at DESC;
+85
+SELECT u.username, p.title FROM users u JOIN posts p ON u.id = p.user_id WHERE p.created_at > '2025-01-01' ORDER BY p.created_at DESC;
+85
+SELECT username, email FROM users WHERE id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01') ORDER BY username ASC;
+82
+SELECT username, email FROM users WHERE id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01') AND email LIKE '%example.com' ORDER BY username ASC;
+84
+SELECT u.username, p.title, c.comment FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id ORDER BY p.created_at DESC;
+83
+SELECT u.username, p.title, c.comment FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id AND p.title LIKE '%Post%' ORDER BY p.created_at DESC;
+85
+SELECT u.username, COUNT(p.id) AS post_count FROM users u, posts p WHERE u.id = p.user_id AND u.id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01') GROUP BY u.username ORDER BY post_count DESC;
+92
+SELECT u.username, COUNT(p.id) AS post_count FROM users u, posts p WHERE u.id = p.user_id AND u.id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01') GROUP BY u.username HAVING COUNT(p.id) > 1 ORDER BY post_count DESC;
+94
+SELECT DISTINCT username FROM users ORDER BY username ASC;
+85
+SELECT DISTINCT username, email FROM users WHERE email LIKE '%example.com' ORDER BY username ASC;
+87
+SELECT DISTINCT user_id, COUNT(*) AS post_count FROM posts GROUP BY user_id ORDER BY post_count DESC;
+91
+SELECT DISTINCT user_id, COUNT(*) AS post_count FROM posts GROUP BY user_id HAVING COUNT(*) > 1 ORDER BY post_count DESC;
+93
+SELECT DISTINCT u.username, p.title, p.created_at FROM users u JOIN posts p ON u.id = p.user_id ORDER BY p.created_at DESC;
+88
+SELECT DISTINCT u.username, p.title, p.created_at FROM users u JOIN posts p ON u.id = p.user_id WHERE p.created_at > '2025-01-01' ORDER BY p.created_at DESC;
+88
+SELECT DISTINCT username FROM users WHERE id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01') ORDER BY username ASC;
+85
+SELECT DISTINCT username, email FROM users WHERE id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01') AND email LIKE '%example.com' ORDER BY username ASC;
+87
+SELECT DISTINCT u.username, p.title, c.comment FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id ORDER BY p.title DESC;
+89
+SELECT DISTINCT u.username, p.title, c.comment FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id AND u.id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01') ORDER BY c.comment DESC;
+89
+SELECT username, email FROM users WHERE NOT email LIKE '%example.com';
+77
+SELECT user_id, COUNT(*) AS post_count FROM posts GROUP BY user_id HAVING NOT COUNT(*) <= 1;
+86
+SELECT u.username, p.title FROM users u JOIN posts p ON u.id = p.user_id WHERE NOT p.created_at <= '2025-01-01';
+81
+SELECT username, email FROM users WHERE id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01') AND NOT email LIKE '%example.com';
+81
+SELECT u.username, p.title, c.comment FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id AND NOT u.username LIKE 'user%';
+82
+SELECT u.username, COUNT(p.id) AS post_count FROM users u, posts p WHERE u.id = p.user_id AND u.id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01') GROUP BY u.username HAVING NOT COUNT(p.id) <= 1;
+91
+SELECT DISTINCT username, email FROM users WHERE NOT email LIKE '%example.com';
+83
+SELECT DISTINCT username, email FROM users WHERE id IN (SELECT user_id FROM posts WHERE created_at > '2025-01-01') AND NOT email LIKE '%example.com';
+84
+SELECT DISTINCT username, email FROM users WHERE NOT email LIKE '%example.com' ORDER BY username ASC;
+87
+SELECT username, email FROM users WHERE created_at BETWEEN '2025-01-01' AND '2025-12-31';
+79
+SELECT user_id, COUNT(*) AS post_count FROM posts WHERE created_at BETWEEN '2025-01-01' AND '2025-12-31' GROUP BY user_id HAVING COUNT(*) > 1;
+90
+SELECT u.username, p.title FROM users u JOIN posts p ON u.id = p.user_id WHERE p.created_at BETWEEN '2025-01-01' AND '2025-12-31';
+85
+SELECT username, email FROM users WHERE id IN (SELECT user_id FROM posts WHERE created_at BETWEEN '2025-01-01' AND '2025-12-31') AND email LIKE '%example.com';
+84
+SELECT u.username, p.title, c.comment FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id AND p.created_at BETWEEN '2025-01-01' AND '2025-12-31';
+83
+SELECT u.username, COUNT(p.id) AS post_count FROM users u, posts p WHERE u.id = p.user_id AND u.id IN (SELECT user_id FROM posts WHERE created_at BETWEEN '2025-01-01' AND '2025-12-31') GROUP BY u.username HAVING COUNT(p.id) > 1;
+94
+SELECT DISTINCT username, email FROM users WHERE created_at BETWEEN '2025-01-01' AND '2025-12-31';
+85
+SELECT DISTINCT username, email FROM users WHERE id IN (SELECT user_id FROM posts WHERE created_at BETWEEN '2025-01-01' AND '2025-12-31') AND email LIKE '%example.com';
+87
+SELECT DISTINCT username, email FROM users WHERE created_at BETWEEN '2025-01-01' AND '2025-12-31' ORDER BY username ASC;
+88
+UPDATE users SET email = 'new_user1@example.com' WHERE id = 1;
+20
+UPDATE IGNORE users SET email = 'updated_user1@example.com' WHERE id = 1;
+90
+UPDATE IGNORE users SET email = 'new_user1@example.com' WHERE id = 1 ORDER BY created_at DESC LIMIT 1;
+26
+UPDATE IGNORE users SET email = 'new_user1@example.com' WHERE created_at < '2025-01-01' LIMIT 5;
+22
+UPDATE IGNORE users SET email = 'new_user1@example.com' WHERE id IN (100, 200, 300, 400, 500, 600, 700, 800, 900, 1000);
+23
+UPDATE IGNORE users SET email = CASE WHEN id = 1 THEN 'user1_updated@example.com' WHEN id = 2 THEN 'user2_updated@example.com' ELSE email END;
+22
+UPDATE IGNORE users SET email = 'new_user1@example.com' WHERE NOT id = 1;
+90
+UPDATE IGNORE users SET email = 'new_user1@example.com' WHERE created_at BETWEEN '2025-01-01' AND '2025-12-31';
+24
+UPDATE IGNORE users SET email = 'new_user1@example.com' WHERE id = @user_id;
+20
+UPDATE IGNORE users SET email = 'new_user1@example.com' WHERE created_at BETWEEN @start_date AND @end_date;
+24
+UPDATE IGNORE users u, posts p SET u.email = 'new_user1@example.com', p.title = 'Updated Title' WHERE u.id = p.user_id AND u.id = 1;
+16
+UPDATE IGNORE users u, posts p SET u.email = 'new_user1@example.com', p.title = 'Updated Title' WHERE u.id = p.user_id AND u.id = 1;
+16
+UPDATE users u, posts p SET u.email = 'new_user1@example.com', p.title = 'Updated Title' WHERE u.id = p.user_id AND u.created_at BETWEEN '2025-01-01' AND '2025-12-31';
+19
+UPDATE users u, posts p SET u.email = 'new_user1@example.com', p.title = 'Updated Title' WHERE u.id = p.user_id AND NOT u.id = 1;
+16
+UPDATE users u, posts p SET u.email = 'new_user1@example.com', p.title = 'Updated Title' WHERE u.id = p.user_id AND u.id IN (100, 200, 300, 400, 500, 600, 700, 800, 900, 1000);
+19
+DELETE FROM comments WHERE id = 1;
+95
+DELETE FROM users WHERE NOT id < 1000;
+94
+DELETE FROM comments WHERE created_at BETWEEN '2025-01-01' AND '2025-12-31';
+9
+DELETE FROM comments WHERE id = @user_id;
+5
+DELETE FROM comments WHERE created_at BETWEEN @start_date AND @end_date;
+9
+DELETE IGNORE FROM comments WHERE id = 1;
+96
+DELETE FROM comments ORDER BY created_at DESC LIMIT 1;
+11
+DELETE FROM comments WHERE created_at < '2025-01-01' LIMIT 5;
+7
+DELETE FROM comments WHERE created_at BETWEEN '2025-01-01' AND '2025-12-31';
+9
+DELETE FROM comments WHERE NOT id = 1;
+5
+DELETE FROM comments WHERE id IN (100, 200, 300, 400, 500, 600, 700, 800, 900, 1000);
+8
+CALL GetUserPosts(1);
+15
+CREATE OR REPLACE VIEW user_post_comments_new AS SELECT u.username, p.title, c.comment FROM users u JOIN posts p ON u.id = p.user_id JOIN comments c ON p.id = c.post_id;
+7
+SELECT * FROM user_post_comments;
+75
+SELECT id, username, ABS(id - 10) AS abs_diff FROM users;
+75
+SELECT id, username, CEIL(id / 2) AS ceil_value FROM users;
+75
+SELECT id, username, FLOOR(id / 2) AS floor_value FROM users;
+76
+SELECT id, username, POW(id, 2) AS squared_value FROM users;
+75
+SELECT id, username, ABS(id - @diff) AS abs_diff FROM users;
+75
+SELECT id, username, CONCAT(username, '@example.com') AS email FROM users;
+75
+SELECT id, username, LENGTH(username) AS username_length FROM users;
+75
+SELECT id, username, LOWER(username) AS lower_username FROM users;
+75
+SELECT id, username, UPPER(username) AS upper_username FROM users;
+75
+SELECT id, username, CONCAT(username, @domain) AS email FROM users;
+75
+SELECT id, username, NOW() AS `current_time` FROM users;
+75
+SELECT id, username, DATE_FORMAT(created_at, '%Y-%m-%d') AS formatted_date FROM users;
+76
+SELECT id, username, TIMESTAMPDIFF(YEAR, created_at, NOW()) AS years_since_created FROM users;
+75
+SELECT id, username, DATE_ADD(created_at, INTERVAL 1 YEAR) AS next_year FROM users;
+78
+SELECT id, username, IF(id % 2 = 0, 'even', 'odd') AS id_parity FROM users;
+75
+SELECT id, username, CASE WHEN id < 10 THEN 'small' WHEN id BETWEEN 10 AND 20 THEN 'medium' ELSE 'large' END AS id_size FROM users;
+81
+SELECT id, username, IF(id > @threshold, 'large', 'small') AS id_size FROM users;
+75
+SELECT user_id, SUM(ABS(id - 10)) AS total_abs_diff FROM posts GROUP BY user_id;
+81
+SELECT user_id, GROUP_CONCAT(title SEPARATOR ', ') AS all_titles FROM posts GROUP BY user_id;
+79
+SELECT user_id, MAX(DATE_FORMAT(created_at, '%Y-%m-%d')) AS last_post_date FROM posts GROUP BY user_id;
+82
+SELECT user_id, COUNT(*) AS post_count, SUM(CASE WHEN LENGTH(content) > 100 THEN 1 ELSE 0 END) AS long_posts FROM posts GROUP BY user_id;
+83
+SELECT user_id, COUNT(*) AS post_count FROM posts GROUP BY user_id HAVING COUNT(*) > @min_posts;
+86
+SELECT u.username, p.title, ABS(p.id - 10) AS abs_diff FROM users u JOIN posts p ON u.id = p.user_id;
+81
+SELECT u.username, p.title, CONCAT(p.title, ' by ', u.username) AS full_title FROM users u JOIN posts p ON u.id = p.user_id;
+81
+SELECT u.username, p.title, DATE_FORMAT(p.created_at, '%Y-%m-%d') AS post_date FROM users u JOIN posts p ON u.id = p.user_id;
+82
+SELECT u.username, p.title, CASE WHEN p.created_at > '2025-01-01' THEN 'recent' ELSE 'old' END AS post_age FROM users u JOIN posts p ON u.id = p.user_id;
+83
+SELECT u.username, p.title FROM users u JOIN posts p ON u.id = p.user_id WHERE p.created_at BETWEEN @start_date AND @end_date;
+85
+SELECT id, username, (SELECT ABS(COUNT(*) - 10) FROM posts WHERE user_id = users.id) AS abs_post_diff FROM users;
+78
+SELECT id, username, (SELECT GROUP_CONCAT(title SEPARATOR ', ') FROM posts WHERE user_id = users.id) AS all_titles FROM users;
+76
+SELECT id, username, (SELECT MAX(DATE_FORMAT(created_at, '%Y-%m-%d')) FROM posts WHERE user_id = users.id) AS last_post_date FROM users;
+79
+SELECT id, username, (SELECT COUNT(*) FROM posts WHERE user_id = users.id AND LENGTH(content) > 100) AS long_posts FROM users;
+79
+SELECT username, email FROM users WHERE id IN (SELECT user_id FROM posts WHERE created_at BETWEEN @start_date AND @end_date);
+82
+SELECT u.username, p.title, ABS(p.id + c.id) AS total_abs_id FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id;
+80
+SELECT u.username, p.title, CONCAT(p.title, ' - ', c.comment) AS full_text FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id;
+80
+SELECT u.username, p.title, DATE_FORMAT(p.created_at, '%Y-%m-%d') AS post_date, DATE_FORMAT(c.created_at, '%Y-%m-%d') AS comment_date FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id;
+80
+SELECT u.username, p.title, CASE WHEN p.created_at > '2025-01-01' THEN 'recent' ELSE 'old' END AS post_age FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id;
+82
+SELECT u.username, p.title, c.comment FROM users u, posts p, comments c WHERE u.id = p.user_id AND p.id = c.post_id AND p.created_at BETWEEN @start_date AND @end_date;
+83
+SELECT username, email, ROW_NUMBER() OVER (PARTITION BY username ORDER BY created_at DESC) AS row_num FROM users;
+79
+SELECT id, username, JSON_OBJECT('id', id, 'username', username) AS user_json FROM users;
+75
+INSERT IGNORE INTO users (id, username, email) VALUES (65536, 'user4', JSON_UNQUOTE(JSON_EXTRACT('{"email": "user4@example.com"}', '$.email')));
+13
+INSERT INTO users (id, username, email) VALUES (65536, 'user4', JSON_UNQUOTE(JSON_EXTRACT('{"email": "user4@example.com"}', '$.email'))) ON DUPLICATE KEY UPDATE email = VALUES(email);
+20
+REPLACE INTO users (id, username, email) VALUES (65536, 'user4', JSON_UNQUOTE(JSON_EXTRACT('{"email": "user4@example.com"}', '$.email')));
+20
+SELECT * FROM posts WHERE MATCH(title, content) AGAINST('search term' IN NATURAL LANGUAGE MODE);
+78
+INSERT IGNORE INTO locations (id, `name`, coordinates) VALUES (65536, 'Location1', POINT(1.0, 1.0));
+13
+INSERT INTO locations (id, `name`, coordinates) VALUES (65536, 'Location1', POINT(1.0, 1.0)) ON DUPLICATE KEY UPDATE `name` = VALUES(`name`), coordinates = VALUES(coordinates);
+20
+REPLACE INTO locations (id, `name`, coordinates) VALUES (65536, 'Location1', POINT(1.0, 1.0));
+20
+SELECT `name`, ST_AsText(coordinates) AS coordinates FROM locations WHERE ST_Contains(ST_GeomFromText('POLYGON((0 0, 0 2, 2 2, 2 0, 0 0))'), coordinates);
+75
+SELECT * FROM users LIMIT 5;
+77
+SELECT * FROM users LIMIT 5 OFFSET 10;
+77
+SELECT * FROM posts ORDER BY created_at DESC LIMIT 3;
+81
+SELECT user_id, COUNT(*) AS post_count FROM posts GROUP BY user_id ORDER BY post_count DESC LIMIT 5;
+87
+SELECT u.username, p.title FROM users u JOIN posts p ON u.id = p.user_id ORDER BY p.created_at DESC LIMIT 5;
+87
+SELECT u.username, u.email FROM users u JOIN ( SELECT user_id FROM posts ORDER BY created_at DESC LIMIT 5 ) p ON u.id = p.user_id;
+62
+SELECT DISTINCT username FROM users LIMIT 5;
+83
+SELECT DISTINCT username FROM users ORDER BY username ASC LIMIT 5;
+87
+SELECT username, email FROM users WHERE email LIKE '%example.com' LIMIT 5;
+79
+SELECT username, email FROM users WHERE created_at BETWEEN '2025-01-01' AND '2025-12-31' LIMIT 5;
+81
+SELECT username, email FROM users WHERE id IN (100, 200, 300, 400, 500, 600, 700, 800, 900, 1000) LIMIT 5;
+80
+SELECT u.username, COUNT(p.id) AS post_count FROM users u, posts p WHERE u.id = p.user_id GROUP BY u.username ORDER BY post_count DESC LIMIT 5;
+91
+SELECT u.username, p.title FROM users u, posts p WHERE u.id = p.user_id AND p.created_at BETWEEN '2025-01-01' AND '2025-12-31' GROUP BY u.username, p.title ORDER BY p.title DESC LIMIT 5;
+91
+SELECT DISTINCT u.username, p.title FROM users u, posts p WHERE u.id = p.user_id AND p.created_at BETWEEN '2025-01-01' AND '2025-12-31' GROUP BY u.username, p.title ORDER BY p.title DESC LIMIT 5;
+97
+SELECT u.username, COUNT(p.id) AS post_count FROM users u, posts p WHERE u.id = p.user_id AND p.created_at BETWEEN '2025-01-01' AND '2025-12-31' GROUP BY u.username ORDER BY post_count DESC LIMIT 5;
+94
+SELECT DISTINCT u.username, COUNT(p.id) AS post_count FROM users u, posts p WHERE u.id = p.user_id AND p.created_at BETWEEN '2025-01-01' AND '2025-12-31' GROUP BY u.username ORDER BY post_count DESC LIMIT 5;
+100
+SELECT u.username, COUNT(p.id) AS post_count FROM users u, posts p WHERE u.id = p.user_id AND u.id IN (100, 200, 300, 400, 500, 600, 700, 800, 900, 1000) GROUP BY u.username ORDER BY post_count DESC LIMIT 5;
+94
+SELECT user_id, COUNT(*) AS post_count FROM posts GROUP BY user_id HAVING COUNT(*) > 1 ORDER BY post_count DESC LIMIT 5;
+92
+SELECT username, email, ROW_NUMBER() OVER (PARTITION BY username ORDER BY created_at DESC) AS row_num FROM users LIMIT 5;
+81
+SELECT id, username, JSON_OBJECT('id', id, 'username', username) AS user_json FROM users LIMIT 5;
+77
+SELECT * FROM posts WHERE MATCH(title, content) AGAINST('search term' IN NATURAL LANGUAGE MODE) LIMIT 5;
+77
+SELECT `name`, ST_AsText(coordinates) AS coordinates FROM locations WHERE ST_Contains(ST_GeomFromText('POLYGON((0 0, 0 2, 2 2, 2 0, 0 0))'), coordinates) LIMIT 5;
+77
+DELETE comments, posts FROM comments JOIN posts ON comments.post_id = posts.id WHERE posts.user_id = 1;
+11
+DELETE IGNORE comments, posts FROM comments JOIN posts ON comments.post_id = posts.id WHERE posts.user_id = 1;
+12
+DELETE FROM comments WHERE id IN ( SELECT c.id FROM (SELECT comments.id FROM comments JOIN posts ON comments.post_id = posts.id WHERE posts.user_id = 1 ORDER BY comments.created_at DESC LIMIT 5) AS c );
+17
+DELETE FROM posts WHERE id IN ( SELECT p.id FROM (SELECT posts.id FROM posts WHERE posts.user_id = 1 LIMIT 5) AS p );
+10
+DELETE comments, posts FROM comments JOIN posts ON comments.post_id = posts.id WHERE posts.created_at BETWEEN '2025-01-01' AND '2025-12-31';
+15
+DELETE comments, posts FROM comments JOIN posts ON comments.post_id = posts.id WHERE NOT posts.user_id = 1;
+11
+DELETE comments, posts FROM comments JOIN posts ON comments.post_id = posts.id WHERE posts.user_id IN (100, 200, 300, 400, 500, 600, 700, 800, 900, 1000);
+11
+DO 1 + 1;
+15
+SET @result = @result + 1;
+15
+DO SLEEP(1);
+15
+DO 1 + 1, 2 * 2, 3 / 3;
+15
+CALL IncrementCounter();
+15
+SELECT @counter;
+75
+DO IF(1 = 1, 'true', 'false');
+15
+DO ABS(-10);
+15
+DO CONCAT('Hello', ' ', 'World');
+15
+DO NOW();
+15
+DO JSON_OBJECT('key', 'value');
+15
+DO ST_AsText(POINT(1.0, 1.0));
+18
+DO COUNT(*);
+18
+DO (SELECT COUNT(*) FROM users);
+18
+DO (SELECT COUNT(*) FROM (SELECT * FROM users) AS subquery);
+18
+DO CASE WHEN 1 = 1 THEN 'true' ELSE 'false' END;
+17
+TRUNCATE TABLE comments;
+1
+ALTER TABLE users MODIFY COLUMN username VARCHAR(60);
+10
+ALTER TABLE users ALTER COLUMN email SET DEFAULT 'inactive';
+10
+ALTER TABLE users CHANGE COLUMN username username VARCHAR(60);
+10
+ALTER TABLE users RENAME TO users;
+10
+DROP VIEW IF EXISTS user_post_comments;
+2
+DROP TRIGGER IF EXISTS before_user_insert;
+2
+DROP PROCEDURE IF EXISTS GetUserPosts;
+2
+DROP TABLE IF EXISTS comments;
+1
+DROP TABLE IF EXISTS posts;
+2
+DROP TABLE IF EXISTS user_profiles;
+2
+DROP DATABASE IF EXISTS test;
+2
