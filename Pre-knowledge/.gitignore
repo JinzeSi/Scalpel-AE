@@ -1,0 +1,57 @@
+# Local editor settings and Python caches
+.vscode/
+.idea/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+*.swp
+*.swo
+
+# Compiler and coverage output; panda.so is a supplied runtime dependency.
+*.o
+*.a
+*.so
+!/panda.so
+*.bc
+*.ll
+*.gcda
+*.gcno
+*.gcov
+*.sancov
+*.symcov
+*.out
+*.log
+*.log[0-9]*
+*.pid
+
+# Database state and local Redis installations
+/dump*.rdb
+/appendonly.aof*
+/appendonlydir/
+/nodes.conf
+/redis/app*/
+/redis/dump-brk/
+/redis-version/redis/app*/
+/redis-version/redis/src/app*/
+
+# Generated baseline data stays local; it is also needed for experiments.
+/init_file_*/
+/re-build/
+/re-build-*/
+
+# Analysis result directories named with a full Git commit hash
+/[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]/
+
+# Generated tables, traces and worker handoff files
+/redis-BB*.txt
+/demo-redis-BB.txt
+/demo-S2E-times-res-*.txt
+/demo-[0-9]*.txt
+/generate_S2E_case-*.txt
+/build_KeyValue_hashTable.txt
+/gitshow.txt
+/res_BB.txt
+
+# Keep Makefile, command/commit lists, makefile/socket templates, source trees
+# and supplied helper executables. Do not ignore all *.txt or redis*/ paths.

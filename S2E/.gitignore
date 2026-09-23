@@ -1,0 +1,58 @@
+# Local editor settings and Python caches
+.vscode/
+.idea/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+*.swp
+*.swo
+
+# Local repo metadata and environment outputs (see excludes.txt)
+/s2e/source/.repo/
+/s2e/build/
+/s2e/install/
+/s2e/images
+/s2e/projects
+/s2e/s2e_activate
+/s2e-env/build/
+/s2e-env/dist/
+/s2e-env/venv/
+/s2e-env/*.egg-info/
+/s2e/source/s2e-env/build/
+/s2e/source/s2e-env/dist/
+/s2e/source/s2e-env/venv/
+/s2e/source/s2e-env/*.egg-info/
+
+# QEMU-generated files supplement the existing upstream .gitignore.
+/s2e/source/qemu/build/
+/s2e/source/qemu/.git-submodule-status
+/s2e/source/qemu/roms/vgabios/config.mak
+/s2e/source/qemu/**/trace.c
+/s2e/source/qemu/**/trace.h
+/s2e/source/qemu/docs/version.texi
+
+# Locally compiled helpers and scratch output (see excludes.txt)
+/perf.data*
+/list
+/main
+/sjz
+/tran
+/test/test-proc
+/test/tutorial
+/test-client/test
+/test-client/test-client
+/jsonAnalyze/jsonAnalyze
+/jsonAnalyze/tmp
+/jsonAnalyze/tmptmp
+/jsonAnalyze/res.tmp
+/jsonAnalyze/demo.json
+/a.org
+/s2e/x
+/s2e/xx
+/s2e/xxx_sjz
+/s2e/tmp.txt
+/s2e/redis-icount.txt
+
+# Keep upstream firmware, test fixtures and LLVM source assets.
+# Build products inside source trees use their existing .gitignore files.

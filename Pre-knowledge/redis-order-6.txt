@@ -1,0 +1,4 @@
+./redis/app/bin/redis-cli DEBUG HTSTATS 0
+./redis/app/bin/redis-cli DEBUG HTSTATS 0 full
+./redis/app/bin/redis-cli DEBUG RELOAD NOSAVE NOFLUSH MERGE
+./redis/app/bin/redis-cli DEBUG POPULATE 1

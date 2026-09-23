@@ -1,0 +1,2 @@
+./redis/app/bin/redis-cli MODULE LOAD ./panda.so
+./redis/app/bin/redis-cli MODULE LOAD ./panda.so string hi

@@ -1,0 +1,11 @@
+./redis/app/bin/redis-cli MODULE LIST                      
+./redis/app/bin/redis-cli MODULE UNLOAD panda
+./redis/app/bin/redis-cli panda.time
+./redis/app/bin/redis-cli CONFIG SET panda.string hello
+./redis/app/bin/redis-cli CONFIG SET panda.bool yes
+./redis/app/bin/redis-cli CONFIG SET panda.numeric 10
+./redis/app/bin/redis-cli CONFIG SET panda.enum value1
+./redis/app/bin/redis-cli CONFIG GET panda.enum
+./redis/app/bin/redis-cli CONFIG GET panda.bool
+./redis/app/bin/redis-cli CONFIG GET panda.string
+./redis/app/bin/redis-cli CONFIG GET panda.numeric

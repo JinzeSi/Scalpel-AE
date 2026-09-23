@@ -1,0 +1,91 @@
+# Reporting exclusions selected from redis-order.txt.
+# Scope: administrative, diagnostic, setup and demonstration commands.
+# This file affects reports only; it does not change experiment execution.
+# MODULE/CONFIG/ACL/CLUSTER/DEBUG/--cluster match command + subcommand,
+# ignoring their arguments. INFO/REPLCONF/redis-server match the command.
+# Other entries match complete argument lists; argument case is significant.
+# Blank lines and lines starting with # are ignored.
+
+# Configuration and statistics administration.
+./redis/app/bin/redis-cli CONFIG SET maxclients 10000
+./redis/app/bin/redis-cli CONFIG SET maxclients 1000
+./redis/app/bin/redis-cli CONFIG GET maxclients
+./redis/app/bin/redis-cli CONFIG RESETSTAT
+./redis/app/bin/redis-cli CONFIG SET panda.string hello
+./redis/app/bin/redis-cli CONFIG SET panda.bool yes
+./redis/app/bin/redis-cli CONFIG SET panda.numeric 10
+./redis/app/bin/redis-cli CONFIG SET panda.enum value1
+./redis/app/bin/redis-cli CONFIG GET panda.enum
+./redis/app/bin/redis-cli CONFIG GET panda.bool
+./redis/app/bin/redis-cli CONFIG GET panda.string
+./redis/app/bin/redis-cli CONFIG GET panda.numeric
+./redis/app/bin/redis-cli CONFIG REWRITE
+
+# Diagnostic information.
+./redis/app/bin/redis-cli INFO server
+./redis/app/bin/redis-cli INFO clients
+./redis/app/bin/redis-cli INFO memory
+./redis/app/bin/redis-cli INFO persistence
+./redis/app/bin/redis-cli INFO stats
+./redis/app/bin/redis-cli INFO replication
+./redis/app/bin/redis-cli INFO cpu
+./redis/app/bin/redis-cli INFO modules
+./redis/app/bin/redis-cli INFO commandstats
+./redis/app/bin/redis-cli INFO cluster
+./redis/app/bin/redis-cli INFO keyspace
+
+# Replication handshake/configuration, not replication throughput.
+./redis/app/bin/redis-cli REPLCONF rdb-only 0
+./redis/app/bin/redis-cli REPLCONF rdb-only 1
+./redis/app/bin/redis-cli REPLCONF rdb-filter-only ""
+./redis/app/bin/redis-cli REPLCONF rdb-filter-only functions
+./redis/app/bin/redis-cli REPLCONF capa eof
+./redis/app/bin/redis-cli REPLCONF capa psync2
+./redis/app/bin/redis-cli REPLCONF ip-address 127.0.0.1
+./redis/app/bin/redis-cli REPLCONF listening-port 6379
+
+# Access-control administration.
+./redis/app/bin/redis-cli ACL list
+./redis/app/bin/redis-cli ACL users
+./redis/app/bin/redis-cli ACL getuser default
+./redis/app/bin/redis-cli ACL whoami
+./redis/app/bin/redis-cli ACL cat
+./redis/app/bin/redis-cli ACL cat set
+./redis/app/bin/redis-cli ACL genpass
+./redis/app/bin/redis-cli ACL genpass 100
+./redis/app/bin/redis-cli ACL dryrun default get test_GET
+./redis/app/bin/redis-cli ACL setuser tom
+./redis/app/bin/redis-cli ACL setuser tom on >p1pp0 ~cached:* +get
+
+# Module lifecycle and the demonstration time command.
+./redis/app/bin/redis-cli MODULE LOAD ./panda.so
+./redis/app/bin/redis-cli MODULE LOAD ./panda.so string hi
+./redis/app/bin/redis-cli MODULE LIST
+./redis/app/bin/redis-cli MODULE UNLOAD panda
+./redis/app/bin/redis-cli panda.time
+
+# Cluster administration. Key-slot calculation and key scans remain eligible.
+./redis/app/bin/redis-cli CLUSTER NODES
+./redis/app/bin/redis-cli CLUSTER SLOTS
+./redis/app/bin/redis-cli CLUSTER INFO
+./redis/app/bin/redis-cli CLUSTER addslots 10
+./redis/app/bin/redis-cli CLUSTER delslots 10
+./redis/app/bin/redis-cli --cluster info 127.0.0.1 6379
+./redis/app/bin/redis-cli --cluster rebalance 127.0.0.1:6379
+./redis/app/bin/redis-cli --cluster check 127.0.0.1:6379
+
+# Debugging, test data preparation and the logging-only Lua example.
+./redis/app/bin/redis-cli DEBUG HTSTATS 0
+./redis/app/bin/redis-cli DEBUG HTSTATS 0 full
+./redis/app/bin/redis-cli DEBUG RELOAD NOSAVE NOFLUSH MERGE
+./redis/app/bin/redis-cli DEBUG POPULATE 1
+./redis/app/bin/redis-cli EVAL "redis.log(redis.LOG_WARNING, 'Something is wrong with this script.')" 0
+
+# Server startup.
+./redis/app/bin/redis-server --pidfile redis.pid --save ""
+./redis/app/bin/redis-server --pidfile redis.pid --save "" --enable-module-command local
+./redis/app/bin/redis-server --pidfile redis.pid --save "" --enable-module-command local --loadmodule /data2/sjz/Pre-knowledge/panda.so
+./redis/app/bin/redis-server --pidfile redis.pid --save "" --cluster-enabled yes
+./redis/app/bin/redis-server --pidfile redis.pid  --save "" --appendonly yes
+./redis/app/bin/redis-server --pidfile redis.pid  --save "" --enable-debug-command yes
+./redis/app/bin/redis-server /data2/sjz/Pre-knowledge/redis.conf --pidfile redis.pid  --save ""

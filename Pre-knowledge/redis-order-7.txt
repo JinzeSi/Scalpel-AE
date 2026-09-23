@@ -1,0 +1,1 @@
+./redis/app/bin/redis-cli CONFIG REWRITE

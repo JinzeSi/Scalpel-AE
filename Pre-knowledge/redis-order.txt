@@ -1,0 +1,210 @@
+./redis/app/bin/redis-cli PING
+./redis/app/bin/redis-cli set test_SET cfvbnmyhujikolvbn
+./redis/app/bin/redis-cli get test_GET
+./redis/app/bin/redis-cli incr test_INCR
+./redis/app/bin/redis-cli decr test_DECR
+./redis/app/bin/redis-cli INCRBY test_INCR 10
+./redis/app/bin/redis-cli INCRBYFLOAT test_INCR 10.1
+./redis/app/bin/redis-cli DECRBY test_DECR 345
+./redis/app/bin/redis-cli LPUSH test_LPUSH test_lpush_wefuewhf test_lpush_fedabvewkj test_lpush_ewbhfjewbh test_lpush_fweujbf test_lpush_fbweuj
+./redis/app/bin/redis-cli LPUSHX key_list:43 test_lpush_wefuewhf test_lpush_fedabvewkj test_lpush_ewbhfjewbh test_lpush_fweujbf test_lpush_fbweuj
+./redis/app/bin/redis-cli RPUSH test_RPUSH test_rpush_wefnwei test_lpush_fkewjnwe test_lpush_efwbienf test_lpush_oijoho test_lpush_efhwiehf
+./redis/app/bin/redis-cli LPOP test_LPOP
+./redis/app/bin/redis-cli RPOP test_RPOP
+./redis/app/bin/redis-cli SADD test_ADD test_ADD_ewujfbwei test_ADD_pouityufgu test_ADD_23equwgduw test_ADD_23rt32ugbjbf test_ADD_23rtwf23f2 test_ADD_2r23kjfnkfn test_ADD_23rt22rr32e test_ADD_23rt4e32r2323
+./redis/app/bin/redis-cli SPOP test_SPOP 7
+./redis/app/bin/redis-cli LRANGE test_LRANGE 0 99
+./redis/app/bin/redis-cli MSET test_MSET1 weiuvweiuvb test_MSET2 4r4i3ih test_MSET3 f348yg3gbeb test_MSET4 23ry8342hfihbf test_MGET4 wevgbewihviwe test_MGET5 2f239fu439gfh4 test_MGET6 23hr23ibf3jghi test_MGET7 wbgvirhvorj test_MGET8 pkwpjvkwnkv test_MGET9 2qfnk23nfjb2gj4b test_MGET10 24ty4inkwev
+./redis/app/bin/redis-cli MGET test_MGET1 23r23r23f test_MGET2 4tr43ign4i3gnopsdkv test_MGET3 dewugfewiugbv test_MGET10 test_MGET8 giurgb3i test_MGET5
+./redis/app/bin/redis-cli HSET test_HSET username alice age 30 location Paris HGET_HASH_FIELD1 weugfuwebgfiwebviu HGET_HASH_FIELD2 ewuvbgevhberihvneirn HGET_HASH_FIELD3 weufgewihiwer HGET_HASH_FIELD4 4tvnreiknveir HGET_HASH_FIELD5 23rgwnrighnkwn2 HGET_HASH_FIELD6 23jrb234jbg34ibgi3
+./redis/app/bin/redis-cli HGET test_HGET HGET_HASH_FIELD5
+./redis/app/bin/redis-cli DEL key:1 key:4 key:99 key:123434 key:999 key:479 key:865 key:123 key:782 key:5 key:88 key:12342
+./redis/app/bin/redis-cli DUMP key:888
+./redis/app/bin/redis-cli EXISTS key:234 key:4 key:991 key:12 key:999 key:47 key:865 key:1234 key:72 key:5 key:8 key:12342
+./redis/app/bin/redis-cli EXPIRE key:23 22
+./redis/app/bin/redis-cli EXPIREAT key:233 111
+./redis/app/bin/redis-cli PEXPIRE key:876 1234
+./redis/app/bin/redis-cli PEXPIREAT key:333 123223
+./redis/app/bin/redis-cli KEYS *888
+./redis/app/bin/redis-cli MOVE key:267 8
+./redis/app/bin/redis-cli PERSIST key:8856
+./redis/app/bin/redis-cli PTTL key:12
+./redis/app/bin/redis-cli TTL key:9876
+./redis/app/bin/redis-cli RANDOMKEY
+./redis/app/bin/redis-cli RENAME key:22 test_RENAME
+./redis/app/bin/redis-cli RENAMENX key:22 test_RENAMENX
+./redis/app/bin/redis-cli SCAN 0 MATCH key:* COUNT 100
+./redis/app/bin/redis-cli TYPE key:2233
+./redis/app/bin/redis-cli GETRANGE key:3242 8 33
+./redis/app/bin/redis-cli GETSET key:2341 fwegbfueho2jofrh32i
+./redis/app/bin/redis-cli GETBIT key:3 678
+./redis/app/bin/redis-cli SETBIT key:654 2 1
+./redis/app/bin/redis-cli SETEX test_SETEX 6 ewfhewifhweibewvew
+./redis/app/bin/redis-cli SETNX test_SETNX 2f34gh34pko
+./redis/app/bin/redis-cli SETNX key:565 t43jtb345ighn3k
+./redis/app/bin/redis-cli SETRANGE key:3 34 uwvubwivbiebv34ewfgeiwghfbiew
+./redis/app/bin/redis-cli STRLEN key:6762
+./redis/app/bin/redis-cli MSETNX test_MSETNX1 weiuvweiuvb test_MSETNX2 4r4i3ih test_MSETNX3 f348yg3gbeb test_MSETNX4 23ry8342hfihbf test_MGET4 wevgbewihviwe test_MGET5 2f239fu439gfh4 test_MGET6 23hr23ibf3jghi test_MGET7 wbgvirhvorj test_MGET8 pkwpjvkwnkv test_MGET9 2qfnk23nfjb2gj4b test_MGET10 24ty4inkwev
+./redis/app/bin/redis-cli PSETEX test_PSETEX 56698 weufgweiuvb23r32
+./redis/app/bin/redis-cli APPEND test_APPEND 23ry342rh43ih34u9gu0qufe
+./redis/app/bin/redis-cli HDEL test_HGET HGET_HASH_FIELD157 HGET_HASH_FIELD3 HGET_HASH_FIELD55 HGET_HASH_FIELD98 HGET_HASH_FIELD2 erwbvirebre 3id23ifb2 23rb2j4bgfj24b HGET_HASH_FIELD34
+./redis/app/bin/redis-cli HEXISTS key_hash:355 23rt43itjgb3n4
+./redis/app/bin/redis-cli HEXISTS test_HGET HGET_HASH_FIELD159
+./redis/app/bin/redis-cli HGET test_HGET HGET_HASH_FIELD88
+./redis/app/bin/redis-cli HGETALL key_hash:3551
+./redis/app/bin/redis-cli HINCRBY key_hash:4 name 1987
+./redis/app/bin/redis-cli HINCRBYFLOAT key_hash:8765 name 43.132
+./redis/app/bin/redis-cli HKEYS key_hash:72
+./redis/app/bin/redis-cli HLEN key_hash:958
+./redis/app/bin/redis-cli HMGET test_HGET HGET_HASH_FIELD5 HGET_HASH_FIELD198 HGET_HASH_FIELD1 HGET_HASH_FIELD97 HGET_HASH_FIELD123 HGET_HASH_FIELD178 HGET_HASH_FIELD988 HGET_HASH_FIELD123 MGET test_HGET HGET_HASH_FIELD5 HGET_HASH_FIELD198 HGET_HASH_FIELD1 HGET_HASH_FIELD97 HGET_HASH_FIELD123 HGET_HASH_FIELD178 HGET_HASH_FIELD988 HGET_HASH_FIELD12313 MGET test_HGET HGET_HASH_FIELD5 HGET_HASH_FIELD198 HGET_HASH_FIELD1 HGET_HASH_FIELD97 HGET_HASH_FIELD123 HGET_HASH_FIELD178 HGET_HASH_FIELD988 HGET_HASH_FIELD12
+./redis/app/bin/redis-cli HMSET test_HMSET username alice age 30 location Paris HGET_HASH_FIELD1 weugfuwebgfiwebviu HGET_HASH_FIELD2 ewuvbgevhberihvneirn HGET_HASH_FIELD3 weufgewihiwer HGET_HASH_FIELD4 4tvnreiknveir HGET_HASH_FIELD5 23rgwnrighnkwn2 HGET_HASH_FIELD6 23jrb234jbg34ibgi3
+./redis/app/bin/redis-cli HSETNX key_hash:12 HGET_HASH_FIELD523432 "foo"
+./redis/app/bin/redis-cli HSETNX key_hash:9722 HGET_HASH_FIELD2 "bar"
+./redis/app/bin/redis-cli HVALS key_hash:732
+./redis/app/bin/redis-cli HSCAN test_HGET 0 MATCH HGET_HASH_FIELD*2* COUNT 1000
+./redis/app/bin/redis-cli BRPOP key_list:1 key_list:999 key_list:23 key_list:98 key_list:1283 key_list:9999 key_list:123 key_list:8765 0 
+./redis/app/bin/redis-cli BLPOP key_list:1 key_list:999 key_list:23 key_list:98 key_list:1283 key_list:9999 key_list:123 key_list:8765 0 
+./redis/app/bin/redis-cli BRPOPLPUSH key_list:222 key_list:1234 0
+./redis/app/bin/redis-cli LINDEX key_list:2222 33
+./redis/app/bin/redis-cli LINSERT test_LINSERT AFTER value_list:147 12321423wvhbreijvbn
+./redis/app/bin/redis-cli LINSERT test_LINSERT BEFORE value_list:147 12321423wvhbreijvbn
+./redis/app/bin/redis-cli LLEN key_list:13
+./redis/app/bin/redis-cli LREM test_LINSERT -3 value_list:14
+./redis/app/bin/redis-cli LSET test_RPOP 123 23effwv3r2vw
+./redis/app/bin/redis-cli LTRIM key_list:1233 15 32
+./redis/app/bin/redis-cli RPOPLPUSH key_list:8765 key_list:43
+./redis/app/bin/redis-cli SCARD test_SPOP
+./redis/app/bin/redis-cli SDIFF key_set:23 key_set:2345 key_set:9987 key_set:1 key_set:3
+./redis/app/bin/redis-cli SDIFFSTORE keytmp1 key_set:23 key_set:2345 key_set:9987 key_set:1 key_set:3
+./redis/app/bin/redis-cli SINTER key_set:23 key_set:8656
+./redis/app/bin/redis-cli SINTERSTORE keytmp2 key_set:71 key_set:9861
+./redis/app/bin/redis-cli SISMEMBER test_set value_set:159
+./redis/app/bin/redis-cli SISMEMBER test_set value_set:23455
+./redis/app/bin/redis-cli SMEMBERS key_set:9813
+./redis/app/bin/redis-cli SMOVE test_set key_set:23 value_set:145
+./redis/app/bin/redis-cli SRANDMEMBER key_set:981 15
+./redis/app/bin/redis-cli SREM test_set value_set:159 value_set:1 value_set:91 value_set:72 value_set:134 value_set:13 value_set:93 value_set:3
+./redis/app/bin/redis-cli SUNION key_set:981 key_set:9819 key_set:12 key_set:34 key_set:9999 key_set:1213 key_set:1 key_set:52 key_set:99 key_set:7655
+./redis/app/bin/redis-cli SUNIONSTORE settmp3 key_set:981 key_set:9819 key_set:12 key_set:34 key_set:9999 key_set:1213 key_set:1 key_set:52 key_set:99 key_set:7655
+./redis/app/bin/redis-cli SSCAN key_set:1314 0 MATCH /*f/* COUNT 100
+./redis/app/bin/redis-cli ZADD key_SortSet:34 3 wegfuweb 5 wefbewifb 6 weihfiewhfiwe 3 wrugwirh 6 wefhweih 1 fwifghrwihf 3 weeifheiwrhi 4 ewufherwihvir 1 fewhfwiehve 6 wifhwrihi
+./redis/app/bin/redis-cli ZCARD key_SortSet:7892
+./redis/app/bin/redis-cli ZCOUNT key_SortSet:789 3 12
+./redis/app/bin/redis-cli ZINCRBY key_SortSet:3478 10 1
+./redis/app/bin/redis-cli ZINTERSTORE tmp 7 key_SortSet:3478 key_SortSet:34 key_SortSet:78 key_SortSet:9876 key_SortSet:23 key_SortSet:7865 key_SortSet:1 AGGREGATE MAX
+./redis/app/bin/redis-cli ZINTERSTORE tmp 7 key_SortSet:3478 key_SortSet:34 key_SortSet:78 key_SortSet:9876 key_SortSet:23 key_SortSet:7865 key_SortSet:1 AGGREGATE MIN
+./redis/app/bin/redis-cli ZINTERSTORE tmp 3 test_zadd test_zadd1 test_zadd2 AGGREGATE SUM
+./redis/app/bin/redis-cli ZINTERSTORE tmp 3 test_zadd test_zadd1 test_zadd2 WEIGHTS 2 3 1
+./redis/app/bin/redis-cli ZLEXCOUNT test_zadd [sortset100 [sortset150
+./redis/app/bin/redis-cli ZRANGE key_SortSet:2678 5 83 WITHSCORES
+./redis/app/bin/redis-cli ZRANGEBYLEX test_zadd [sortset100 [sortset150 LIMIT 9 19
+./redis/app/bin/redis-cli ZRANGEBYSCORE key_SortSet:9852 1 7 WITHSCORES LIMIT 19 29
+./redis/app/bin/redis-cli ZRANK test_zadd1 sortset156
+./redis/app/bin/redis-cli ZREM test_zadd2 sortset156 sortset1 sortset32 sortset160 sortset97 sortset15 sortset134 sortset3 sortset72 sortset122
+./redis/app/bin/redis-cli ZREMRANGEBYLEX test_zadd1 [sortset105 [sortset146
+./redis/app/bin/redis-cli ZREMRANGEBYRANK key_SortSet:267 2 51
+./redis/app/bin/redis-cli ZREMRANGEBYSCORE key 3 5
+./redis/app/bin/redis-cli ZREVRANGE key_SortSet:5768 45 76 WITHSCORES
+./redis/app/bin/redis-cli ZREVRANGEBYSCORE key_SortSet:57 4 7 WITHSCORES
+./redis/app/bin/redis-cli ZREVRANK test_zadd1 sortset77 WITHSCORE
+./redis/app/bin/redis-cli ZSCORE test_zadd sortset98
+./redis/app/bin/redis-cli ZUNIONSTORE tmp 10 key_SortSet:571 key_SortSet:8922 key_SortSet:23 key_SortSet:5678 key_SortSet:12 key_SortSet:4398 key_SortSet:456 key_SortSet:9546 key_SortSet:71 key_SortSet:897
+./redis/app/bin/redis-cli ZSCAN test_zadd 0 MATCH sortset*1* COUNT 100
+./redis/app/bin/redis-cli PFADD key_HyperLogLog:999 gwuvgewubgvwe qiwghfdiqeghfiuwehbf qiwhfdiqwhfiqjehfieqhf qwifhqeifhewifhneiwhfewi qifhweihfbewikhfnvikewhfniwek qfheikfnewknfkqenfkqe qeifhqeifknewkfnewkqnfq ejfgbweijfbweknfwekqebfue qbfwjqebfewjbnvikwen qefbeiwnfiwkebnfwe
+./redis/app/bin/redis-cli PFADD key_HyperLogLog:9999999 gwuvgewubgvwe qiwghfdiqeghfiuwehbf qiwhfdiqwhfiqjehfieqhf qwifhqeifhewifhneiwhfewi qifhweihfbewikhfnvikewhfniwek qfheikfnewknfkqenfkqe qeifhqeifknewkfnewkqnfq ejfgbweijfbweknfwekqebfue qbfwjqebfewjbnvikwen qefbeiwnfiwkebnfwe
+./redis/app/bin/redis-cli PFCOUNT key_HyperLogLog:888 key_HyperLogLog:12 key_HyperLogLog:9987 key_HyperLogLog:1 key_HyperLogLog:876 key_HyperLogLog:13 key_HyperLogLog:438 key_HyperLogLog:2355 key_HyperLogLog:3 key_HyperLogLog:5623
+./redis/app/bin/redis-cli PFMERGE key_HyperLogLog:888 key_HyperLogLog:12 key_HyperLogLog:9987 key_HyperLogLog:1 key_HyperLogLog:876 key_HyperLogLog:13 key_HyperLogLog:438 key_HyperLogLog:2355 key_HyperLogLog:3 key_HyperLogLog:5623
+./redis/app/bin/redis-cli BITCOUNT key:5555 12 34
+./redis/app/bin/redis-cli BITCOUNT key:555
+./redis/app/bin/redis-cli BITOP AND tmp key:1789 key:8988 key:345 key:12 key:5467 key:998 key:7345 key:4 key:3098 key:9999
+./redis/app/bin/redis-cli BITOP OR tmp key:1789 key:8988 key:345 key:12 key:5467 key:998 key:7345 key:4 key:3098 key:9999
+./redis/app/bin/redis-cli BITOP XOR tmp key:1789 key:8988 key:345 key:12 key:5467 key:998 key:7345 key:4 key:3098 key:9999
+./redis/app/bin/redis-cli BITOP NOT tmp key:7388
+./redis/app/bin/redis-cli CONFIG SET maxclients 10000
+./redis/app/bin/redis-cli CONFIG SET maxclients 1000
+./redis/app/bin/redis-cli CONFIG GET maxclients
+./redis/app/bin/redis-cli CONFIG RESETSTAT
+./redis/app/bin/redis-cli INFO server
+./redis/app/bin/redis-cli INFO clients
+./redis/app/bin/redis-cli INFO memory
+./redis/app/bin/redis-cli INFO persistence
+./redis/app/bin/redis-cli INFO stats
+./redis/app/bin/redis-cli INFO replication
+./redis/app/bin/redis-cli INFO cpu
+./redis/app/bin/redis-cli INFO modules
+./redis/app/bin/redis-cli INFO commandstats
+./redis/app/bin/redis-cli INFO cluster
+./redis/app/bin/redis-cli INFO keyspace
+./redis/app/bin/redis-cli BITPOS test_GET 0 1
+./redis/app/bin/redis-cli BITPOS test_GET 0 1 10
+./redis/app/bin/redis-cli BITPOS test_GET 0 1 10 byte
+./redis/app/bin/redis-cli BITPOS test_GET 0 1 10 bit
+./redis/app/bin/redis-cli BITPOS test_GET 0 1 -1 bit
+./redis/app/bin/redis-cli EVAL "redis.log(redis.LOG_WARNING, 'Something is wrong with this script.')" 0
+./redis/app/bin/redis-cli EVAL "local function luaCallFunction(a, b) return a + b end return luaCallFunction(tonumber(ARGV[1]), tonumber(ARGV[2]))" 0 5 3
+./redis/app/bin/redis-cli EVAL "local key_value = redis.call('GET', KEYS[1]) if key_value == '10' then return 'The value is exactly 10' else return 'The value is not 10' end" 1 test_GET
+./redis/app/bin/redis-cli REPLCONF rdb-only 0
+./redis/app/bin/redis-cli REPLCONF rdb-only 1
+./redis/app/bin/redis-cli REPLCONF rdb-filter-only ""
+./redis/app/bin/redis-cli REPLCONF rdb-filter-only functions
+./redis/app/bin/redis-cli REPLCONF capa eof
+./redis/app/bin/redis-cli REPLCONF capa psync2
+./redis/app/bin/redis-cli REPLCONF ip-address 127.0.0.1
+./redis/app/bin/redis-cli REPLCONF listening-port 6379
+./redis/app/bin/redis-cli GEOADD stores 116.400128 39.924357 "store"
+./redis/app/bin/redis-cli GEORADIUS restaurants 116.398 39.917 500 m WITHCOORD WITHDIST
+./redis/app/bin/redis-cli GEORADIUSBYMEMBER restaurants "restaurant1" 1 km WITHCOORD WITHDIST
+./redis/app/bin/redis-cli GEOSEARCH restaurants FROMLONLAT 116.397128 39.916527 BYBOX 10 5 km ASC
+./redis/app/bin/redis-cli GEOSEARCH restaurants FROMLONLAT 116.397128 39.916527 BYRADIUS 3 km DESC
+./redis/app/bin/redis-cli GEOSEARCHSTORE result_key restaurants FROMLONLAT 116.397128 39.916527 BYRADIUS 3 km
+./redis/app/bin/redis-cli GEOHASH restaurants "restaurant1" "restaurant2"
+./redis/app/bin/redis-cli GEOPOS restaurants "restaurant1" "restaurant2"
+./redis/app/bin/redis-cli GEODIST restaurants "restaurant1" "restaurant2" km
+./redis/app/bin/redis-cli ACL list
+./redis/app/bin/redis-cli ACL users
+./redis/app/bin/redis-cli ACL getuser default
+./redis/app/bin/redis-cli ACL whoami
+./redis/app/bin/redis-cli ACL cat
+./redis/app/bin/redis-cli ACL cat set
+./redis/app/bin/redis-cli ACL genpass
+./redis/app/bin/redis-cli ACL genpass 100
+./redis/app/bin/redis-cli ACL dryrun default get test_GET
+./redis/app/bin/redis-cli ACL setuser tom
+./redis/app/bin/redis-cli ACL setuser tom on >p1pp0 ~cached:* +get
+./redis/app/bin/redis-cli MODULE LOAD ./panda.so
+./redis/app/bin/redis-cli MODULE LOAD ./panda.so string hi
+./redis/app/bin/redis-cli MODULE LIST
+./redis/app/bin/redis-cli MODULE UNLOAD panda
+./redis/app/bin/redis-cli panda.time
+./redis/app/bin/redis-cli CONFIG SET panda.string hello
+./redis/app/bin/redis-cli CONFIG SET panda.bool yes
+./redis/app/bin/redis-cli CONFIG SET panda.numeric 10
+./redis/app/bin/redis-cli CONFIG SET panda.enum value1
+./redis/app/bin/redis-cli CONFIG GET panda.enum
+./redis/app/bin/redis-cli CONFIG GET panda.bool
+./redis/app/bin/redis-cli CONFIG GET panda.string
+./redis/app/bin/redis-cli CONFIG GET panda.numeric
+./redis/app/bin/redis-cli CLUSTER NODES
+./redis/app/bin/redis-cli CLUSTER SLOTS
+./redis/app/bin/redis-cli CLUSTER INFO
+./redis/app/bin/redis-cli CLUSTER keyslot hello
+./redis/app/bin/redis-cli CLUSTER countkeysinslot 866
+./redis/app/bin/redis-cli CLUSTER getkeysinslot 866 100
+./redis/app/bin/redis-cli CLUSTER addslots 10
+./redis/app/bin/redis-cli CLUSTER delslots 10
+./redis/app/bin/redis-cli --cluster info 127.0.0.1 6379
+./redis/app/bin/redis-cli --cluster rebalance 127.0.0.1:6379
+./redis/app/bin/redis-cli --cluster check 127.0.0.1:6379
+./redis/app/bin/redis-cli BGREWRITEAOF
+./redis/app/bin/redis-cli DEBUG HTSTATS 0
+./redis/app/bin/redis-cli DEBUG HTSTATS 0 full
+./redis/app/bin/redis-cli DEBUG RELOAD NOSAVE NOFLUSH MERGE
+./redis/app/bin/redis-cli DEBUG POPULATE 1
+./redis/app/bin/redis-cli CONFIG REWRITE
+./redis/app/bin/redis-server --pidfile redis.pid --save ""
+./redis/app/bin/redis-server --pidfile redis.pid --save "" --enable-module-command local
+./redis/app/bin/redis-server --pidfile redis.pid --save "" --enable-module-command local --loadmodule /data2/sjz/Pre-knowledge/panda.so
+./redis/app/bin/redis-server --pidfile redis.pid --save "" --cluster-enabled yes
+./redis/app/bin/redis-server --pidfile redis.pid  --save "" --appendonly yes
+./redis/app/bin/redis-server --pidfile redis.pid  --save "" --enable-debug-command yes
+./redis/app/bin/redis-server /data2/sjz/Pre-knowledge/redis.conf --pidfile redis.pid  --save ""

@@ -1,0 +1,8 @@
+# Ignore all root entries except the three projects and this file.
+/*
+!/.gitignore
+!/redis/
+!/S2E/
+!/Pre-knowledge/
+
+# Each project's .gitignore controls its generated files.

@@ -1,0 +1,45 @@
+# Local editor settings and Python caches
+.vscode/
+.idea/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+*.swp
+*.swo
+
+# Pipeline runs, reports and per-commit working copies
+/.pipeline.lock
+/pipeline-runs/
+/report/
+/report-final/
+/report-confirmation/
+/redis-[0-9a-f]*/
+/run-commit-*/
+/trial-commit-*/
+/time-tall.txt
+/Makefile
+/Makefile1
+/bootstrap-1.sh
+/make_symbolic-NULLEND copy 2.sh
+/tmp
+
+# Compiler, coverage and runtime output
+*.o
+*.a
+*.bc
+*.ll
+*.gcda
+*.gcno
+*.gcov
+*.sancov
+*.symcov
+*.log
+*.log[0-9]*
+*.pid
+/dump*.rdb
+/appendonly.aof*
+/appendonlydir/
+/nodes.conf
+
+# tools/, panda.so, command lists and commit/makefile/ are runtime inputs.

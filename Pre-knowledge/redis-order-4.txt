@@ -1,0 +1,11 @@
+./redis/app/bin/redis-cli CLUSTER NODES
+./redis/app/bin/redis-cli CLUSTER SLOTS
+./redis/app/bin/redis-cli CLUSTER INFO
+./redis/app/bin/redis-cli CLUSTER keyslot hello
+./redis/app/bin/redis-cli CLUSTER countkeysinslot 866
+./redis/app/bin/redis-cli CLUSTER getkeysinslot 866 100
+./redis/app/bin/redis-cli CLUSTER addslots 10
+./redis/app/bin/redis-cli CLUSTER delslots 10
+./redis/app/bin/redis-cli --cluster info 127.0.0.1 6379
+./redis/app/bin/redis-cli --cluster rebalance 127.0.0.1:6379
+./redis/app/bin/redis-cli --cluster check 127.0.0.1:6379

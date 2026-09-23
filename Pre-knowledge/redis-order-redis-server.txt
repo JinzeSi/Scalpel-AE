@@ -1,0 +1,7 @@
+./redis/app/bin/redis-server --pidfile redis.pid --save ""
+./redis/app/bin/redis-server --pidfile redis.pid --save "" --enable-module-command local
+./redis/app/bin/redis-server --pidfile redis.pid --save "" --enable-module-command local --loadmodule /data2/sjz/Pre-knowledge/panda.so
+./redis/app/bin/redis-server --pidfile redis.pid --save "" --cluster-enabled yes
+./redis/app/bin/redis-server --pidfile redis.pid  --save "" --appendonly yes
+./redis/app/bin/redis-server --pidfile redis.pid  --save "" --enable-debug-command yes
+./redis/app/bin/redis-server /data2/sjz/Pre-knowledge/redis.conf --pidfile redis.pid  --save ""
