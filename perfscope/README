@@ -1,0 +1,80 @@
+# AE Step: Comparison between Our Tool and Perfscope
+
+This artifact evaluation reproduces the experiment where **Perfscope scans the same set of commits** that our tool has analyzed, and produces regression risk scores and regression judgments\. All experiments run on the AE machine with Docker environments\.
+
+## 1\. Environment Setup \(Docker\)
+
+Enter the Perfscope container:
+
+```bash
+docker run -v /data3/sjz/AE/perfscope:/perfscope -it perfscope:latest bash
+```
+
+After entering the container, the working directory is `/perfscope`\.
+
+## 2\. Run Perfscope on target commits
+
+We provide a wrapper script `run_auto.sh`\.
+
+- 1st argument: target project name, available choices: `redis`, `mysql`, `httpd`, `rocksdb`, `mariadb`\.
+
+- The script automatically reads commit IDs from `commit-$<PROJECT>.txt`，using Perfscope to diagnosis\.
+
+- These commits are exactly the commits scanned by our tool, including commits where our tool discovered new performance regressions\.
+
+```bash
+# Example: run for redis
+./run_auto.sh redis
+
+# Example: run for mysql
+./run_auto.sh mysql
+```
+
+## 3\. Output files
+
+Results are stored in project\-specific result files:
+
+|Project|Result File|
+|---|---|
+|redis|`redis/redis.res`|
+|httpd|`httpd/httpd.res`|
+|rocksdb|`rocksdb/rocksdb.res`|
+|mysql|`mysql-server/mysql.res`|
+|mariadb|`mariadb-server/mariadb.res`|
+
+Result line format:
+
+```Plain Text
+<commitHash>, <score>, <TRUE/FALSE>, <Verdict>, <Timestamp>
+```
+
+- `TRUE`: Perfscope marks this commit as a performance regression
+
+- `FALSE`: Perfscope judges no regression
+
+Example record:
+
+```Plain Text
+4aa25d042cff5ba63f244a752887bf4be369c937, 210.1010, TRUE, Score_Exceeded, Thu Jan 15 12:38:09 UTC 2026
+4b29be3f36b05c4e2479a80712f2c73f216ae031, 0.1820, FALSE, Pass, Thu Jan 15 12:38:45 UTC 2026
+```
+
+## 4\. Count the number of regressions detected by Perfscope
+
+Count lines with `TRUE` \(Perfscope\-reported regressions\) in a result file:
+
+```bash
+# Replace redis/redis.res with your target result file
+grep ', TRUE,' redis/redis.res | wc -l
+```
+
+
+
+Quick count for all projects at once:
+
+```bash
+for f in redis/redis.res httpd/httpd.res rocksdb/rocksdb.res mysql-server/mysql.res mariadb-server/mariadb.res; do
+  echo "$f: $(grep ', TRUE,' $f | wc -l)"
+done
+```
+

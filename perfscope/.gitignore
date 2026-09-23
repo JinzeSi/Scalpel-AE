@@ -1,0 +1,93 @@
+# Local editor settings, caches and configure output
+.vscode/
+.idea/
+__pycache__/
+*.py[cod]
+*.swp
+*.swo
+.hg/
+autom4te.cache/
+/autoconf/configure.bak
+/config.log
+/config.status
+
+# PerfScope build outputs; keep source and Makefiles in these directories.
+Debug+Asserts/
+Release+Asserts/
+/lib/**/*.[oa]
+/lib/**/*.so
+/tools/**/*.[oa]
+/tools/**/*.so
+/test/driver/**/*.[oa]
+/test/driver/**/*.so
+/third-party/**/*.[oa]
+/third-party/**/*.so
+/lib/parser/PatchCompiler/patch-c
+/tools/PerfDiff/perfdiff
+/tools/PerfScope/perfscope
+/tools/StaticProfiler/staticprofiler
+/test/driver/CommonsDriver/commonsdriver
+/test/driver/CostModelDriver/costdriver
+/test/driver/DecoderDriver/decoderdriver
+/test/driver/MapperDriver/mapperdriver
+/test/driver/RiskEvalDriver/riskevaldriver
+/third-party/Dependence/libdsadependence
+/test.o
+/test.bin
+/mysqld.bc
+
+# Local CMake installations and complete-directory backup archives
+/cmake/
+/cmake-3.12.0/
+/cmake-3.15.0/
+/perfscope*.tar*
+
+# Compiler and benchmark build directories
+/llvm-9.0.1.src/build/
+/clang/build/
+/mysql-server/build/
+/mariadb-server/build/
+/rocksdb/build/
+/httpd/build-bc/
+/redis/llvm-tools-override/
+/redis/**/*.bc
+/redis/**/*.ll
+
+# Batch logs; commit lists and other input text files remain included.
+/run_auto-*.txt
+/time-tall*.txt
+
+# Generated per-project patches, profiles and experiment results
+/mysql-server/patch/
+/mysql-server/res/
+/mysql-server/mysql.res
+/mysql-server/mysql.profile
+/mysql-server/perfscope_analysis.log
+/mysql-server/make_log.txt
+/mariadb-server/patch/
+/mariadb-server/res/
+/mariadb-server/mariadb.res
+/mariadb-server/mariadb.profile
+/mariadb-server/perfscope_analysis.log
+/mariadb-server/make_log.txt
+/rocksdb/patch/
+/rocksdb/res/
+/rocksdb/rocksdb.res
+/rocksdb/rocksdb.profile
+/rocksdb/perfscope_analysis.log
+/rocksdb/make_log.txt
+/redis/patch/
+/redis/res/
+/redis/redis.res
+/redis/redis.profile
+/redis/perfscope_analysis.log
+/redis/make_log.txt
+/httpd/patch/
+/httpd/res/
+/httpd/httpd.res
+/httpd/httpd.profile
+/httpd/perfscope_analysis.log
+/httpd/make_log.txt
+
+# LLVM/Clang tests and test/cases contain real .ll/.bc/.S/.a/.o inputs.
+# Do not globally ignore those extensions, *.txt, or entire source trees.

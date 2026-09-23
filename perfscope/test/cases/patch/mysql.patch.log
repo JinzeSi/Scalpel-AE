@@ -1,0 +1,4 @@
+$ b/mysql-test/r/partition_locking.result
+$ b/mysql-test/r/sp.result
+$ b/mysql-test/t/partition_locking.test
+Scanned total: 12; Non-source: 3; Delete: 0; Create: 0

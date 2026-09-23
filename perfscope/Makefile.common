@@ -1,0 +1,150 @@
+# Set the name of the project here
+PROJECT_NAME := PerfScope
+PROJ_VERSION := 0.1
+ 
+# Set this variable to the top of the LLVM source tree.
+LLVM_SRC_ROOT = /perfscope/llvm-9.0.1.src
+
+# Set this variable to the top level directory where LLVM was built
+# (this is *not* the same as OBJ_ROOT as defined in LLVM's Makefile.config).
+LLVM_OBJ_ROOT = /perfscope/llvm-9.0.1.src
+
+# Set the directory root of this project's source files
+PROJ_SRC_ROOT := $(subst //,/,/perfscope)
+
+# Set the root directory of this project's object files
+PROJ_OBJ_ROOT := $(subst //,/,@abs_top_objdir@)
+
+# Set the root directory of this project's install prefix
+PROJ_INSTALL_ROOT := /usr/local
+
+# [新增] 指定 llvm-config 的路径
+# 注意：确保 LLVM_SRC_ROOT 变量在之前已经定义
+LLVM_CONFIG := $(LLVM_SRC_ROOT)/build/bin/llvm-config
+
+# [新增] 使用 llvm-config 获取编译参数
+# --cxxflags: 获取头文件路径 (-I) 和所需的 C++ 标准/宏定义
+COMMON_CFLAGS := $(shell $(LLVM_CONFIG) --cxxflags)
+
+# [新增] 使用 llvm-config 获取链接参数
+# --ldflags: 获取库文件路径 (-L)
+COMMON_LDFLAGS := $(shell $(LLVM_CONFIG) --ldflags)
+
+# [新增] 获取库文件列表
+# --libs: 获取 LLVM 的静态库列表
+# --system-libs: 获取 LLVM 依赖的系统库 (如 -lpthread, -lz, -ltinfo)
+LLVM_LIBS := $(shell $(LLVM_CONFIG) --libs --system-libs)
+
+# 将获取到的参数追加到你现有的编译变量中
+# 注意：你的 Makefile 中变量名可能不同（例如可能是 CXXFLAGS 或 LDFLAGS），请根据实际情况调整
+CXXFLAGS += $(COMMON_CFLAGS) -w
+LDFLAGS  += $(COMMON_LDFLAGS)
+LIBS     += $(LLVM_LIBS)
+
+# 某些旧代码可能依赖名为 LLVM_OBJ_ROOT 或 LLVM_SRC_ROOT 的变量来找头文件
+# 如果编译报错找不到头文件，可以手动补上：
+INCLUDES += -I$(LLVM_SRC_ROOT)/include -I$(LLVM_SRC_ROOT)/build/include -I$(PROJ_SRC_ROOT)/include
+
+# ============================================================
+# [新增] 手动补充构建规则
+# 由于移除了 LLVM 的 Makefile.common，我们需要自己教 Make 如何工作
+# ============================================================
+
+# 默认编译器 (如果环境变量没设，默认为 g++)
+CC ?= gcc
+CXX ?= g++
+AR  ?= ar
+
+# 0. 声明伪目标，防止与文件名冲突
+.PHONY: all clean distclean install
+
+# 设置默认目标为 all
+all:
+
+# ------------------------------------------------------------
+# 1. 递归处理子目录 (Root Makefile 逻辑)
+# ------------------------------------------------------------
+# 如果当前目录定义了 DIRS 或 dirs 变量 (通常在项目根目录的 Makefile 中)
+ifdef DIRS
+SUBDIRS := $(DIRS)
+endif
+ifdef dirs
+SUBDIRS := $(dirs)
+endif
+
+ifdef SUBDIRS
+all:
+	@for dir in $(SUBDIRS); do \
+		echo ">> Entering directory '$$dir'"; \
+		$(MAKE) -C $$dir all || exit 1; \
+		echo "<< Leaving directory '$$dir'"; \
+	done
+
+clean::
+	@for dir in $(SUBDIRS); do \
+		echo "Cleaning subdirectory $$dir..."; \
+		$(MAKE) -C $$dir clean; \
+	done
+endif
+
+# ------------------------------------------------------------
+# 2. 编译 C++ 源代码 (通用逻辑)
+# ------------------------------------------------------------
+# 自动查找当前目录下的所有 .cpp 文件
+CPP_SOURCES := $(wildcard *.cpp)
+CC_SOURCES  := $(wildcard *.cc)
+C_SOURCES   := $(wildcard *.c)
+OBJECTS := $(CPP_SOURCES:.cpp=.o) $(CC_SOURCES:.cc=.o) $(C_SOURCES:.c=.o)
+
+# 如果当前目录有源码，则定义编译规则
+ifneq ($(OBJECTS),)
+
+# 依赖关系：all 依赖于所有 .o 文件
+all: $(OBJECTS)
+
+# 编译规则：如何把 .cpp 变成 .o
+%.o: %.cpp
+	@echo "  Compiling $<..."
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -O0 -g $(INCLUDES) -c $< -o $@
+
+# [新增] 规则 2：编译 .cc
+%.o: %.cc
+	@echo "  Compiling C++ $<..."
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -O0 -g $(INCLUDES) -c $< -o $@
+
+# [新增] C 编译规则
+%.o: %.c
+	@echo "  Compiling C $<..."
+	$(CC) $(CFLAGS) $(CPPFLAGS) -O0 -g $(INCLUDES) -c $< -o $@
+
+clean::
+	rm -f $(OBJECTS) *.a *.so *.o $(TOOLNAME) lib$(LIBRARYNAME).a $(LIBRARYNAME)
+endif
+
+# ------------------------------------------------------------
+# 3. 构建静态库 (Library 逻辑)
+# ------------------------------------------------------------
+# 如果 Makefile 定义了 LIBRARYNAME (旧版 LLVM 项目的标准变量)
+ifdef LIBRARYNAME
+LIB_FILE := lib$(LIBRARYNAME).a
+
+all: $(LIB_FILE)
+
+$(LIB_FILE): $(OBJECTS)
+	@echo "  Archiving library $@"
+	$(AR) rcs $@ $^
+endif
+
+# ------------------------------------------------------------
+# 4. 构建可执行文件 (Tool 逻辑)
+# ------------------------------------------------------------
+# 如果 Makefile 定义了 TOOLNAME (旧版 LLVM 项目的标准变量)
+ifdef TOOLNAME
+EXE_FILE := $(TOOLNAME)
+
+all: $(EXE_FILE)
+
+$(EXE_FILE): $(OBJECTS)
+	@echo "  Linking executable $@"
+	$(CXX) -o $@ $^ $(LDFLAGS) $(LIBS)
+endif

@@ -1,0 +1,6 @@
+****
+test/cases/loop.1.diff
+====
+loop.1.new.c
+####50,50
+~~~-+~~

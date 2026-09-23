@@ -1,0 +1,438 @@
+.
+|-- AUTHORS
+|-- COPYING
+|-- ChangeLog
+|-- INSTALL
+|-- Makefile
+|-- Makefile.common
+|-- Makefile.common.in
+|-- Makefile.in
+|-- NEWS
+|-- README
+|-- VERSION
+|-- autoconf
+|   |-- AutoRegen.sh
+|   |-- LICENSE.TXT
+|   |-- aclocal.m4
+|   |-- config.guess
+|   |-- config.sub
+|   `-- configure.ac
+|-- changes.patch
+|-- config.log
+|-- config.status
+|-- configure
+|-- configure.brk
+|-- data
+|   |-- README
+|   |-- gcc-confheader
+|   |   |-- gcc
+|   |   |   |-- auto-host.h
+|   |   |   `-- config.h
+|   |   |-- libcpp
+|   |   |   `-- config.h
+|   |   |-- libiberty
+|   |   |   `-- config.h
+|   |   `-- lto-plugin
+|   |       `-- config.h
+|   |-- gcc.profile
+|   |-- http.profile
+|   |-- locks
+|   |-- pgsql.profile
+|   |-- syscall
+|   `-- v8.profile
+|-- docs
+|   `-- index.html
+|-- include
+|   |-- analyzer
+|   |   |-- CFGDAG.h
+|   |   |-- CostModel.h
+|   |   |-- CostTable.h
+|   |   |-- DiffConsumer.h
+|   |   |-- DiffLog.h
+|   |   |-- DifferenceEngine.h
+|   |   |-- Evaluator.h
+|   |   |-- TargetTransformStub.h
+|   |   |-- X86CostModel.h
+|   |   `-- X86SubtargetStub.h
+|   |-- commons
+|   |   |-- CallSiteFinder.h
+|   |   |-- LLVMHelper.h
+|   |   |-- Scope.h
+|   |   `-- handy.h
+|   |-- dependence
+|   |   |-- DepGraph.h
+|   |   |-- DepGraphBuilder.h
+|   |   |-- DepIter.h
+|   |   |-- Dependence.h
+|   |   |-- DependenceGraph.h
+|   |   `-- PgmDependenceGraph.h
+|   |-- dsa
+|   |   |-- AddressTakenAnalysis.h
+|   |   |-- AllocatorIdentification.h
+|   |   |-- BitSetVector.h
+|   |   |-- CallTargets.h
+|   |   |-- DSCallGraph.h
+|   |   |-- DSGraph.h
+|   |   |-- DSGraphTraits.h
+|   |   |-- DSNode.h
+|   |   |-- DSSupport.h
+|   |   |-- DataStructure.h
+|   |   |-- EntryPointAnalysis.h
+|   |   |-- IPModRef.h
+|   |   |-- TypeSafety.h
+|   |   |-- keyiterator.h
+|   |   |-- stl_util.h
+|   |   |-- super_set.h
+|   |   `-- svset.h
+|   |-- graph
+|   |   |-- Container.h
+|   |   |-- DFSIter.h
+|   |   |-- Graph.h
+|   |   `-- Node.h
+|   |-- mapper
+|   |   `-- Matcher.h
+|   |-- parser
+|   |   |-- PatchDecoder.h
+|   |   |-- backupfile.h
+|   |   |-- common.h
+|   |   |-- config.h
+|   |   |-- dirname.h
+|   |   |-- full-write.h
+|   |   |-- gettext.h
+|   |   |-- handy.h
+|   |   |-- hash.h
+|   |   |-- maketime.h
+|   |   |-- parser.h
+|   |   |-- partime.h
+|   |   |-- quotesys.h
+|   |   |-- safe-write.h
+|   |   `-- verify.h
+|   `-- slicer
+|       |-- PDGSlicer.h
+|       `-- Slicer.h
+|-- install-sh
+|-- lib
+|   |-- Makefile
+|   |-- analyzer
+|   |   |-- CostModel
+|   |   |   |-- CFGDAG.cpp
+|   |   |   |-- CFGDAG.o
+|   |   |   |-- CostModel.cpp
+|   |   |   |-- CostModel.o
+|   |   |   |-- Makefile
+|   |   |   |-- TargetTransformStub.cpp
+|   |   |   |-- TargetTransformStub.o
+|   |   |   |-- X86CostModel.cpp
+|   |   |   |-- X86CostModel.o
+|   |   |   |-- libcostmodel
+|   |   |   `-- libcostmodel.a
+|   |   |-- DiffEngine
+|   |   |   |-- DiffConsumer.cpp
+|   |   |   |-- DiffConsumer.o
+|   |   |   |-- DiffLog.cpp
+|   |   |   |-- DiffLog.o
+|   |   |   |-- DifferenceEngine.cpp
+|   |   |   |-- DifferenceEngine.o
+|   |   |   |-- Makefile
+|   |   |   `-- libdiffengine.a
+|   |   |-- Makefile
+|   |   `-- RiskEvaluator
+|   |       |-- Evaluator.cpp
+|   |       |-- Evaluator.o
+|   |       |-- Makefile
+|   |       `-- libriskeval.a
+|   |-- commons
+|   |   |-- CallSiteFinder.cpp
+|   |   |-- CallSiteFinder.o
+|   |   |-- LLVMHelper.cpp
+|   |   |-- LLVMHelper.o
+|   |   |-- Makefile
+|   |   |-- PassRunner.cpp
+|   |   |-- PassRunner.o
+|   |   |-- Scope.cpp
+|   |   |-- Scope.o
+|   |   |-- handy.cc
+|   |   |-- handy.o
+|   |   `-- libcommons.a
+|   |-- dependence
+|   |   |-- DepGraphBuilder.cpp
+|   |   |-- DepGraphBuilder.o
+|   |   |-- DepIter.cpp
+|   |   |-- DepIter.o
+|   |   |-- Dependence.cpp
+|   |   |-- Dependence.o
+|   |   |-- Makefile
+|   |   |-- libdependence
+|   |   `-- libdependence.a
+|   |-- graph
+|   |   |-- Graph.cpp
+|   |   |-- Graph.o
+|   |   |-- Makefile
+|   |   `-- libgraph.a
+|   |-- mapper
+|   |   |-- Makefile
+|   |   |-- Matcher.cpp
+|   |   |-- Matcher.o
+|   |   `-- libmappercore.a
+|   |-- parser
+|   |   |-- Makefile
+|   |   |-- PatchCompiler
+|   |   |   |-- Makefile
+|   |   |   |-- Makefile.old
+|   |   |   |-- handy.c
+|   |   |   |-- handy.o
+|   |   |   |-- main.cc
+|   |   |   |-- main.o
+|   |   |   |-- parser.cc
+|   |   |   |-- parser.o
+|   |   |   `-- patch-c
+|   |   |-- PatchIRDecoder
+|   |   |   |-- Makefile
+|   |   |   |-- PatchDecoder.cpp
+|   |   |   |-- PatchDecoder.o
+|   |   |   `-- libparser.a
+|   |   `-- README
+|   `-- slicer
+|       |-- Makefile
+|       |-- PDGSlicer.cpp
+|       |-- PDGSlicer.o
+|       |-- Slicer.cpp
+|       |-- Slicer.o
+|       `-- libslicer.a
+|-- perfscope+clang9.tar
+|-- perfscope.txt
+|-- test
+|   |-- Makefile
+|   |-- cases
+|   |   |-- 9527.diff
+|   |   |-- 9527.diff.id
+|   |   |-- a.ll
+|   |   |-- add.diff
+|   |   |-- add2.diff
+|   |   |-- caller.diff.id
+|   |   |-- caller_loop.bc
+|   |   |-- caller_loop.c
+|   |   |-- caller_loop.ll
+|   |   |-- caller_loop.new.c
+|   |   |-- loop.1.c
+|   |   |-- loop.1.diff
+|   |   |-- loop.1.diff.id
+|   |   |-- loop.1.new.c
+|   |   |-- loop.1.new.s
+|   |   |-- loop.1.s
+|   |   |-- mapper.core.1.c
+|   |   |-- mapper.core.1.c.id
+|   |   |-- mapper.core.1.c.log
+|   |   |-- mapper.core.1.c.src
+|   |   |-- mapper.core.1.s
+|   |   |-- mapper.decoder.1
+|   |   |-- mapper.decoder.2
+|   |   |-- patch
+|   |   |-- patch-c.1.diff
+|   |   |-- perfscope.1.id
+|   |   |-- ptest.c
+|   |   |-- ptest.diff
+|   |   |-- ptest.diff.id
+|   |   |-- ptest.diff.log
+|   |   |-- ptest.diff.src
+|   |   |-- ptest.new.c
+|   |   |-- ptest.new.s
+|   |   |-- rname.diff
+|   |   |-- simple.cpp
+|   |   |-- simple.ll
+|   |   |-- sql.diff
+|   |   |-- sql.diff2
+|   |   `-- sql.diff2.id
+|   `-- driver
+|       |-- CommonsDriver
+|       |   |-- Makefile
+|       |   |-- TestCommons.cpp
+|       |   |-- TestCommons.o
+|       |   `-- commonsdriver
+|       |-- CostModelDriver
+|       |   |-- Makefile
+|       |   |-- TestCostModel.cpp
+|       |   |-- TestCostModel.o
+|       |   `-- costdriver
+|       |-- DecoderDriver
+|       |   |-- Makefile
+|       |   |-- TestDecoder.cpp
+|       |   |-- TestDecoder.o
+|       |   `-- decoderdriver
+|       |-- Makefile
+|       |-- MapperDriver
+|       |   |-- Makefile
+|       |   |-- TestMapper.cpp
+|       |   |-- TestMapper.o
+|       |   `-- mapperdriver
+|       |-- MatcherDriver
+|       |   |-- Makefile
+|       |   |-- TestMatcher.cpp
+|       |   |-- TestMatcher.o
+|       |   `-- libLLVMMatchTest.a
+|       |-- RiskEvalDriver
+|       |   |-- Makefile
+|       |   |-- TestRiskEval.cpp
+|       |   |-- TestRiskEval.o
+|       |   `-- riskevaldriver
+|       |-- ScratchDriver
+|       |   |-- Makefile
+|       |   |-- TestDummy.cpp
+|       |   |-- TestDummy.o
+|       |   `-- libLLVMScratchPad.a
+|       `-- SlicerDriver
+|           |-- Makefile
+|           |-- TestSlicer.cpp
+|           |-- TestSlicer.o
+|           `-- libLLVMSlicer.a
+|-- third-party
+|   |-- DSA
+|   |   |-- AddressTakenAnalysis.cpp
+|   |   |-- AddressTakenAnalysis.o
+|   |   |-- AllocatorIdentification.cpp
+|   |   |-- AllocatorIdentification.o
+|   |   |-- Basic.cpp
+|   |   |-- Basic.o
+|   |   |-- BottomUpClosure.cpp
+|   |   |-- BottomUpClosure.o
+|   |   |-- CMakeLists.txt
+|   |   |-- CallTargets.cpp
+|   |   |-- CallTargets.o
+|   |   |-- CompleteBottomUp.cpp
+|   |   |-- CompleteBottomUp.o
+|   |   |-- DSCallGraph.cpp
+|   |   |-- DSCallGraph.o
+|   |   |-- DSGraph.cpp
+|   |   |-- DSGraph.o
+|   |   |-- DSTest.cpp
+|   |   |-- DSTest.o
+|   |   |-- DataStructure.cpp
+|   |   |-- DataStructure.o
+|   |   |-- DataStructureStats.cpp
+|   |   |-- DataStructureStats.o
+|   |   |-- EntryPointAnalysis.cpp
+|   |   |-- EntryPointAnalysis.o
+|   |   |-- EquivClassGraphs.cpp
+|   |   |-- EquivClassGraphs.o
+|   |   |-- GraphChecker.cpp
+|   |   |-- GraphChecker.o
+|   |   |-- IPModRef.cpp
+|   |   |-- IPModRef.o
+|   |   |-- Local.cpp
+|   |   |-- Local.o
+|   |   |-- Makefile
+|   |   |-- Printer.cpp
+|   |   |-- Printer.o
+|   |   |-- README
+|   |   |-- SanityCheck.cpp
+|   |   |-- SanityCheck.o
+|   |   |-- StdLibPass.cpp
+|   |   |-- StdLibPass.o
+|   |   |-- TopDownClosure.cpp
+|   |   |-- TopDownClosure.o
+|   |   |-- TypeSafety.cpp
+|   |   |-- TypeSafety.o
+|   |   `-- libdatastructure.a
+|   |-- Dependence
+|   |   |-- DependenceGraph.cpp
+|   |   |-- DependenceGraph.o
+|   |   |-- Makefile
+|   |   |-- PgmDependenceGraph.cpp
+|   |   |-- PgmDependenceGraph.o
+|   |   `-- libdsadependence
+|   |-- LLVMSlicer
+|   |   |-- Callgraph
+|   |   |   |-- Callgraph.cpp
+|   |   |   |-- Callgraph.o
+|   |   |   |-- Makefile
+|   |   |   `-- libcallgraph.a
+|   |   |-- Languages
+|   |   |   |-- LLVM.cpp
+|   |   |   |-- LLVM.o
+|   |   |   |-- Makefile
+|   |   |   `-- liblanguage.a
+|   |   |-- Makefile
+|   |   |-- Modifies
+|   |   |   |-- Makefile
+|   |   |   |-- ModStats.cpp
+|   |   |   |-- ModStats.o
+|   |   |   |-- Modifies.cpp
+|   |   |   |-- Modifies.o
+|   |   |   `-- libmods.a
+|   |   |-- PointsTo
+|   |   |   |-- Makefile
+|   |   |   |-- PointsTo.cpp
+|   |   |   |-- PointsTo.o
+|   |   |   |-- RuleExpressions.cpp
+|   |   |   |-- RuleExpressions.o
+|   |   |   `-- libpoints.a
+|   |   |-- Slicing
+|   |   |   |-- FunctionStaticSlicer.cpp
+|   |   |   |-- FunctionStaticSlicer.o
+|   |   |   |-- Kleerer.cpp
+|   |   |   |-- Kleerer.o
+|   |   |   |-- Makefile
+|   |   |   |-- PostDominanceFrontier.cpp
+|   |   |   |-- PostDominanceFrontier.o
+|   |   |   |-- Prepare.cpp
+|   |   |   |-- Prepare.o
+|   |   |   |-- StaticSlicer.cpp
+|   |   |   |-- StaticSlicer.o
+|   |   |   `-- libllvmslicer.a
+|   |   `-- tmp
+|   |       |-- Makefile
+|   |       |-- Matcher.cpp
+|   |       `-- Scope.cpp
+|   |-- Makefile
+|   |-- README
+|   `-- patch
+|       |-- Makefile
+|       |-- backupfile.c
+|       |-- backupfile.o
+|       |-- basename.c
+|       |-- basename.o
+|       |-- dirname.c
+|       |-- dirname.o
+|       |-- full-write.c
+|       |-- full-write.o
+|       |-- hash.c
+|       |-- hash.o
+|       |-- libgnulib.a
+|       |-- maketime.c
+|       |-- maketime.o
+|       |-- partime.c
+|       |-- partime.o
+|       |-- quotesys.c
+|       |-- quotesys.o
+|       |-- safe-read.c
+|       |-- safe-read.o
+|       |-- safe-write.c
+|       `-- safe-write.o
+`-- tools
+    |-- ListFiles
+    |   |-- ListFiles.cpp
+    |   |-- ListFiles.o
+    |   |-- Makefile
+    |   |-- README
+    |   `-- libLLVMListFiles.a
+    |-- Makefile
+    |-- PerfDiff
+    |   |-- Makefile
+    |   |-- README
+    |   |-- perf-diff.cpp
+    |   |-- perf-diff.o
+    |   `-- perfdiff
+    |-- PerfScope
+    |   |-- Makefile
+    |   |-- PerfScope.cpp
+    |   |-- PerfScope.o
+    |   |-- README
+    |   `-- perfscope
+    `-- StaticProfiler
+        |-- Makefile
+        |-- README
+        |-- StaticProfiler.cpp
+        |-- StaticProfiler.o
+        `-- staticprofiler
+
+58 directories, 377 files
