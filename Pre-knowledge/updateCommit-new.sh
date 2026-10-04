@@ -1,3 +1,12 @@
+script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+preknowledge_dir=${2:-${PREKNOWLEDGE_DIR:-$script_dir}}
+llvm_bin_dir=${3:-${LLVM_BIN_DIR:-}}
+if [[ -z "$llvm_bin_dir" ]]; then
+    llvm_dis=$(command -v llvm-dis) || { echo "llvm-dis not found; pass LLVM_BIN_DIR as argument 3" >&2; exit 1; }
+    llvm_bin_dir=$(dirname "$llvm_dis")
+fi
+handoff_file=${4:-${REDIS_HANDOFF_FILE:-$(dirname "$script_dir")/call_analyse2.txt}}
+
 FILENAME=$1
 # FILENAME="commitId.txt"
 while IFS= read -r line; do
@@ -8,15 +17,15 @@ while IFS= read -r line; do
     echo $line > gitshow.txt
     ./gitshow $line >> gitshow.txt
     echo "end" >> gitshow.txt
-    cd /data2/sjz/Pre-knowledge/redis-version/redis/
+    cd ${preknowledge_dir}/redis-version/redis/
     git reset --hard
     git checkout $line
-    cp /data2/sjz/Pre-knowledge/Makefile ./src/Makefile
+    cp ${preknowledge_dir}/Makefile ./src/Makefile
     make distclean
-    make bc CC=/data2/sjz/llvm-sjz/llvm-project/build/bin/clang
+    make bc CC=${llvm_bin_dir}/clang
     cd src
-    /data2/sjz/llvm-sjz/llvm-project/build/bin/llvm-dis final_obj.bc -o final_obj.ll
-    cd /data2/sjz/Pre-knowledge/
+    ${llvm_bin_dir}/llvm-dis final_obj.bc -o final_obj.ll
+    cd ${preknowledge_dir}/
     ./getBB ./redis-version/redis/src/final_obj.ll 2> demo-redis-BB.txt
     echo "Function:End" >> demo-redis-BB.txt
 
@@ -90,8 +99,8 @@ while IFS= read -r line; do
     cp demo-S2E-times-res-3.txt ./$line/demo-S2E-times-res-3.txt
     cp redis-BB-res-2-new.txt ./$line/redis-BB-res-2.txt 
     cp redis-BB-res-3-new.txt ./$line/redis-BB-res-3.txt 
-    cp /data2/sjz/Pre-knowledge/redis-version/redis/src/final_obj.ll ./$line/final_obj.ll
+    cp ${preknowledge_dir}/redis-version/redis/src/final_obj.ll ./$line/final_obj.ll
     
     #发送给ds00/data
-    cp redis-BB-res-4.txt /data/sjz/call_analyse2.txt
+    cp redis-BB-res-4.txt ${handoff_file}
 done < "$FILENAME"

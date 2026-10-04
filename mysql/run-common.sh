@@ -1,7 +1,7 @@
 #!/bin/bash
 
-MYSQL_RUN_ROOT=/data3/sjz/AE/mysql
-PREKNOWLEDGE_DIR=/data2/sjz/Pre-knowledge-mysql
+MYSQL_RUN_ROOT=${MYSQL_RUN_ROOT:-$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)}
+PREKNOWLEDGE_DIR=${PREKNOWLEDGE_DIR:-$(dirname "$MYSQL_RUN_ROOT")/Pre-knowledge-mysql}
 COMMIT_FILE=${MYSQL_COMMIT_FILE:-"$MYSQL_RUN_ROOT/commit-tmp.txt"}
 INITIAL_COMMIT=27cd03548955749bd18c30e0e96ea798937375f0
 PREKNOWLEDGE_READY="${MYSQL_PEER_RUN_DIR:-$MYSQL_RUN_ROOT}/preknowledge.ready"

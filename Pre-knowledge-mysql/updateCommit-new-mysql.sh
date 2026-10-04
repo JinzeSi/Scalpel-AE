@@ -1,29 +1,40 @@
+script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+preknowledge_dir=${2:-${MYSQL_PREKNOWLEDGE_DIR:-$script_dir}}
+mysql_source_root=${3:-${MYSQL_PREKNOWLEDGE_SOURCE_ROOT:-$(dirname "$script_dir")/mysql}}
+llvm_bin_dir=${4:-${MYSQL_PREKNOWLEDGE_LLVM_BIN_DIR:-}}
+if [[ -z "$llvm_bin_dir" ]]; then
+    llvm_dis=$(command -v llvm-dis) || { echo "llvm-dis not found; pass LLVM_BIN_DIR as argument 4" >&2; exit 1; }
+    llvm_bin_dir=$(dirname "$llvm_dis")
+fi
+boost_dir=${5:-${MYSQL_PREKNOWLEDGE_BOOST_DIR:-$mysql_source_root/mysql-server-2/boost_1_77_0}}
+handoff_file=${6:-${MYSQL_HANDOFF_FILE:-$(dirname "$script_dir")/call_analyse2.txt}}
+
 FILENAME=$1
 
 while IFS= read -r line; do
     if [ "$line" = "e3c9955d236ac19bae4674fea46576aeb41e0d90" ]; then
-        cp /data2/sjz/Pre-knowledge-mysql/sql_parse/sql_parse-e3c9955d236ac19bae4674fea46576aeb41e0d90.cc /data2/sjz/Pre-knowledge-mysql/sql_parse/sql_parse.cc  
+        cp ${preknowledge_dir}/sql_parse/sql_parse-e3c9955d236ac19bae4674fea46576aeb41e0d90.cc ${preknowledge_dir}/sql_parse/sql_parse.cc  
     fi
     cp mysql-BB-res-2-new.txt mysql-BB-res-2.txt 
     cp mysql-BB-res-3-new.txt mysql-BB-res-3.txt 
     echo $line > gitshow.txt
-    ./gitshow-mysql $line /data2/sjz/mysql/mysql-server-2>> gitshow.txt
+    ./gitshow-mysql $line ${mysql_source_root}/mysql-server-2>> gitshow.txt
     echo "end" >> gitshow.txt
-    cd /data2/sjz/mysql/mysql-server-2
+    cd ${mysql_source_root}/mysql-server-2
     git checkout $line
 
     cd build
 
-    cmake -DCMAKE_C_COMPILER="/data/sjz/llvm-project/build2/bin/clang" -DCMAKE_CXX_COMPILER="/data/sjz/llvm-project/build2/bin/clang++" -DCMAKE_LINKER="/data/sjz/llvm-project/build2/bin/llvm-link" -DCMAKE_C_FLAGS="-flto" -DCMAKE_CXX_FLAGS="-flto" -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="-O0 -g -DNDEBUG" -DCMAKE_EXPORT_COMPILE_COMMANDS=YES -DWITH_BOOST=/data/sjz/commit-analysis/mysql-run/mysql-server/boost_1_77_0 ..
+    cmake -DCMAKE_C_COMPILER="${llvm_bin_dir}/clang" -DCMAKE_CXX_COMPILER="${llvm_bin_dir}/clang++" -DCMAKE_LINKER="${llvm_bin_dir}/llvm-link" -DCMAKE_C_FLAGS="-flto" -DCMAKE_CXX_FLAGS="-flto" -DCMAKE_CXX_FLAGS_RELWITHDEBINFO="-O0 -g -DNDEBUG" -DCMAKE_EXPORT_COMPILE_COMMANDS=YES -DWITH_BOOST=${boost_dir} ..
     mv sql/CMakeFiles/mysqld.dir/link.txt sql/CMakeFiles/mysqld.dir/link.txt.brk
-    cp /data2/sjz/Pre-knowledge-mysql/mysql-link/link.py ./link.py
+    cp ${preknowledge_dir}/mysql-link/link.py ./link.py
     python3 link.py
     make mysqld -j24
     cd sql
 
-    /data/sjz/llvm-project/build2/bin/llvm-dis mysqld.bc -o mysqld.ll
-    cd /data2/sjz/Pre-knowledge-mysql/
-    ./getBB-mysql /data2/sjz/mysql/mysql-server-2/build/sql/mysqld.ll 2> demo-mysql-BB.txt
+    ${llvm_bin_dir}/llvm-dis mysqld.bc -o mysqld.ll
+    cd ${preknowledge_dir}/
+    ./getBB-mysql ${mysql_source_root}/mysql-server-2/build/sql/mysqld.ll 2> demo-mysql-BB.txt
     echo "Function:End" >> demo-mysql-BB.txt
 
     file_path="demo-S2E-times-res-3-flag.txt"
@@ -43,7 +54,7 @@ while IFS= read -r line; do
         mkdir mysql-brk/$line
         echo "The file gitshow.txt has less than 3 lines."
         echo > mysql-BB-res-4.txt
-        cp mysql-BB-res-4.txt /data/sjz/call_analyse2.txt
+        cp mysql-BB-res-4.txt ${handoff_file}
         continue
     fi
     ./update_KeyValue_hashTable-mysql2 1 mysql-BB-res-2.txt mysql-BB-res-3.txt demo-mysql-BB.txt gitshow.txt mysql-BB-res-3-new.txt mysql-BB-res-2-new.txt mysql-map.txt
@@ -108,5 +119,5 @@ while IFS= read -r line; do
     cp mysql-BB-res-3-new.txt ./mysql-brk/$line/mysql-BB-res-3.txt 
        
     #发送给ds00/data
-    cp mysql-BB-res-4.txt /data/sjz/call_analyse2.txt
+    cp mysql-BB-res-4.txt ${handoff_file}
 done < "$FILENAME"

@@ -25,10 +25,6 @@ REPORT = re.compile(r'[0-9a-f]{40}-[0-9]+\.md')
 OUTPUT_NAMES = {'report', 'report-final', 'report-confirmation', 'pipeline-runs',
                 'time-tall.txt', 'Makefile', 'Makefile1', 'bootstrap-1.sh', 'tmp',
                 '__pycache__', 'make_symbolic-NULLEND copy 2.sh'}
-PRE_ROOT = Path('/data2/sjz/Pre-knowledge')
-REPLY = Path('/data/sjz/call_analyse2.txt')
-
-
 def save_json(path, value):
     temporary = path.with_name(f'.{path.name}.{os.getpid()}.tmp')
     temporary.write_text(json.dumps(value, indent=2) + '\n', encoding='utf-8')
@@ -138,10 +134,10 @@ def load_plan(root, pre_root, batches=None):
     return groups
 
 
-def ensure_idle_processes(root, pre_root=PRE_ROOT):
+def ensure_idle_processes(root, pre_root, s2e_root):
     output = subprocess.check_output(['ps', '-u', str(os.getuid()), '-o', 'pid=,comm=,args='], text=True)
     active = []
-    roots = (root.resolve(), pre_root.resolve(), Path('/home/sjz/S2E/s2e/projects/redis-server').resolve())
+    roots = (root.resolve(), pre_root.resolve(), (s2e_root / 'projects/redis-server').resolve())
     scripts = {'run.sh', 'make_symbolic-NULLEND.sh', 'updateCommit-new.sh',
                'run_auto-26-02-01.sh', 'confirm_perf_reports.py'}
     for line in output.splitlines():
@@ -182,8 +178,8 @@ def require_idle_pane(target, allow_current=False):
     return pane['pane']
 
 
-def preflight(root, pre_root, groups, redis_pane, pre_pane):
-    ensure_idle_processes(root, pre_root)
+def preflight(root, pre_root, groups, redis_pane, pre_pane, handoff_file, s2e_root, redis_data_file):
+    ensure_idle_processes(root, pre_root, s2e_root)
     redis_id = require_idle_pane(redis_pane, allow_current=True)
     pre_id = require_idle_pane(pre_pane)
     if redis_id == pre_id:
@@ -201,11 +197,11 @@ def preflight(root, pre_root, groups, redis_pane, pre_pane):
                  'update_KeyValue_hashTable', 'generate_S2E_case', 'generate_S2E_case-2',
                  'dup_S2E_case.py', 'dup_S2E_case-1.py'):
         require_file(pre_root / name)
-    for flag in (REPLY, pre_root / 'demo-S2E-times-res-3-flag.txt', pre_root / 'build_KeyValue_hashTable.txt'):
+    for flag in (handoff_file, pre_root / 'demo-S2E-times-res-3-flag.txt', pre_root / 'build_KeyValue_hashTable.txt'):
         if flag.exists():
             raise RuntimeError(f'Stale or active handshake file: {flag}')
-    require_file(Path('/data/sjz/commit-analysis/redis-run/dump.rdb'))
-    require_file(Path('/home/sjz/S2E/s2e/projects/redis-server/launch-s2e.sh'))
+    require_file(redis_data_file)
+    require_file(s2e_root / 'projects/redis-server/launch-s2e.sh')
     for port in (6379, 16379):
         with socket.socket() as probe:
             probe.bind(('127.0.0.1', port))
@@ -297,8 +293,12 @@ def preknowledge_worker(plan, run_dir):
         for number in (2, 3):
             shutil.copy2(baseline / f'redis-BB-res-{number}.txt', pre_root / f'redis-BB-res-{number}-new.txt')
         save_json(folder / 'ready.json', dict(baseline=str(baseline)))
+        env = dict(os.environ, PREKNOWLEDGE_DIR=str(pre_root),
+                   REDIS_HANDOFF_FILE=plan['handoff_file'])
+        if plan['llvm_bin_dir']:
+            env['LLVM_BIN_DIR'] = plan['llvm_bin_dir']
         run_logged(['bash', str(pre_root / 'updateCommit-new.sh'), str(folder / 'commits.txt')],
-                   folder / 'preknowledge.log', pre_root, run_dir, 'redis')
+                   folder / 'preknowledge.log', pre_root, run_dir, 'redis', env)
         save_json(folder / 'preknowledge.done.json', dict(exit_code=0))
 
 
@@ -315,7 +315,10 @@ def redis_worker(plan, run_dir):
         wait_file(folder / 'ready.json', run_dir, 'preknowledge', timeout=120)
         env = dict(os.environ, REDIS_BATCH_FILE=str(run_dir / 'batches.tsv'),
                    REDIS_COMMIT_FILE=str(folder / 'commits.txt'), REDIS_LOG_DIR=str(folder / 'commits'),
-                   REDIS_PROGRESS_FILE=str(folder / 'redis.completed.txt'))
+                   REDIS_PROGRESS_FILE=str(folder / 'redis.completed.txt'),
+                   AE_REDIS_DIR=str(root), PREKNOWLEDGE_DIR=plan['preknowledge_root'],
+                   REDIS_HANDOFF_FILE=plan['handoff_file'], S2E_ROOT=plan['s2e_root'],
+                   REDIS_LOG_FILE=plan['redis_log_file'])
         run_logged(['bash', str(root / 'run.sh'), group['group']], folder / 'redis.log',
                    root, run_dir, 'preknowledge', env)
         completed = (folder / 'redis.completed.txt').read_text().splitlines()
@@ -381,6 +384,9 @@ def prepare_run(args, groups, archive):
         if source.is_file():
             shutil.copy2(source, pre_snapshot / name)
     plan = dict(root=str(args.root), preknowledge_root=str(args.preknowledge_root),
+                handoff_file=str(args.handoff_file), s2e_root=str(args.s2e_root),
+                redis_log_file=str(args.redis_log_file),
+                llvm_bin_dir=str(args.llvm_bin_dir) if args.llvm_bin_dir else None,
                 redis_pane=args.redis_pane, preknowledge_pane=args.preknowledge_pane,
                 archive=archive, groups=groups)
     save_json(run_dir / 'plan.json', plan)
@@ -394,7 +400,12 @@ def prepare_run(args, groups, archive):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', type=Path, default=Path(__file__).resolve().parent)
-    parser.add_argument('--preknowledge-root', type=Path, default=PRE_ROOT)
+    parser.add_argument('--preknowledge-root', type=Path)
+    parser.add_argument('--handoff-file', type=Path)
+    parser.add_argument('--s2e-root', type=Path, default=Path.home() / 'S2E/s2e')
+    parser.add_argument('--redis-data-file', type=Path)
+    parser.add_argument('--llvm-bin-dir', type=Path)
+    parser.add_argument('--redis-log-file', type=Path, default=Path('/tmp/redis.log'))
     parser.add_argument('--archive-root', type=Path)
     parser.add_argument('--batches', type=Path)
     parser.add_argument('--redis-pane', default='2:0.0')
@@ -406,7 +417,14 @@ def main():
     parser.add_argument('--run-dir', type=Path, help=argparse.SUPPRESS)
     args = parser.parse_args()
     args.root = args.root.resolve()
+    args.preknowledge_root = args.preknowledge_root or args.root.parent / 'Pre-knowledge'
+    args.handoff_file = (args.handoff_file or args.root.parent / 'call_analyse2.txt').resolve()
     args.preknowledge_root = args.preknowledge_root.resolve()
+    args.s2e_root = args.s2e_root.resolve()
+    args.redis_data_file = (args.redis_data_file or args.root / 'dump.rdb').resolve()
+    args.redis_log_file = args.redis_log_file.resolve()
+    if args.llvm_bin_dir:
+        args.llvm_bin_dir = args.llvm_bin_dir.resolve()
     archive_root = (args.archive_root or args.root.parent / 'redis-brk').resolve()
     try:
         if args.worker:
@@ -418,11 +436,12 @@ def main():
             return worker('preknowledge', args.run_dir)
         if args.archive_only:
             with project_lock(args.root):
-                ensure_idle_processes(args.root, args.preknowledge_root)
+                ensure_idle_processes(args.root, args.preknowledge_root, args.s2e_root)
                 archive_outputs(args.root, archive_root)
             return 0
         groups = load_plan(args.root, args.preknowledge_root, args.batches)
-        preflight(args.root, args.preknowledge_root, groups, args.redis_pane, args.preknowledge_pane)
+        preflight(args.root, args.preknowledge_root, groups, args.redis_pane, args.preknowledge_pane,
+                  args.handoff_file, args.s2e_root, args.redis_data_file)
         print('Order: ' + ' -> '.join(group['group'] for group in groups))
         print(f'Total commits: {sum(len(group["commits"]) for group in groups)}')
         if args.check:
@@ -431,7 +450,7 @@ def main():
         with project_lock(args.root):
             require_idle_pane(args.redis_pane, allow_current=True)
             require_idle_pane(args.preknowledge_pane)
-            ensure_idle_processes(args.root, args.preknowledge_root)
+            ensure_idle_processes(args.root, args.preknowledge_root, args.s2e_root)
             archive = archive_outputs(args.root, archive_root)
             run_dir = prepare_run(args, groups, archive)
             print(f'Pipeline logs: {run_dir}', flush=True)

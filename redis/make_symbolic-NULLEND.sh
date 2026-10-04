@@ -1,5 +1,12 @@
 #!/bin/bash
 
+script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+ae_redis_dir=${3:-${AE_REDIS_DIR:-$script_dir}}
+preknowledge_dir=${4:-${PREKNOWLEDGE_DIR:-$(dirname "$script_dir")/Pre-knowledge}}
+handoff_file=${5:-${REDIS_HANDOFF_FILE:-$(dirname "$script_dir")/call_analyse2.txt}}
+s2e_root=${6:-${S2E_ROOT:-$HOME/S2E/s2e}}
+redis_log_file=${7:-${REDIS_LOG_FILE:-/tmp/redis.log}}
+
 command=$1 #是command_old，注意，shell脚本变量名不能有-，所以这里用_代替
 command_now=$2
 redis_dir=$(pwd)
@@ -7,21 +14,21 @@ echo "commitId:$command"
 # exit 0
 # break
 # 第0步：将工具拷贝过来，修改 Makefile 并构建 bc 文件
-cp /data3/sjz/AE/redis/tools/.clang-format .
-cp /data3/sjz/AE/redis/tools/new_function_analyzer.sh .
-cp /data3/sjz/AE/redis/tools/commit_analyzer .
-cp /data3/sjz/AE/redis/tools/call_analyzer .
-cp /data3/sjz/AE/redis/tools/symbolic_analyzer .
-cp /data3/sjz/AE/redis/tools/make_symbolizer-new .
-cp /data3/sjz/AE/redis/tools/real_executor-new .
-cp /data3/sjz/AE/redis/tools/jsonAnalyze .
-cp /data3/sjz/AE/redis/tools/jsonAnalyze-icount .
-cp /data3/sjz/AE/redis/tools/get_redis_1 . 
-cp /data3/sjz/AE/redis/tools/get_redis_2 .
-cp /data3/sjz/AE/redis/tools/redis-order.txt .
+cp ${ae_redis_dir}/tools/.clang-format .
+cp ${ae_redis_dir}/tools/new_function_analyzer.sh .
+cp ${ae_redis_dir}/tools/commit_analyzer .
+cp ${ae_redis_dir}/tools/call_analyzer .
+cp ${ae_redis_dir}/tools/symbolic_analyzer .
+cp ${ae_redis_dir}/tools/make_symbolizer-new .
+cp ${ae_redis_dir}/tools/real_executor-new .
+cp ${ae_redis_dir}/tools/jsonAnalyze .
+cp ${ae_redis_dir}/tools/jsonAnalyze-icount .
+cp ${ae_redis_dir}/tools/get_redis_1 . 
+cp ${ae_redis_dir}/tools/get_redis_2 .
+cp ${ae_redis_dir}/tools/redis-order.txt .
 
 ###### 编译新旧版本的redis-server二进制文件 ######
-cp -r /data3/sjz/AE/redis/redis redis-tmp
+cp -r ${ae_redis_dir}/redis redis-tmp
 cd redis-tmp
 git reset --hard $command_now
 make distclean
@@ -64,13 +71,13 @@ echo "symbolic_analyzer"
 # 第4步：读取 symbolic_analyse.txt，结合之前的信息，利用preknowledge库寻找测试用例
 # 生成 call_analyse2.txt
 
-cp call_analyse.txt /data2/sjz/Pre-knowledge/demo-S2E-times-res-2.txt
-cp symbolic_analyse.txt /data2/sjz/Pre-knowledge/demo-S2E-times-res-3-flag.txt
+cp call_analyse.txt ${preknowledge_dir}/demo-S2E-times-res-2.txt
+cp symbolic_analyse.txt ${preknowledge_dir}/demo-S2E-times-res-3-flag.txt
 
 # 迁移到ds00后
-# cp call_analyse.txt /data2/sjz/Pre-knowledge/demo-S2E-times-res-2.txt
-# cp symbolic_analyse.txt /data2/sjz/Pre-knowledge/demo-S2E-times-res-3-flag.txt
-file_path="/data/sjz/call_analyse2.txt"
+# cp call_analyse.txt ${preknowledge_dir}/demo-S2E-times-res-2.txt
+# cp symbolic_analyse.txt ${preknowledge_dir}/demo-S2E-times-res-3-flag.txt
+file_path="${handoff_file}"
 
 # 检查文件是否存在
 while [ ! -f "$file_path" ]
@@ -79,9 +86,9 @@ echo "Waiting for file to appear..."
 sleep 3  # 等待5秒
 done   
 
-cp /data/sjz/call_analyse2.txt ./call_analyse2.txt
+cp ${handoff_file} ./call_analyse2.txt
 
-rm /data/sjz/call_analyse2.txt
+rm ${handoff_file}
 
 
 # 第4.5步：读取 call_analyse2.txt，其中的内容用空行分隔，第i块(block)内容代表第i次符号执行的信息
@@ -215,10 +222,10 @@ for block in "${blocks_NULL[@]}"; do
         
         touch redis-server.log
         touch redis.pid
-        # cp /data3/sjz/AE/redis/run-redis.sh ./run-redis.sh
-        cp /data3/sjz/AE/redis/run-redis.sh ./run-redis.sh
-        cp /data3/sjz/AE/redis/run-redis-2.sh ./run-redis-2.sh
-        cp /data3/sjz/AE/redis/tools/redis-order.txt .
+        # cp ${ae_redis_dir}/run-redis.sh ./run-redis.sh
+        cp ${ae_redis_dir}/run-redis.sh ./run-redis.sh
+        cp ${ae_redis_dir}/run-redis-2.sh ./run-redis-2.sh
+        cp ${ae_redis_dir}/tools/redis-order.txt .
         ../../../get_redis_2 $testcase_line > get_redis_2.txt
         
         sh run-redis-2.sh > redis-server.log1
@@ -272,10 +279,10 @@ for block in "${blocks_NULL[@]}"; do
         
         touch redis-server.log
         touch redis.pid
-        # cp /data3/sjz/AE/redis/run-redis.sh ./run-redis.sh
-        cp /data3/sjz/AE/redis/run-redis.sh ./run-redis.sh
-        cp /data3/sjz/AE/redis/run-redis-2.sh ./run-redis-2.sh
-        cp /data3/sjz/AE/redis/tools/redis-order.txt .
+        # cp ${ae_redis_dir}/run-redis.sh ./run-redis.sh
+        cp ${ae_redis_dir}/run-redis.sh ./run-redis.sh
+        cp ${ae_redis_dir}/run-redis-2.sh ./run-redis-2.sh
+        cp ${ae_redis_dir}/tools/redis-order.txt .
         ../../../get_redis_2 $testcase_line > get_redis_2.txt
         
         sh run-redis-2.sh > redis-server.log1
@@ -311,7 +318,7 @@ for block in "${blocks_NULL[@]}"; do
         # 旧版本只需要对end-to-end函数插桩，不需要对其他函数插桩，用以下命令
         
         # 进入
-        cd /data3/sjz/AE/redis
+        cd ${ae_redis_dir}
         
         cd redis-$command-old
         #替换成保存redis-server启动的文件
@@ -323,18 +330,18 @@ for block in "${blocks_NULL[@]}"; do
         cp "src/ae.c" "src/ae.c.brk"
         make distclean
 
-        cp /data3/sjz/AE/redis/tools/.clang-format .
-        cp /data3/sjz/AE/redis/tools/new_function_analyzer.sh .
-        cp /data3/sjz/AE/redis/tools/commit_analyzer .
-        cp /data3/sjz/AE/redis/tools/call_analyzer .
-        cp /data3/sjz/AE/redis/tools/symbolic_analyzer .
-        cp /data3/sjz/AE/redis/tools/make_symbolizer-new .
-        cp /data3/sjz/AE/redis/tools/real_executor-new .
-        cp /data3/sjz/AE/redis/tools/jsonAnalyze .
-        cp /data3/sjz/AE/redis/tools/jsonAnalyze-icount .
-        cp /data3/sjz/AE/redis/tools/get_redis_1 . 
-        cp /data3/sjz/AE/redis/tools/get_redis_2 .
-        cp /data3/sjz/AE/redis/tools/redis-order.txt .
+        cp ${ae_redis_dir}/tools/.clang-format .
+        cp ${ae_redis_dir}/tools/new_function_analyzer.sh .
+        cp ${ae_redis_dir}/tools/commit_analyzer .
+        cp ${ae_redis_dir}/tools/call_analyzer .
+        cp ${ae_redis_dir}/tools/symbolic_analyzer .
+        cp ${ae_redis_dir}/tools/make_symbolizer-new .
+        cp ${ae_redis_dir}/tools/real_executor-new .
+        cp ${ae_redis_dir}/tools/jsonAnalyze .
+        cp ${ae_redis_dir}/tools/jsonAnalyze-icount .
+        cp ${ae_redis_dir}/tools/get_redis_1 . 
+        cp ${ae_redis_dir}/tools/get_redis_2 .
+        cp ${ae_redis_dir}/tools/redis-order.txt .
         cp ../Makefile ./src/Makefile
         
         #替换成redis-server启动的插桩
@@ -350,9 +357,9 @@ for block in "${blocks_NULL[@]}"; do
         
         touch redis-server.log
         touch redis.pid
-        cp /data3/sjz/AE/redis/run-redis.sh ./run-redis.sh 
-        cp /data3/sjz/AE/redis/run-redis-2.sh ./run-redis-2.sh 
-        cp /data3/sjz/AE/redis/tools/redis-order.txt .
+        cp ${ae_redis_dir}/run-redis.sh ./run-redis.sh 
+        cp ${ae_redis_dir}/run-redis-2.sh ./run-redis-2.sh 
+        cp ${ae_redis_dir}/tools/redis-order.txt .
         ../../../get_redis_2 $testcase_line > get_redis_2.txt
      
         sh run-redis-2.sh > redis-server.log1
@@ -361,7 +368,7 @@ for block in "${blocks_NULL[@]}"; do
 
         cp redis-server.log1 $redis_dir/$i/real-execute-res-old.txt
 
-        cd /data3/sjz/AE/redis
+        cd ${ae_redis_dir}
         cd redis-$command-old
         # 替换成恢复redis-server启动时候的文件
         clang-format -i src/server.c
@@ -377,10 +384,10 @@ for block in "${blocks_NULL[@]}"; do
 
         #形成最终结果
         cd $redis_dir/$i
-        cp /data3/sjz/AE/redis/run-getres.sh ./run-getres.sh
-        cp /data3/sjz/AE/redis/run-getres.py ./run-getres.py
-        cp /data3/sjz/AE/redis/run-getres-modify.py ./run-getres-modify.py
-        cp /data3/sjz/AE/redis/run-getres-icount.py ./run-getres-icount.py
+        cp ${ae_redis_dir}/run-getres.sh ./run-getres.sh
+        cp ${ae_redis_dir}/run-getres.py ./run-getres.py
+        cp ${ae_redis_dir}/run-getres-modify.py ./run-getres-modify.py
+        cp ${ae_redis_dir}/run-getres-icount.py ./run-getres-icount.py
         sh run-getres.sh
         cd $redis_dir
 
@@ -408,11 +415,11 @@ for block in "${blocks_NULL[@]}"; do
         
         touch redis-server.log
         touch redis.pid
-        cp /data3/sjz/AE/redis/run-redis.sh ./run-redis.sh 
-        # ./redis-server redis.conf --pidfile redis.pid --dir /data3/sjz/AE/redis/dump.rdb --save "" > s2e—execute-res.txt
-        # ./redis-server --dir /data3/sjz/AE/redis --save "" & > $(pwd)/redis-server.log
+        cp ${ae_redis_dir}/run-redis.sh ./run-redis.sh 
+        # ./redis-server redis.conf --pidfile redis.pid --dir ${ae_redis_dir}/dump.rdb --save "" > s2e—execute-res.txt
+        # ./redis-server --dir ${ae_redis_dir} --save "" & > $(pwd)/redis-server.log
         
-        cp /data3/sjz/AE/redis/tools/redis-order.txt .
+        cp ${ae_redis_dir}/tools/redis-order.txt .
         ../../../get_redis_2 $testcase_line > get_redis_2.txt
         echo "$testcase_content" > get_redis_3.txt
         bash run-redis.sh > redis-server.log1
@@ -461,9 +468,9 @@ for block in "${blocks_NULL[@]}"; do
         
         touch redis-server.log
         touch redis.pid
-        cp /data3/sjz/AE/redis/run-redis.sh ./run-redis.sh 
+        cp ${ae_redis_dir}/run-redis.sh ./run-redis.sh 
         
-        cp /data3/sjz/AE/redis/tools/redis-order.txt .
+        cp ${ae_redis_dir}/tools/redis-order.txt .
         ../../../get_redis_2 $testcase_line > get_redis_2.txt
         echo "$testcase_content" > get_redis_3.txt
         bash run-redis.sh > redis-server.log1
@@ -498,7 +505,7 @@ for block in "${blocks_NULL[@]}"; do
         # 旧版本只需要对end-to-end函数插桩，不需要对其他函数插桩，用以下命令
         
         # 进入
-        cd /data3/sjz/AE/redis
+        cd ${ae_redis_dir}
         
         cd redis-$command-old
         git restore ./src/
@@ -510,18 +517,18 @@ for block in "${blocks_NULL[@]}"; do
         make distclean
         
 
-        cp /data3/sjz/AE/redis/tools/.clang-format .
-        cp /data3/sjz/AE/redis/tools/new_function_analyzer.sh .
-        cp /data3/sjz/AE/redis/tools/commit_analyzer .
-        cp /data3/sjz/AE/redis/tools/call_analyzer .
-        cp /data3/sjz/AE/redis/tools/symbolic_analyzer .
-        cp /data3/sjz/AE/redis/tools/make_symbolizer-new .
-        cp /data3/sjz/AE/redis/tools/real_executor-new .
-        cp /data3/sjz/AE/redis/tools/jsonAnalyze .
-        cp /data3/sjz/AE/redis/tools/jsonAnalyze-icount .
-        cp /data3/sjz/AE/redis/tools/get_redis_1 . 
-        cp /data3/sjz/AE/redis/tools/get_redis_2 .
-        cp /data3/sjz/AE/redis/tools/redis-order.txt .
+        cp ${ae_redis_dir}/tools/.clang-format .
+        cp ${ae_redis_dir}/tools/new_function_analyzer.sh .
+        cp ${ae_redis_dir}/tools/commit_analyzer .
+        cp ${ae_redis_dir}/tools/call_analyzer .
+        cp ${ae_redis_dir}/tools/symbolic_analyzer .
+        cp ${ae_redis_dir}/tools/make_symbolizer-new .
+        cp ${ae_redis_dir}/tools/real_executor-new .
+        cp ${ae_redis_dir}/tools/jsonAnalyze .
+        cp ${ae_redis_dir}/tools/jsonAnalyze-icount .
+        cp ${ae_redis_dir}/tools/get_redis_1 . 
+        cp ${ae_redis_dir}/tools/get_redis_2 .
+        cp ${ae_redis_dir}/tools/redis-order.txt .
         
         cp ../Makefile ./src/Makefile
 
@@ -538,9 +545,9 @@ for block in "${blocks_NULL[@]}"; do
         
         touch redis-server.log
         touch redis.pid
-        cp /data3/sjz/AE/redis/run-redis.sh ./run-redis.sh 
+        cp ${ae_redis_dir}/run-redis.sh ./run-redis.sh 
         
-        cp /data3/sjz/AE/redis/tools/redis-order.txt .
+        cp ${ae_redis_dir}/tools/redis-order.txt .
         ../../../get_redis_2 $testcase_line > get_redis_2.txt
         echo "$testcase_content" > get_redis_3.txt
         bash run-redis.sh > redis-server.log1
@@ -549,7 +556,7 @@ for block in "${blocks_NULL[@]}"; do
 
         cp redis-server.log1 $redis_dir/$i/real-execute-res-old.txt
 
-        cd /data3/sjz/AE/redis
+        cd ${ae_redis_dir}
         cd redis-$command-old
         clang-format -i src/server.c
         echo "cp src/server.c $redis_dir/$i/server.c.real.old"
@@ -558,10 +565,10 @@ for block in "${blocks_NULL[@]}"; do
         make distclean
         
         cd $redis_dir/$i
-        cp /data3/sjz/AE/redis/run-getres.sh ./run-getres.sh
-        cp /data3/sjz/AE/redis/run-getres.py ./run-getres.py
-        cp /data3/sjz/AE/redis/run-getres-modify.py ./run-getres-modify.py
-        cp /data3/sjz/AE/redis/run-getres-icount.py ./run-getres-icount.py
+        cp ${ae_redis_dir}/run-getres.sh ./run-getres.sh
+        cp ${ae_redis_dir}/run-getres.py ./run-getres.py
+        cp ${ae_redis_dir}/run-getres-modify.py ./run-getres-modify.py
+        cp ${ae_redis_dir}/run-getres-icount.py ./run-getres-icount.py
         sh run-getres.sh
         cd $redis_dir
 
@@ -648,7 +655,7 @@ for block in "${blocks[@]}"; do
     fi
     echo "$block" | ./make_symbolizer-new --new-version=true 1
 
-    cp ./modified_part_info.txt /data3/sjz/AE/redis/redis-$command-old/modified_part_info.txt
+    cp ./modified_part_info.txt ${ae_redis_dir}/redis-$command-old/modified_part_info.txt
 
     # TODO：
     # 第6步：-O0编译、s2e运行（testcase行存放在 testcase.txt）、提取结果存放到 symbolic_testcase.txt
@@ -693,10 +700,10 @@ for block in "${blocks[@]}"; do
     # 执行s2e 注意s2e-config.lua文件不需要修改，已经是固定格式
     # ln -s的对象是 redis-server redis-cli 
     # dump.rdb不需要修改
-    rm /home/sjz/S2E/s2e/projects/redis-server/redis-server
-    rm /home/sjz/S2E/s2e/projects/redis-server/redis-cli
-    ln -s $(pwd)/src/app/bin/redis-server /home/sjz/S2E/s2e/projects/redis-server/redis-server
-    ln -s $(pwd)/src/app/bin/redis-cli /home/sjz/S2E/s2e/projects/redis-server/redis-cli
+    rm ${s2e_root}/projects/redis-server/redis-server
+    rm ${s2e_root}/projects/redis-server/redis-cli
+    ln -s $(pwd)/src/app/bin/redis-server ${s2e_root}/projects/redis-server/redis-server
+    ln -s $(pwd)/src/app/bin/redis-cli ${s2e_root}/projects/redis-server/redis-cli
 
     #!/bin/bash
 
@@ -705,30 +712,30 @@ for block in "${blocks[@]}"; do
     redis_inst=$(tail -n 1 get_redis_1.txt)
     # delete redis_inst last &
     redis_inst=$(echo "$redis_inst" | sed 's/ &//')
-    # add --logfile /tmp/redis.log into redis_inst
-    redis_inst="$redis_inst --logfile /tmp/redis.log &"
+    # add --logfile ${redis_log_file} into redis_inst
+    redis_inst="$redis_inst --logfile ${redis_log_file} &"
     #是否是redis-server启动过程
     if [ "$redisServerFlag" -eq 1 ]; then
         echo "Testcase Result: $redis_inst"
-        bootstrap_path="/data3/sjz/AE/redis/bootstrap-1.sh"
-        cp /data3/sjz/AE/redis/bootstrap.sh /data3/sjz/AE/redis/bootstrap-1.sh
+        bootstrap_path="${ae_redis_dir}/bootstrap-1.sh"
+        cp ${ae_redis_dir}/bootstrap.sh ${ae_redis_dir}/bootstrap-1.sh
         sed -i "232i$redis_inst" "$bootstrap_path"
     
     else
         testcase_result="./redis-cli $testcase_content"
         echo "Testcase Result: $testcase_result"
-        bootstrap_path="/data3/sjz/AE/redis/bootstrap-1.sh"
-        cp /data3/sjz/AE/redis/bootstrap.sh /data3/sjz/AE/redis/bootstrap-1.sh
+        bootstrap_path="${ae_redis_dir}/bootstrap-1.sh"
+        cp ${ae_redis_dir}/bootstrap.sh ${ae_redis_dir}/bootstrap-1.sh
         sed -i "244i$testcase_result" "$bootstrap_path"
         sed -i "232i$redis_inst" "$bootstrap_path"
     fi
    
 
-    cp /data3/sjz/AE/redis/bootstrap-1.sh /home/sjz/S2E/s2e/projects/redis-server/bootstrap.sh
+    cp ${ae_redis_dir}/bootstrap-1.sh ${s2e_root}/projects/redis-server/bootstrap.sh
 
     #保存redis目录
     redis_dir=$(pwd)
-    cd /home/sjz/S2E/s2e/projects/redis-server/
+    cd ${s2e_root}/projects/redis-server/
     # 设置launch-s2e.sh 超时时间为600秒（10分钟）,后续可能会调整
     timeout_time=600
     # 执行脚本并设置超时
@@ -736,8 +743,8 @@ for block in "${blocks[@]}"; do
     # 检查命令的退出状态
     if [ $? -eq 124 ]; then
         echo "launch-s2e.sh 脚本执行超时，已被终止。"
-        # /home/sjz/S2E/s2e/install/bin/qemu-system-x86_64 kill S2E
-        pid=$(pgrep -f /home/sjz/S2E/s2e/install/bin/qemu-system-x86_64)
+        # ${s2e_root}/install/bin/qemu-system-x86_64 kill S2E
+        pid=$(pgrep -f ${s2e_root}/install/bin/qemu-system-x86_64)
         if [ -z "$pid" ]; then
             echo "S2E 被杀死"
         else
@@ -770,11 +777,11 @@ for block in "${blocks[@]}"; do
     s2e execution_trace redis-server -pp
     
     cd $redis_dir
-    cp /home/sjz/S2E/s2e/projects/redis-server/s2e-last/execution_trace.json ./$i/execution_trace.json
-    cp /home/sjz/S2E/s2e/projects/redis-server/serial.txt ./$i/serial.txt
+    cp ${s2e_root}/projects/redis-server/s2e-last/execution_trace.json ./$i/execution_trace.json
+    cp ${s2e_root}/projects/redis-server/serial.txt ./$i/serial.txt
     mkdir -p ./$i/s2e_res
-    cp -r /home/sjz/S2E/s2e/projects/redis-server/s2e-last/ ./$i/s2e_res/
-    cp /home/sjz/S2E/s2e/projects/redis-server/s2e-last/debug.txt ./$i/s2e_res/debug.txt
+    cp -r ${s2e_root}/projects/redis-server/s2e-last/ ./$i/s2e_res/
+    cp ${s2e_root}/projects/redis-server/s2e-last/debug.txt ./$i/s2e_res/debug.txt
     echo "$command" > ./$i/s2e_res/commitId.txt
    
     # 第7步：备份符号化插桩后的源文件，还原源文件
@@ -819,10 +826,10 @@ for block in "${blocks[@]}"; do
     
     touch redis-server.log
     touch redis.pid
-    cp /data3/sjz/AE/redis/run-redis.sh ./run-redis.sh 
-    cp /data3/sjz/AE/redis/run-redis-2.sh ./run-redis-2.sh 
+    cp ${ae_redis_dir}/run-redis.sh ./run-redis.sh 
+    cp ${ae_redis_dir}/run-redis-2.sh ./run-redis-2.sh 
        
-    cp /data3/sjz/AE/redis/tools/redis-order.txt .
+    cp ${ae_redis_dir}/tools/redis-order.txt .
     ../../../get_redis_2 $testcase_line > get_redis_2.txt
     if [ "$redisServerFlag" -eq 1 ]; then
         sh run-redis-2.sh > redis-server.log1
@@ -870,10 +877,10 @@ for block in "${blocks[@]}"; do
 
     touch redis-server.log
     touch redis.pid
-    cp /data3/sjz/AE/redis/run-redis.sh ./run-redis.sh 
-    cp /data3/sjz/AE/redis/run-redis-2.sh ./run-redis-2.sh
+    cp ${ae_redis_dir}/run-redis.sh ./run-redis.sh 
+    cp ${ae_redis_dir}/run-redis-2.sh ./run-redis-2.sh
 
-    cp /data3/sjz/AE/redis/tools/redis-order.txt .
+    cp ${ae_redis_dir}/tools/redis-order.txt .
     ../../../get_redis_2 $testcase_line > get_redis_2.txt
     if [ "$redisServerFlag" -eq 1 ]; then
         sh run-redis-2.sh > redis-server.log1
@@ -922,10 +929,10 @@ for block in "${blocks[@]}"; do
 
     touch redis-server.log
     touch redis.pid
-    cp /data3/sjz/AE/redis/run-redis.sh ./run-redis.sh 
-    cp /data3/sjz/AE/redis/run-redis-2.sh ./run-redis-2.sh
+    cp ${ae_redis_dir}/run-redis.sh ./run-redis.sh 
+    cp ${ae_redis_dir}/run-redis-2.sh ./run-redis-2.sh
 
-    cp /data3/sjz/AE/redis/tools/redis-order.txt .
+    cp ${ae_redis_dir}/tools/redis-order.txt .
     ../../../get_redis_2 $testcase_line > get_redis_2.txt
     if [ "$redisServerFlag" -eq 1 ]; then
         sh run-redis-2.sh > redis-server.log1
@@ -965,7 +972,7 @@ for block in "${blocks[@]}"; do
     # 旧版本只需要对end-to-end函数插桩，不需要对其他函数插桩，用以下命令
     
     # 进入
-    cd /data3/sjz/AE/redis
+    cd ${ae_redis_dir}
     
     cd redis-$command-old
     git restore ./src/
@@ -987,18 +994,18 @@ for block in "${blocks[@]}"; do
         cp src/ae.c src/ae.c.brk
     fi
     make distclean
-    cp /data3/sjz/AE/redis/tools/.clang-format .
-    cp /data3/sjz/AE/redis/tools/new_function_analyzer.sh .
-    cp /data3/sjz/AE/redis/tools/commit_analyzer .
-    cp /data3/sjz/AE/redis/tools/call_analyzer .
-    cp /data3/sjz/AE/redis/tools/symbolic_analyzer .
-    cp /data3/sjz/AE/redis/tools/make_symbolizer-new .
-    cp /data3/sjz/AE/redis/tools/real_executor-new .
-    cp /data3/sjz/AE/redis/tools/jsonAnalyze .
-    cp /data3/sjz/AE/redis/tools/jsonAnalyze-icount .
-    cp /data3/sjz/AE/redis/tools/get_redis_1 . 
-    cp /data3/sjz/AE/redis/tools/get_redis_2 .
-    cp /data3/sjz/AE/redis/tools/redis-order.txt .
+    cp ${ae_redis_dir}/tools/.clang-format .
+    cp ${ae_redis_dir}/tools/new_function_analyzer.sh .
+    cp ${ae_redis_dir}/tools/commit_analyzer .
+    cp ${ae_redis_dir}/tools/call_analyzer .
+    cp ${ae_redis_dir}/tools/symbolic_analyzer .
+    cp ${ae_redis_dir}/tools/make_symbolizer-new .
+    cp ${ae_redis_dir}/tools/real_executor-new .
+    cp ${ae_redis_dir}/tools/jsonAnalyze .
+    cp ${ae_redis_dir}/tools/jsonAnalyze-icount .
+    cp ${ae_redis_dir}/tools/get_redis_1 . 
+    cp ${ae_redis_dir}/tools/get_redis_2 .
+    cp ${ae_redis_dir}/tools/redis-order.txt .
 
     cp ../Makefile ./src/Makefile
 
@@ -1054,10 +1061,10 @@ for block in "${blocks[@]}"; do
         # 执行s2e 注意s2e-config.lua文件不需要修改，已经是固定格式
         # ln -s的对象是 redis-server redis-cli 
         # dump.rdb不需要修改
-        rm /home/sjz/S2E/s2e/projects/redis-server/redis-server
-        rm /home/sjz/S2E/s2e/projects/redis-server/redis-cli
-        ln -s $(pwd)/src/app/bin/redis-server /home/sjz/S2E/s2e/projects/redis-server/redis-server
-        ln -s $(pwd)/src/app/bin/redis-cli /home/sjz/S2E/s2e/projects/redis-server/redis-cli
+        rm ${s2e_root}/projects/redis-server/redis-server
+        rm ${s2e_root}/projects/redis-server/redis-cli
+        ln -s $(pwd)/src/app/bin/redis-server ${s2e_root}/projects/redis-server/redis-server
+        ln -s $(pwd)/src/app/bin/redis-cli ${s2e_root}/projects/redis-server/redis-cli
 
 
 
@@ -1065,26 +1072,26 @@ for block in "${blocks[@]}"; do
         #是否是redis-server启动过程
         if [ "$redisServerFlag" -eq 1 ]; then
             echo "Testcase Result: $redis_inst"
-            bootstrap_path="/data3/sjz/AE/redis/bootstrap-1.sh"
-            cp /data3/sjz/AE/redis/bootstrap.sh /data3/sjz/AE/redis/bootstrap-1.sh
+            bootstrap_path="${ae_redis_dir}/bootstrap-1.sh"
+            cp ${ae_redis_dir}/bootstrap.sh ${ae_redis_dir}/bootstrap-1.sh
             sed -i "232i$redis_inst" "$bootstrap_path"
         
         else
             testcase_content=$(echo "$testcase_line" | sed 's/^testcase:.*redis-cli //')
             testcase_result="./redis-cli $testcase_content"
             echo "Testcase Result: $testcase_result"
-            bootstrap_path="/data3/sjz/AE/redis/bootstrap-1.sh"
-            cp /data3/sjz/AE/redis/bootstrap.sh /data3/sjz/AE/redis/bootstrap-1.sh
+            bootstrap_path="${ae_redis_dir}/bootstrap-1.sh"
+            cp ${ae_redis_dir}/bootstrap.sh ${ae_redis_dir}/bootstrap-1.sh
             sed -i "244i$testcase_result" "$bootstrap_path"
             sed -i "232i$redis_inst" "$bootstrap_path"
         fi
     
 
-        cp /data3/sjz/AE/redis/bootstrap-1.sh /home/sjz/S2E/s2e/projects/redis-server/bootstrap.sh
+        cp ${ae_redis_dir}/bootstrap-1.sh ${s2e_root}/projects/redis-server/bootstrap.sh
 
         #保存redis_old目录
         redis_dir_old=$(pwd)
-        cd /home/sjz/S2E/s2e/projects/redis-server/
+        cd ${s2e_root}/projects/redis-server/
         # 设置launch-s2e.sh 超时时间为600秒（10分钟）,后续可能会调整
         timeout_time=600
         # 执行脚本并设置超时
@@ -1092,8 +1099,8 @@ for block in "${blocks[@]}"; do
         # 检查命令的退出状态
         if [ $? -eq 124 ]; then
             echo "launch-s2e.sh 脚本执行超时，已被终止。"
-            # /home/sjz/S2E/s2e/install/bin/qemu-system-x86_64 kill S2E
-            pid=$(pgrep -f /home/sjz/S2E/s2e/install/bin/qemu-system-x86_64)
+            # ${s2e_root}/install/bin/qemu-system-x86_64 kill S2E
+            pid=$(pgrep -f ${s2e_root}/install/bin/qemu-system-x86_64)
             if [ -z "$pid" ]; then
                 echo "S2E 被杀死"
             else
@@ -1126,11 +1133,11 @@ for block in "${blocks[@]}"; do
             s2e execution_trace redis-server -pp
             
             cd $redis_dir_old
-            cp /home/sjz/S2E/s2e/projects/redis-server/s2e-last/execution_trace.json ./$i/execution_trace.json
-            cp /home/sjz/S2E/s2e/projects/redis-server/serial.txt ./$i/serial.txt
+            cp ${s2e_root}/projects/redis-server/s2e-last/execution_trace.json ./$i/execution_trace.json
+            cp ${s2e_root}/projects/redis-server/serial.txt ./$i/serial.txt
             mkdir -p ./$i/s2e_res
-            cp -r /home/sjz/S2E/s2e/projects/redis-server/s2e-last/ ./$i/s2e_res/
-            cp /home/sjz/S2E/s2e/projects/redis-server/s2e-last/debug.txt ./$i/s2e_res/debug.txt
+            cp -r ${s2e_root}/projects/redis-server/s2e-last/ ./$i/s2e_res/
+            cp ${s2e_root}/projects/redis-server/s2e-last/debug.txt ./$i/s2e_res/debug.txt
             echo "$command" > ./$i/s2e_res/commitId.txt
         
             # 第7步：备份符号化插桩后的源文件，还原源文件
@@ -1156,7 +1163,7 @@ for block in "${blocks[@]}"; do
     
 
     #旧版本真实执行
-    cd /data3/sjz/AE/redis
+    cd ${ae_redis_dir}
     
     cd redis-$command-old
     git restore ./src/
@@ -1173,10 +1180,10 @@ for block in "${blocks[@]}"; do
     
     touch redis-server.log
     touch redis.pid
-    cp /data3/sjz/AE/redis/run-redis.sh ./run-redis.sh 
-    cp /data3/sjz/AE/redis/run-redis-2.sh ./run-redis-2.sh 
+    cp ${ae_redis_dir}/run-redis.sh ./run-redis.sh 
+    cp ${ae_redis_dir}/run-redis-2.sh ./run-redis-2.sh 
     
-    cp /data3/sjz/AE/redis/tools/redis-order.txt .
+    cp ${ae_redis_dir}/tools/redis-order.txt .
     ../../../get_redis_2 $testcase_line > get_redis_2.txt
 
     if [ "$redisServerFlag" -eq 1 ]; then
@@ -1190,7 +1197,7 @@ for block in "${blocks[@]}"; do
 
     cp redis-server.log1 $redis_dir/$i/real-execute-res-old.txt
 
-    cd /data3/sjz/AE/redis
+    cd ${ae_redis_dir}
     cd redis-$command-old
     clang-format -i src/server.c
     echo "cp src/server.c $redis_dir/$i/server.c.real.old"
@@ -1204,10 +1211,10 @@ for block in "${blocks[@]}"; do
     make distclean
     
     cd $redis_dir/$i
-    cp /data3/sjz/AE/redis/run-getres.sh ./run-getres.sh
-    cp /data3/sjz/AE/redis/run-getres.py ./run-getres.py
-    cp /data3/sjz/AE/redis/run-getres-modify.py ./run-getres-modify.py
-    cp /data3/sjz/AE/redis/run-getres-icount.py ./run-getres-icount.py
+    cp ${ae_redis_dir}/run-getres.sh ./run-getres.sh
+    cp ${ae_redis_dir}/run-getres.py ./run-getres.py
+    cp ${ae_redis_dir}/run-getres-modify.py ./run-getres-modify.py
+    cp ${ae_redis_dir}/run-getres-icount.py ./run-getres-icount.py
     
     sh run-getres.sh
     cd $redis_dir
